@@ -32,67 +32,72 @@ export function FiReUpCard({ completed, completedAt, onAttest }: Props) {
 
   return (
     <div
-      className="p-6 sm:p-8"
+      className="p-6"
       style={{ border: '1px solid var(--rule)' }}
     >
-      {/* Header */}
-      <div className="mb-4">
-        <Eyebrow>With compliments of MABS</Eyebrow>
-      </div>
+      {/*
+       * Mobile: stacked (single column)
+       * Desktop (lg+): horizontal 5-column grid — text left (3/5), CTAs right (2/5)
+       * lg:items-center vertically centres the two columns so the card stays compact
+       * (~120-140px height) rather than stretching to match a tall text block.
+       */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 lg:gap-8 lg:items-center">
 
-      <h3
-        className="font-display text-xl sm:text-2xl leading-snug mb-4"
-        style={{ color: 'var(--ink)' }}
-      >
-        FiRe Up Financial Wellbeing
-      </h3>
+        {/* Left — eyebrow, title, description */}
+        <div className="lg:col-span-3">
+          <div className="mb-2">
+            <Eyebrow>With compliments of MABS</Eyebrow>
+          </div>
 
-      <div style={{ borderTop: '1px solid var(--rule)' }} className="pt-4">
-        {completed ? (
-          <>
+          <h3
+            className="font-display text-xl leading-snug mb-2"
+            style={{ color: 'var(--ink)' }}
+          >
+            FiRe Up Financial Wellbeing
+          </h3>
+
+          {completed ? (
+            <p className="font-sans text-sm" style={{ color: 'var(--ink-2)' }}>
+              Completed
+              {completedAt ? <> on {formatDate(completedAt)}</> : null}
+            </p>
+          ) : (
             <p
               className="font-sans text-sm leading-relaxed"
               style={{ color: 'var(--ink-2)' }}
             >
-              Completed
-              {completedAt ? (
-                <> on {formatDate(completedAt)}</>
-              ) : null}
+              A free online course from MABS that builds practical money skills
+              in under two hours. Work through it at your own pace, then confirm
+              completion here.
             </p>
-          </>
-        ) : (
-          <>
-            <p
-              className="font-sans text-sm leading-relaxed mb-6"
+          )}
+        </div>
+
+        {/* Right — CTAs (hidden when completed) */}
+        {!completed && (
+          <div className="lg:col-span-2 mt-5 lg:mt-0 flex flex-col gap-3">
+            <Button
+              variant="primary"
+              size="md"
+              onClick={handleAttest}
+              disabled={loading}
+            >
+              {loading ? 'Saving...' : "I've completed FiRe Up"}
+            </Button>
+
+            {/* TODO(mabs-partnership): replace with real MABS Canvas URL once partnership confirmed */}
+            <a
+              href="#"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="font-sans text-sm underline underline-offset-2"
               style={{ color: 'var(--ink-2)' }}
             >
-              A free online course from MABS that builds practical money skills in under two hours.
-              Work through it at your own pace, then confirm completion here.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <Button
-                variant="primary"
-                size="md"
-                onClick={handleAttest}
-                disabled={loading}
-              >
-                {loading ? 'Saving...' : "I've completed FiRe Up"}
-              </Button>
-
-              {/* TODO(mabs-partnership): replace with real MABS Canvas URL once partnership confirmed */}
-              <a
-                href="#"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="font-sans text-sm underline underline-offset-2"
-                style={{ color: 'var(--ink-2)' }}
-              >
-                Take the course on Canvas &rarr;
-              </a>
-            </div>
-          </>
+              Take the course on Canvas &rarr;
+            </a>
+          </div>
         )}
+
       </div>
     </div>
   );

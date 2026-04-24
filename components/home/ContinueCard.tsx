@@ -22,7 +22,7 @@ export function ContinueCard({ moduleTitle, moduleId, currentStep, totalSteps }:
   return (
     <Link href={href} className="block no-underline group">
       <div
-        className="relative overflow-hidden p-6 sm:p-8 lg:p-10 transition-opacity duration-200 group-hover:opacity-90"
+        className="relative overflow-hidden p-6 sm:p-8 lg:p-10 min-h-[180px] transition-opacity duration-200 group-hover:opacity-90"
         style={{ backgroundColor: 'var(--ink)', color: 'var(--bg)', cursor: 'pointer' }}
       >
         {/* Decorative corner character */}

@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import { AppShell } from '@/components/layout/AppShell';
 import { Masthead } from '@/components/layout/Masthead';
 import { ContinueCard } from '@/components/home/ContinueCard';
-import { FiReUpCard } from '@/components/home/FiReUpCard';
 import { ArticleList } from '@/components/home/ArticleList';
 import { ToolCard } from '@/components/home/ToolCard';
 import { getGreeting, partnerLine } from '@/lib/copy';
@@ -89,16 +88,22 @@ export default async function HomePage() {
 
       <div className="max-w-4xl mx-auto w-full px-4 md:px-8 lg:px-12 py-8 md:py-10">
         {/*
-         * Mobile/tablet: flex-col, all sections stacked with gap-10
-         * Desktop (lg+):  3-column CSS grid, sections reordered via lg:order-*
+         * Layout — mobile: flex-col, sections stack in DOM order.
+         * Desktop (lg+): 3-column CSS grid, DOM order matches visual order
+         * so no lg:order-* overrides are needed.
          *
-         * DOM order (mobile stacking): ContinueCard → ThisWeek → Curriculum → FiReUp → Tools → Footer
-         * Desktop grid order:          ContinueCard → FiReUp → ThisWeek → Curriculum → Tools → Footer
+         * DOM / visual order (both mobile and desktop):
+         *   1. Hero "Start here" card  — full width (col-span-3)
+         *   2. FiRe Up card            — full width (col-span-3), horizontal on lg+
+         *   3. This week               — full width (col-span-3)
+         *   4. Curriculum list         — left 2/3   (col-span-2)
+         *   5. Tool cards              — right 1/3  (col-span-1)
+         *   6. Footer                  — full width (col-span-3)
          */}
-        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:items-start lg:gap-x-8 lg:gap-y-12">
+        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:items-start lg:gap-x-8 lg:gap-y-10">
 
-          {/* 1. ContinueCard — col-span-2, no explicit order (defaults first) */}
-          <section className="lg:col-span-2">
+          {/* 1. Hero ContinueCard — full width */}
+          <section className="lg:col-span-3">
             <ContinueCard
               moduleTitle={inProgressModule?.title ?? null}
               moduleId={inProgressModule?.id ?? null}
@@ -107,9 +112,18 @@ export default async function HomePage() {
             />
           </section>
 
-          {/* 2. ThisWeek — col-span-3, order-3 on desktop (sits between rows) */}
+          {/* 2. FiRe Up — full width, horizontal layout on desktop */}
+          <section className="lg:col-span-3">
+            <HomeFireUpAttest
+              userId={user.id}
+              completed={fireupCompleted}
+              completedAt={fireupCompletedAt}
+            />
+          </section>
+
+          {/* 3. This week — full width */}
           {thisWeekArticles && thisWeekArticles.length > 0 && (
-            <section className="lg:col-span-3 lg:order-3 -mt-4 lg:mt-0">
+            <section className="lg:col-span-3">
               <h2
                 className="font-display text-xl sm:text-2xl mb-4 leading-tight"
                 style={{
@@ -201,8 +215,8 @@ export default async function HomePage() {
             </section>
           )}
 
-          {/* 3. Curriculum — col-span-2, order-4 on desktop (left 2/3 of second row) */}
-          <section className="lg:col-span-2 lg:order-4">
+          {/* 4. Curriculum — left 2/3 */}
+          <section className="lg:col-span-2">
             <h2
               className="font-display text-2xl sm:text-3xl lg:text-4xl leading-tight mb-4"
               style={{
@@ -216,17 +230,8 @@ export default async function HomePage() {
             <ArticleList modules={moduleItems} />
           </section>
 
-          {/* 4. FiReUp — col-span-1, order-2 on desktop (right column, same row as ContinueCard) */}
-          <section className="lg:col-span-1 lg:order-2">
-            <HomeFireUpAttest
-              userId={user.id}
-              completed={fireupCompleted}
-              completedAt={fireupCompletedAt}
-            />
-          </section>
-
-          {/* 5. Tools — col-span-1, order-5 on desktop (right 1/3 of second row) */}
-          <section className="lg:col-span-1 lg:order-5">
+          {/* 5. Tool cards — right 1/3 */}
+          <section className="lg:col-span-1">
             <div className="flex flex-col gap-4">
               <ToolCard
                 title="Take-home pay calculator"
@@ -243,8 +248,8 @@ export default async function HomePage() {
             </div>
           </section>
 
-          {/* 6. Footer — col-span-3, order-6 on desktop (full width, last) */}
-          <footer className="pt-4 lg:col-span-3 lg:order-6" style={{ borderTop: '1px solid var(--rule)' }}>
+          {/* 6. Footer — full width */}
+          <footer className="pt-4 lg:col-span-3" style={{ borderTop: '1px solid var(--rule)' }}>
             {/* Nav links */}
             <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
               {[
