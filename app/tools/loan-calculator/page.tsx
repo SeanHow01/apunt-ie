@@ -63,7 +63,7 @@ export default function LoanCalculatorPage() {
   }
 
   return (
-    <main style={{ maxWidth: '72rem', margin: '0 auto', padding: '2rem 1rem' }}>
+    <main className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 py-8 md:py-12">
       {/* Back link */}
       <Link
         href="/home"

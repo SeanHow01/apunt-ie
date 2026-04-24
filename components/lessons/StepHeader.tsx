@@ -23,8 +23,8 @@ export function StepHeader({ currentStep, totalSteps, label }: Props) {
 
       {/* Step label headline */}
       <h1
-        className="font-display text-3xl sm:text-4xl leading-tight"
-        style={{ color: 'var(--ink)' }}
+        className="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight"
+        style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
       >
         {label}
       </h1>

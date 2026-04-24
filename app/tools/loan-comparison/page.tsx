@@ -201,7 +201,7 @@ export default function LoanComparisonPage() {
   const comparison = bothValid ? compareLoans(outputA, outputB) : null;
 
   return (
-    <main style={{ maxWidth: '72rem', margin: '0 auto', padding: '3.5rem 1rem 2rem' }}>
+    <main className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 pt-10 md:pt-14 pb-8">
       {/* Back link */}
       <Link
         href="/home"

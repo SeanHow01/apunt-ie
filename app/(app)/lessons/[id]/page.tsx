@@ -186,8 +186,12 @@ export default function LessonPage({ params }: Props) {
     <AppShell>
       <div className="flex-1 flex flex-col">
 
-        {/* Reading content — centred at max-w-2xl on desktop */}
-        <div className="flex-1 px-6 py-8 md:px-8 lg:px-12 md:max-w-2xl md:mx-auto md:w-full">
+        {/*
+         * Reading content.
+         * - Non-payslip modules: max-w-2xl centred (~65ch comfortable reading width)
+         * - Payslip module: max-w-5xl to accommodate side-by-side visual on lg+
+         */}
+        <div className={`flex-1 px-4 md:px-8 lg:px-12 py-8 mx-auto w-full ${isPayslipModule ? 'max-w-5xl' : 'max-w-2xl'}`}>
 
           {/* Back link */}
           <div className="mb-8">
@@ -209,22 +213,23 @@ export default function LessonPage({ params }: Props) {
 
           {/*
            * Content area:
-           * - Payslip module on md+: explanation left, PayslipVisual right (flex row)
-           * - Everything else: stacked
+           * - Payslip module on lg+: explanation left (col 1/2), PayslipVisual right (col 2/2, sticky)
+           * - Tablet / mobile payslip: visual inline above body text
+           * - All other modules: single reading column
            */}
-          <div className={hasPayslipVisual ? 'md:flex md:gap-10 md:items-start' : ''}>
+          <div className={hasPayslipVisual ? 'lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start' : ''}>
 
-            {/* Primary text + callout */}
-            <div className="md:flex-1">
-              {/* PayslipVisual above body text on mobile only */}
+            {/* Primary text + callout + nav */}
+            <div>
+              {/* PayslipVisual above body text on mobile and tablet only */}
               {hasPayslipVisual && (
-                <div className="mb-8 md:hidden">
+                <div className="mb-8 lg:hidden">
                   <PayslipVisual highlight={step.highlight!} />
                 </div>
               )}
 
               <p
-                className="font-sans text-base md:text-lg leading-relaxed mb-6"
+                className="font-sans text-base lg:text-lg leading-relaxed mb-6"
                 style={{
                   color: 'var(--ink)',
                   maxWidth: '65ch',
@@ -238,26 +243,24 @@ export default function LessonPage({ params }: Props) {
                   <Callout kind={step.callout.kind} text={step.callout.text} />
                 </div>
               )}
+
+              {/* Navigation inside content column so it's contained within max-width */}
+              <LessonNav
+                onBack={handleBack}
+                onNext={handleNext}
+                isFirst={isFirst}
+                isLast={isLast}
+              />
             </div>
 
-            {/* PayslipVisual alongside body text on desktop only */}
+            {/* PayslipVisual alongside body text on lg+ only, sticky so it stays visible while reading */}
             {hasPayslipVisual && (
-              <div className="hidden md:block w-72 flex-shrink-0">
+              <div className="hidden lg:block lg:sticky lg:top-20">
                 <PayslipVisual highlight={step.highlight!} />
               </div>
             )}
 
           </div>
-        </div>
-
-        {/* Navigation — full-width, below reading content */}
-        <div className="px-6 pb-8 md:px-8">
-          <LessonNav
-            onBack={handleBack}
-            onNext={handleNext}
-            isFirst={isFirst}
-            isLast={isLast}
-          />
         </div>
 
       </div>
