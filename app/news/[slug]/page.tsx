@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Rule } from '@/components/ui/Rule';
 import { ARTICLE_DISCLAIMER, MODULE_OPTIONS } from '@/lib/constants';
-import { CopyLinkButton } from './CopyLinkButton';
+import { ShareButton } from './ShareButton';
 import type { Json } from '@/types/database.types';
 
 type Article = {
@@ -41,9 +41,60 @@ type Props = {
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://punt.ie';
 
+// Category → module mapping for the "Related module" card.
+// Articles whose category matches a key get a curated module suggestion.
+// Categories with no entry (e.g. "News") show no card.
+const categoryToModule: Record<string, { slug: string; title: string; description: string }> = {
+  Tax: {
+    slug: 'payslip',
+    title: 'Your payslip, line by line',
+    description: 'Understand exactly where your money goes before it reaches you.',
+  },
+  Pensions: {
+    slug: 'auto-enrolment',
+    title: 'Auto-enrolment, plainly',
+    description: "How Ireland's automatic pension scheme works — and what it means for your first job.",
+  },
+  Rent: {
+    slug: 'rent',
+    title: 'Renting in Ireland, plainly',
+    description: 'Deposits, leases, notice periods, and your rights.',
+  },
+  Loans: {
+    slug: 'loans',
+    title: 'Loans and credit, plainly',
+    description: 'APR, credit unions, moneylenders — how borrowing actually works.',
+  },
+  Mortgages: {
+    slug: 'help-to-buy',
+    title: 'Help to Buy, plainly',
+    description: "The first-time buyer's tax rebate, and how it actually works.",
+  },
+  Grants: {
+    slug: 'susi',
+    title: 'SUSI grants, without the headache',
+    description: 'The student grant — who qualifies, what it covers, how to apply.',
+  },
+  Investing: {
+    slug: 'investing',
+    title: 'Your first €50 invested',
+    description: 'A calm introduction to saving and investing. No stock tips.',
+  },
+  Budget: {
+    slug: 'payslip',
+    title: 'Your payslip, line by line',
+    description: 'Budget changes flow through to your take-home pay — here\'s how to read it.',
+  },
+  Economy: {
+    slug: 'loans',
+    title: 'Loans and credit, plainly',
+    description: 'When rates change, your borrowing costs change. Here\'s how.',
+  },
+};
+
 async function fetchArticle(slug: string, allowUnpublished: boolean): Promise<Article | null> {
   const supabase = await createClient();
-  let query = supabase.from('articles').select('*').eq('slug', slug).single();
+  const query = supabase.from('articles').select('*').eq('slug', slug).single();
 
   const { data, error } = await query;
   if (error || !data) return null;
@@ -112,8 +163,8 @@ export default async function ArticlePage({ params, searchParams }: Props) {
     .map((id) => MODULE_OPTIONS.find((m) => m.id === id))
     .filter((m): m is (typeof MODULE_OPTIONS)[number] => m !== undefined);
 
-  const shareUrl = `${baseUrl}/news/${article.slug}`;
-  const shareText = `${article.title} | Punt`;
+  // Category-based module suggestion (automatic, shown after disclaimer)
+  const suggestedModule = categoryToModule[article.category] ?? null;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -302,7 +353,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
 
         <Rule className="my-10" />
 
-        {/* Related modules */}
+        {/* Admin-curated related modules (from related_module_ids on the article) */}
         {relatedModules.length > 0 && (
           <div style={{ marginBottom: '2.5rem' }}>
             <h2
@@ -338,58 +389,10 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           </div>
         )}
 
-        {/* Social share */}
-        <div style={{ marginBottom: '2.5rem' }}>
-          <p
-            className="font-sans"
-            style={{
-              fontSize: '0.8125rem',
-              fontWeight: 600,
-              color: 'var(--ink-2)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              marginBottom: '0.75rem',
-            }}
-          >
-            Share
-          </p>
-          <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
-            <a
-              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans"
-              style={shareLinkStyle}
-            >
-              X / Twitter
-            </a>
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans"
-              style={shareLinkStyle}
-            >
-              LinkedIn
-            </a>
-            <a
-              href={`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans"
-              style={shareLinkStyle}
-            >
-              WhatsApp
-            </a>
-            <CopyLinkButton url={shareUrl} />
-          </div>
-        </div>
-
         {/* Disclaimer */}
         <div
           style={{
             borderTop: '1px solid var(--rule)',
-            marginTop: '3rem',
             paddingTop: '1.5rem',
           }}
         >
@@ -398,18 +401,64 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           </p>
         </div>
 
+        {/* Share button — Web Share API on mobile, clipboard copy on desktop */}
+        <div style={{ marginTop: '2rem' }}>
+          <ShareButton title={article.title} text={article.summary} />
+        </div>
+
+        {/* Category-based related module card (automatic, shown when category has a mapping) */}
+        {suggestedModule && (
+          <div
+            style={{
+              marginTop: '1.5rem',
+              border: '1px solid var(--rule)',
+              borderRadius: '4px',
+              padding: '1.25rem',
+            }}
+          >
+            <p
+              className="font-sans font-semibold uppercase"
+              style={{
+                fontSize: '0.6875rem',
+                letterSpacing: '0.12em',
+                color: 'var(--ink-2)',
+                marginBottom: '0.75rem',
+              }}
+            >
+              Related module
+            </p>
+
+            <h3
+              className="font-display"
+              style={{
+                fontFamily: 'Instrument Serif, serif',
+                fontSize: '1.25rem',
+                lineHeight: 1.25,
+                color: 'var(--ink)',
+                margin: '0 0 0.375rem',
+              }}
+            >
+              {suggestedModule.title}
+            </h3>
+
+            <p
+              className="font-sans text-sm leading-relaxed"
+              style={{ color: 'var(--ink-2)', margin: '0 0 0.875rem' }}
+            >
+              {suggestedModule.description}
+            </p>
+
+            <Link
+              href={`/lessons/${suggestedModule.slug}`}
+              className="font-sans text-sm"
+              style={{ color: 'var(--accent)', textDecoration: 'none' }}
+            >
+              Read the module &rarr;
+            </Link>
+          </div>
+        )}
+
       </div>
     </main>
   );
 }
-
-const shareLinkStyle: React.CSSProperties = {
-  fontSize: '0.8125rem',
-  fontWeight: 500,
-  color: 'var(--ink-2)',
-  border: '1px solid var(--rule)',
-  padding: '4px 12px',
-  borderRadius: '2px',
-  textDecoration: 'none',
-  display: 'inline-block',
-};
