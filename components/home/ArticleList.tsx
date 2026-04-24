@@ -59,7 +59,7 @@ export function ArticleList({ modules }: Props) {
               href={`/lessons/${mod.id}`}
               className="block no-underline group"
             >
-              <div className="flex items-start gap-5 py-5">
+              <div className="flex items-start gap-3 sm:gap-5 py-5">
                 {/* Roman numeral */}
                 <div className="w-8 shrink-0 pt-0.5">
                   <RomanNumeral n={mod.ordinal} className="text-2xl" />
@@ -70,7 +70,7 @@ export function ArticleList({ modules }: Props) {
                   <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-0.5">
                     <h3
                       className="font-display text-lg leading-snug group-hover:underline underline-offset-2"
-                      style={{ color: 'var(--ink)' }}
+                      style={{ color: 'var(--ink)', overflowWrap: 'break-word', wordBreak: 'break-word' }}
                     >
                       {mod.title}
                     </h3>

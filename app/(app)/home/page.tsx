@@ -109,7 +109,7 @@ export default async function HomePage() {
 
           {/* 2. ThisWeek — col-span-3, order-3 on desktop (sits between rows) */}
           {thisWeekArticles && thisWeekArticles.length > 0 && (
-            <section className="lg:col-span-3 lg:order-3">
+            <section className="lg:col-span-3 lg:order-3 -mt-4 lg:mt-0">
               <h2
                 className="font-display text-xl sm:text-2xl mb-4 leading-tight"
                 style={{
