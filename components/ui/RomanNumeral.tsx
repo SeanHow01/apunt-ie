@@ -1,4 +1,4 @@
-const NUMERALS = ['i', 'ii', 'iii', 'iv', 'v', 'vi'] as const;
+const NUMERALS = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x'] as const;
 
 export function RomanNumeral({
   n,

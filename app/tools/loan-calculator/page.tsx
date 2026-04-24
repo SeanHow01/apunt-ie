@@ -65,21 +65,23 @@ export default function LoanCalculatorPage() {
   return (
     <main className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 py-8 md:py-12">
       {/* Back link */}
-      <Link
-        href="/home"
-        style={{
-          fontSize: '0.8125rem',
-          color: 'var(--ink-2)',
-          textDecoration: 'none',
-          display: 'inline-block',
-          marginBottom: '1.25rem',
-        }}
-      >
-        ← Back to home
-      </Link>
+      <div className="mb-5">
+        <Link
+          href="/home"
+          style={{
+            fontSize: '0.8125rem',
+            color: 'var(--ink-2)',
+            textDecoration: 'none',
+          }}
+        >
+          ← Back to home
+        </Link>
+      </div>
 
       {/* Eyebrow */}
-      <Eyebrow>Tool</Eyebrow>
+      <div className="mb-1">
+        <Eyebrow>Tool</Eyebrow>
+      </div>
 
       {/* Heading */}
       <h1
@@ -172,16 +174,6 @@ export default function LoanCalculatorPage() {
                       {saveSuccess && (
                         <span style={{ fontSize: '0.875rem', color: 'var(--accent)' }}>Saved!</span>
                       )}
-                      <Link
-                        href="/tools/loan-comparison"
-                        style={{
-                          fontSize: '0.9375rem',
-                          color: 'var(--accent)',
-                          textDecoration: 'none',
-                        }}
-                      >
-                        Compare two loans →
-                      </Link>
                     </div>
                   ) : (
                     <div

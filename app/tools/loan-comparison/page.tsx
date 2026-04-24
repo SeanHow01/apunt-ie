@@ -203,21 +203,23 @@ export default function LoanComparisonPage() {
   return (
     <main className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 pt-10 md:pt-14 pb-8">
       {/* Back link */}
-      <Link
-        href="/home"
-        style={{
-          fontSize: '0.8125rem',
-          color: 'var(--ink-2)',
-          textDecoration: 'none',
-          display: 'inline-block',
-          marginBottom: '1.25rem',
-        }}
-      >
-        ← Back to home
-      </Link>
+      <div className="mb-5">
+        <Link
+          href="/home"
+          style={{
+            fontSize: '0.8125rem',
+            color: 'var(--ink-2)',
+            textDecoration: 'none',
+          }}
+        >
+          ← Back to home
+        </Link>
+      </div>
 
       {/* Eyebrow */}
-      <Eyebrow>Tool</Eyebrow>
+      <div className="mb-1">
+        <Eyebrow>Tool</Eyebrow>
+      </div>
 
       {/* Heading */}
       <h1
