@@ -244,12 +244,33 @@ export default async function HomePage() {
           </section>
 
           {/* 6. Footer — col-span-3, order-6 on desktop (full width, last) */}
-          <footer className="pt-2 lg:col-span-3 lg:order-6">
+          <footer className="pt-4 lg:col-span-3 lg:order-6" style={{ borderTop: '1px solid var(--rule)' }}>
+            {/* Nav links */}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
+              {[
+                { href: '/about', label: 'About' },
+                { href: '/contact', label: 'Contact' },
+                { href: '/privacy', label: 'Privacy' },
+                { href: '/terms', label: 'Terms' },
+              ].map(({ href, label }) => (
+                <a
+                  key={href}
+                  href={href}
+                  className="font-sans text-xs"
+                  style={{ color: 'var(--ink-2)', textDecoration: 'none' }}
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
             <p
-              className="font-sans italic text-xs"
+              className="font-sans italic text-xs mb-1"
               style={{ color: 'var(--ink-2)' }}
             >
               {partnerLine}
+            </p>
+            <p className="font-sans text-xs" style={{ color: 'var(--ink-2)', opacity: 0.6 }}>
+              © 2026 Punt
             </p>
           </footer>
 

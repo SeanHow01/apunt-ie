@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase/client';
 
 const MIN_SALARY = 15000;
 const MAX_SALARY = 120000;
-const STEP = 1000;
+const STEP = 1;
 const DEFAULT_SALARY = 35000;
 
 type SavedCalc = {
@@ -162,57 +162,65 @@ export default function CalculatorPage() {
                   Annual gross salary
                 </label>
 
-                <div className="flex items-center gap-4 mb-5">
-                  <div className="relative">
-                    <span
-                      className="absolute left-3 top-1/2 -translate-y-1/2 font-sans text-base pointer-events-none"
-                      style={{ color: 'var(--ink-2)' }}
-                    >
-                      &euro;
-                    </span>
-                    <input
-                      id="salary-input"
-                      type="number"
-                      min={MIN_SALARY}
-                      max={MAX_SALARY}
-                      step={STEP}
-                      value={gross}
-                      onChange={(e) => {
-                        const v = parseInt(e.target.value, 10);
-                        if (!isNaN(v)) setGross(Math.max(MIN_SALARY, Math.min(MAX_SALARY, v)));
-                      }}
-                      style={{
-                        width: '160px',
-                        border: '1px solid var(--rule)',
-                        padding: '10px 12px 10px 28px',
-                        background: 'var(--surface)',
-                        color: 'var(--ink)',
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '1rem',
-                        outline: 'none',
-                        borderRadius: '2px',
-                      }}
-                    />
-                  </div>
-                </div>
+                {/* Current value display above slider */}
+                <p
+                  className="font-display text-3xl mb-3 tabular-nums"
+                  style={{ fontFamily: 'Instrument Serif, serif', color: 'var(--ink)', letterSpacing: '-0.02em' }}
+                >
+                  {formatEuro(gross)}
+                </p>
 
                 <input
                   type="range"
+                  id="salary-input"
                   min={MIN_SALARY}
                   max={MAX_SALARY}
                   step={STEP}
                   value={gross}
                   onChange={(e) => setGross(parseInt(e.target.value, 10))}
-                  className="w-full max-w-sm"
+                  className="w-full max-w-sm mb-1"
                   style={{ accentColor: 'var(--accent)' }}
                 />
 
                 <div
-                  className="flex justify-between font-sans text-xs max-w-sm mt-1"
+                  className="flex justify-between font-sans text-xs max-w-sm mb-4"
                   style={{ color: 'var(--ink-2)' }}
                 >
                   <span>{formatEuro(MIN_SALARY)}</span>
                   <span>{formatEuro(MAX_SALARY)}</span>
+                </div>
+
+                {/* Direct type-in fallback */}
+                <div className="relative inline-block">
+                  <span
+                    className="absolute left-3 top-1/2 -translate-y-1/2 font-sans text-base pointer-events-none"
+                    style={{ color: 'var(--ink-2)' }}
+                  >
+                    &euro;
+                  </span>
+                  <input
+                    type="number"
+                    min={MIN_SALARY}
+                    max={MAX_SALARY}
+                    step={1}
+                    value={gross}
+                    onChange={(e) => {
+                      const v = parseInt(e.target.value, 10);
+                      if (!isNaN(v)) setGross(Math.max(MIN_SALARY, Math.min(MAX_SALARY, v)));
+                    }}
+                    aria-label="Or type a salary amount"
+                    style={{
+                      width: '160px',
+                      border: '1px solid var(--rule)',
+                      padding: '8px 12px 8px 28px',
+                      background: 'var(--surface)',
+                      color: 'var(--ink)',
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '0.9375rem',
+                      outline: 'none',
+                      borderRadius: '2px',
+                    }}
+                  />
                 </div>
               </div>
 
@@ -257,7 +265,7 @@ export default function CalculatorPage() {
               <div>
                 {userId !== null ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-                    <Button variant="secondary" onClick={handleSave} disabled={saving}>
+                    <Button variant="primary" onClick={handleSave} disabled={saving}>
                       {saving ? 'Saving…' : 'Save this calculation'}
                     </Button>
                     {saveSuccess && (
@@ -279,7 +287,7 @@ export default function CalculatorPage() {
               {/* Annual net */}
               <div className="mb-2">
                 <p
-                  className="font-sans text-xs font-medium uppercase tracking-wide mb-1"
+                  className="font-sans text-xs font-medium tracking-wide mb-1"
                   style={{ color: 'var(--ink-2)' }}
                 >
                   Annual net
@@ -299,7 +307,7 @@ export default function CalculatorPage() {
               {/* Monthly net */}
               <div className="mb-6">
                 <p
-                  className="font-sans text-xs font-medium uppercase tracking-wide mb-1"
+                  className="font-sans text-xs font-medium tracking-wide mb-1"
                   style={{ color: 'var(--ink-2)' }}
                 >
                   Monthly
@@ -318,7 +326,7 @@ export default function CalculatorPage() {
 
               <Rule className="my-6" />
 
-              {/* Deductions breakdown with proportional bars */}
+              {/* Deductions breakdown — bars proportional to total deductions */}
               <div>
                 {[
                   { label: 'PAYE', amount: result.paye },
@@ -330,18 +338,20 @@ export default function CalculatorPage() {
                       <span className="font-sans text-sm" style={{ color: 'var(--ink-2)' }}>{label}</span>
                       <span className="font-sans text-sm font-medium tabular-nums" style={{ color: 'var(--ink)' }}>{formatEuro(amount)}</span>
                     </div>
-                    <div style={{ height: '4px', borderRadius: '2px', backgroundColor: 'var(--rule)' }}>
-                      <div style={{ width: `${Math.min(100, (amount / gross) * 100)}%`, height: '100%', borderRadius: '2px', backgroundColor: 'var(--accent)' }} />
+                    <div style={{ height: '8px', borderRadius: '4px', backgroundColor: 'var(--rule)' }}>
+                      <div style={{ width: `${totalDeductions > 0 ? Math.min(100, (amount / totalDeductions) * 100) : 0}%`, height: '100%', borderRadius: '4px', backgroundColor: 'var(--accent)' }} />
                     </div>
                   </div>
                 ))}
-
-                {/* Take-home row */}
-                <div className="flex justify-between items-baseline pt-4" style={{ borderTop: '1px solid var(--rule)' }}>
-                  <span className="font-sans text-sm font-semibold" style={{ color: 'var(--ink)' }}>Take-home (net)</span>
-                  <span className="font-sans text-sm font-semibold tabular-nums" style={{ color: 'var(--ink)' }}>{formatEuro(result.net)}</span>
-                </div>
               </div>
+
+              {/* Cross-link to payslip lesson */}
+              <p className="font-sans text-xs mt-6" style={{ color: 'var(--ink-2)' }}>
+                Want to understand these numbers?{' '}
+                <a href="/lessons/payslip" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+                  Read the payslip lesson →
+                </a>
+              </p>
 
             </div>
 

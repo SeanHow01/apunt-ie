@@ -4,17 +4,26 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, BookOpen, Calculator, TrendingUp, Flame, Settings } from 'lucide-react';
 
-const navItems = [
+const topNavItems = [
   { href: '/home', label: 'Home', icon: Home },
   { href: '/lessons', label: 'Lessons', icon: BookOpen },
   { href: '/calculator', label: 'Calculator', icon: Calculator },
-  { href: '/tools/loan-calculator', label: 'Loan tools', icon: TrendingUp },
+] as const;
+
+const loanToolChildren = [
+  { href: '/tools/loan-calculator', label: 'Loan calculator' },
+  { href: '/tools/loan-comparison', label: 'Loan comparison' },
+  { href: '/tools/mortgage-calculator', label: 'Mortgage calculator' },
+] as const;
+
+const bottomNavItems = [
   { href: '/fireup', label: 'FiRe Up', icon: Flame },
   { href: '/settings', label: 'Settings', icon: Settings },
 ] as const;
 
 export function Sidebar() {
   const pathname = usePathname();
+  const toolsActive = pathname.startsWith('/tools');
 
   return (
     <aside
@@ -42,7 +51,8 @@ export function Sidebar() {
 
       {/* Nav links */}
       <nav className="flex-1 px-3 py-4 flex flex-col gap-1" aria-label="Main navigation">
-        {navItems.map(({ href, label, icon: Icon }) => {
+        {/* Top items: Home, Lessons, Calculator */}
+        {topNavItems.map(({ href, label, icon: Icon }) => {
           const active =
             href === '/home'
               ? pathname === '/home'
@@ -64,11 +74,74 @@ export function Sidebar() {
             </Link>
           );
         })}
+
+        {/* Loan tools group */}
+        <div>
+          {/* Parent — link to loan-calculator when not in tools section */}
+          <Link
+            href="/tools/loan-calculator"
+            className="flex items-center gap-3 px-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 transition-colors"
+            style={{
+              color: toolsActive ? 'var(--ink)' : 'var(--ink-2)',
+              backgroundColor: toolsActive ? 'var(--surface)' : 'transparent',
+              borderRadius: '2px',
+              textDecoration: 'none',
+            }}
+          >
+            <TrendingUp size={15} strokeWidth={1.5} aria-hidden="true" />
+            <span className="font-sans text-sm font-medium">Loan tools</span>
+          </Link>
+
+          {/* Sub-items — expand when anywhere under /tools */}
+          {toolsActive && (
+            <div className="mt-0.5 flex flex-col gap-0.5 pl-6">
+              {loanToolChildren.map(({ href, label }) => {
+                const active = pathname === href || pathname.startsWith(href + '/');
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="flex items-center px-3 py-2 focus-visible:outline-none focus-visible:ring-2 transition-colors"
+                    style={{
+                      backgroundColor: active ? 'var(--surface)' : 'transparent',
+                      color: active ? 'var(--ink)' : 'var(--ink-2)',
+                      borderRadius: '2px',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <span className="font-sans text-sm">{label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Bottom items: FiRe Up, Settings */}
+        {bottomNavItems.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href || pathname.startsWith(href + '/');
+          return (
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center gap-3 px-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 transition-colors"
+              style={{
+                backgroundColor: active ? 'var(--surface)' : 'transparent',
+                color: active ? 'var(--ink)' : 'var(--ink-2)',
+                borderRadius: '2px',
+                textDecoration: 'none',
+              }}
+            >
+              <Icon size={15} strokeWidth={1.5} aria-hidden="true" />
+              <span className="font-sans text-sm font-medium">{label}</span>
+            </Link>
+          );
+        })}
       </nav>
 
       {/* Bottom indicator */}
       <div className="px-6 py-5" style={{ borderTop: '1px solid var(--rule)' }}>
-        <span className="font-sans text-xs" style={{ color: 'var(--ink-2)' }}>
+        <span className="font-sans text-xs" style={{ color: 'var(--ink)' }}>
           Vol. I
         </span>
       </div>

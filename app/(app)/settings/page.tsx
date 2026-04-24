@@ -13,18 +13,24 @@ import { themes, type ThemeId, type Theme } from '@/lib/themes';
 import { getGreeting } from '@/lib/copy';
 
 const INSTITUTIONS = [
-  'UCD',
-  'TCD',
-  'UCC',
-  'University of Galway',
+  'ATU — Atlantic Technological University',
+  'DCU — Dublin City University',
+  'Dublin Business School',
+  'Griffith College',
+  'IADT — Institute of Art, Design and Technology',
+  'MIC — Mary Immaculate College',
+  'MTU — Munster Technological University',
   'Maynooth University',
-  'DCU',
-  'UL',
-  'TU Dublin',
-  'MTU',
-  'ATU',
-  'SETU',
-  'TUS',
+  'NCAD — National College of Art and Design',
+  'RCSI — Royal College of Surgeons in Ireland',
+  'SETU — South East Technological University',
+  'TU Dublin — Technological University Dublin',
+  'TUS — Technological University of the Shannon',
+  'UCC — University College Cork',
+  'UCD — University College Dublin',
+  'UL — University of Limerick',
+  'University of Galway',
+  'TCD — Trinity College Dublin',
   'Other',
 ] as const;
 
@@ -61,6 +67,7 @@ export default function SettingsPage() {
   const [themeSaving, setThemeSaving] = useState(false);
   const [signOutLoading, setSignOutLoading] = useState(false);
   const [greeting, setGreeting] = useState('');
+  const [toastVisible, setToastVisible] = useState(false);
 
   // Load profile on mount
   useEffect(() => {
@@ -95,6 +102,8 @@ export default function SettingsPage() {
         .eq('id', userId);
       setDetailsSaved(true);
       setGreeting(getGreeting(firstName));
+      setToastVisible(true);
+      setTimeout(() => setToastVisible(false), 2000);
     } finally {
       setDetailsSaving(false);
     }
@@ -184,12 +193,12 @@ export default function SettingsPage() {
               >
                 {detailsSaving ? 'Saving...' : 'Save details'}
               </Button>
-              {detailsSaved && (
+              {toastVisible && (
                 <p
-                  className="font-sans text-sm"
-                  style={{ color: 'var(--ink-2)' }}
+                  className="font-sans text-sm font-medium transition-opacity duration-300"
+                  style={{ color: 'var(--accent)' }}
                 >
-                  Saved.
+                  Saved ✓
                 </p>
               )}
             </div>

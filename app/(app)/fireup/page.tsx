@@ -105,18 +105,37 @@ export default function FireUpPage() {
           {fireupExplainer}
         </p>
 
-        {/* External link to course */}
-        <div className="mb-10">
-          {/* TODO(mabs-partnership): replace with real MABS Canvas URL once partnership confirmed */}
-          <a
-            href="#"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="font-sans text-sm underline underline-offset-2"
-            style={{ color: 'var(--ink)' }}
-          >
-            Take the FiRe Up course on Canvas &rarr;
-          </a>
+        {/* Content sections */}
+        <div className="flex flex-col gap-6 mb-8" style={{ maxWidth: '65ch' }}>
+          <div>
+            <p className="font-sans text-sm font-semibold mb-2" style={{ color: 'var(--ink)' }}>
+              What you&rsquo;ll learn
+            </p>
+            <ul className="font-sans text-sm leading-relaxed flex flex-col gap-1.5" style={{ color: 'var(--ink-2)', listStyle: 'none', padding: 0, margin: 0 }}>
+              <li>— Money mindset: understanding your relationship with money</li>
+              <li>— Budgeting in practice: planning income and expenses</li>
+              <li>— Debt and credit: how they work and how to manage them</li>
+              <li>— Saving and investing for your future</li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="font-sans text-sm font-semibold mb-1" style={{ color: 'var(--ink)' }}>
+              How long it takes
+            </p>
+            <p className="font-sans text-sm leading-relaxed" style={{ color: 'var(--ink-2)' }}>
+              Around 90 minutes, self-paced and split into short modules. You can complete it in one sitting or spread it over a few days.
+            </p>
+          </div>
+
+          <div>
+            <p className="font-sans text-sm font-semibold mb-1" style={{ color: 'var(--ink)' }}>
+              Why we recommend it
+            </p>
+            <p className="font-sans text-sm leading-relaxed" style={{ color: 'var(--ink-2)' }}>
+              Punt is built in partnership with MABS — the Money Advice and Budgeting Service, the Irish government&rsquo;s free financial guidance service. FiRe Up is their flagship financial wellbeing course, designed specifically for people starting out. Completing it alongside these lessons gives you a solid, practical foundation.
+            </p>
+          </div>
         </div>
 
         {/* Status / CTA */}
@@ -145,9 +164,24 @@ export default function FireUpPage() {
             )}
           </div>
         ) : (
-          <Button variant="primary" onClick={handleOpenModal}>
-            I&rsquo;ve completed FiRe Up
-          </Button>
+          <div className="flex flex-col sm:flex-row items-start gap-4">
+            {/* Primary CTA: take the course */}
+            {/* TODO(mabs-partnership): replace href with real MABS Canvas URL once partnership confirmed */}
+            <a
+              href="#"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <Button variant="primary">
+                Take the course on Canvas
+              </Button>
+            </a>
+
+            {/* Secondary CTA: mark completion */}
+            <Button variant="ghost" onClick={handleOpenModal}>
+              I&rsquo;ve completed FiRe Up
+            </Button>
+          </div>
         )}
 
         {/* Error */}

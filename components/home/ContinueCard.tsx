@@ -20,10 +20,10 @@ export function ContinueCard({ moduleTitle, moduleId, currentStep, totalSteps }:
   const headline = hasProgress ? moduleTitle : 'Your payslip, line by line';
 
   return (
-    <Link href={href} className="block no-underline">
+    <Link href={href} className="block no-underline group">
       <div
-        className="relative overflow-hidden p-6 sm:p-8 lg:p-10"
-        style={{ backgroundColor: 'var(--ink)', color: 'var(--bg)' }}
+        className="relative overflow-hidden p-6 sm:p-8 lg:p-10 transition-opacity duration-200 group-hover:opacity-90"
+        style={{ backgroundColor: 'var(--ink)', color: 'var(--bg)', cursor: 'pointer' }}
       >
         {/* Decorative corner character */}
         <span
@@ -60,6 +60,15 @@ export function ContinueCard({ moduleTitle, moduleId, currentStep, totalSteps }:
             {toRoman(currentStep)}&thinsp;/&thinsp;{toRoman(totalSteps)}
           </p>
         )}
+
+        {/* Bottom-right CTA affordance */}
+        <span
+          className="absolute bottom-5 right-5 font-sans text-sm font-semibold transition-transform duration-200 group-hover:translate-x-1"
+          style={{ color: 'var(--accent)' }}
+          aria-hidden="true"
+        >
+          {hasProgress ? 'Continue →' : 'Start →'}
+        </span>
       </div>
     </Link>
   );

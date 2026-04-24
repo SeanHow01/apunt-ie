@@ -124,15 +124,23 @@ export default function LessonPage({ params }: Props) {
   if (finished) {
     return (
       <AppShell>
-        <div className="flex-1 flex flex-col px-6 py-12 md:px-8 md:max-w-2xl md:mx-auto md:w-full">
-          {/* Back link */}
-          <div className="mb-10">
+        <div className="flex-1 flex flex-col px-6 py-8 md:px-8 md:max-w-2xl md:mx-auto md:w-full">
+          {/* Back links */}
+          <div className="mb-8 flex items-center gap-4">
             <Link
               href="/home"
               className="font-sans text-sm underline underline-offset-2"
               style={{ color: 'var(--ink-2)' }}
             >
               Back to home
+            </Link>
+            <span className="font-sans text-sm" style={{ color: 'var(--rule)' }}>·</span>
+            <Link
+              href="/lessons"
+              className="font-sans text-sm underline underline-offset-2"
+              style={{ color: 'var(--ink-2)' }}
+            >
+              All lessons
             </Link>
           </div>
 
@@ -193,8 +201,8 @@ export default function LessonPage({ params }: Props) {
          */}
         <div className={`flex-1 px-4 md:px-8 lg:px-12 py-8 mx-auto w-full ${isPayslipModule ? 'max-w-5xl' : 'max-w-2xl'}`}>
 
-          {/* Back link */}
-          <div className="mb-8">
+          {/* Back links */}
+          <div className="mb-8 flex items-center gap-4">
             <Link
               href="/home"
               className="font-sans text-sm underline underline-offset-2"
@@ -202,6 +210,35 @@ export default function LessonPage({ params }: Props) {
             >
               Back to home
             </Link>
+            <span className="font-sans text-sm" style={{ color: 'var(--rule)' }}>·</span>
+            <Link
+              href="/lessons"
+              className="font-sans text-sm underline underline-offset-2"
+              style={{ color: 'var(--ink-2)' }}
+            >
+              All lessons
+            </Link>
+          </div>
+
+          {/* Step progress dots */}
+          <div className="flex items-center gap-1.5 mb-5" aria-label={`Step ${currentStep + 1} of ${totalSteps}`}>
+            {Array.from({ length: totalSteps }).map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  width: i === currentStep ? '20px' : '6px',
+                  height: '6px',
+                  borderRadius: '3px',
+                  backgroundColor: i === currentStep
+                    ? 'var(--accent)'
+                    : i < currentStep
+                    ? 'var(--ink-2)'
+                    : 'var(--rule)',
+                  transition: 'width 0.2s ease, background-color 0.2s ease',
+                  flexShrink: 0,
+                }}
+              />
+            ))}
           </div>
 
           {/* Step header */}
