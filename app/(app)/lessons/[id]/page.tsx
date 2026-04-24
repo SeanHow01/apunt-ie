@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, use } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { AppShell } from '@/components/layout/AppShell';
 import { StepHeader } from '@/components/lessons/StepHeader';
 import { PayslipVisual } from '@/components/lessons/PayslipVisual';
@@ -28,7 +27,6 @@ type Props = {
 
 export default function LessonPage({ params }: Props) {
   const { id } = use(params);
-  const router = useRouter();
   const module: Module | undefined = getModule(id);
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -65,6 +63,7 @@ export default function LessonPage({ params }: Props) {
     }
   }, [currentStep, userId, module, saveProgress]);
 
+  // ── Not found ────────────────────────────────────────────────────────────
   if (!module) {
     return (
       <AppShell>
@@ -103,7 +102,6 @@ export default function LessonPage({ params }: Props) {
 
   async function handleNext() {
     if (isLast) {
-      // Mark complete
       if (userId) {
         const supabase = createClient();
         await supabase.from('user_progress').upsert({
@@ -120,7 +118,7 @@ export default function LessonPage({ params }: Props) {
     }
   }
 
-  // Completion screen
+  // ── Completion screen ─────────────────────────────────────────────────────
   if (finished) {
     return (
       <AppShell>
@@ -163,10 +161,7 @@ export default function LessonPage({ params }: Props) {
               {module.closingLine}
             </h1>
 
-            <div
-              className="mt-2 mb-10"
-              style={{ borderTop: '1px solid var(--rule)' }}
-            />
+            <div className="mt-2 mb-10" style={{ borderTop: '1px solid var(--rule)' }} />
 
             <div className="flex flex-col sm:flex-row gap-3">
               {nextModule ? (
@@ -190,75 +185,104 @@ export default function LessonPage({ params }: Props) {
     );
   }
 
+  // ── Lesson step ───────────────────────────────────────────────────────────
+  //
+  // Layout strategy:
+  //   Mobile  → h-[100dvh] flex-col: header (shrink-0) | content (flex-1
+  //             overflow-y-auto) | nav buttons (shrink-0 pb-20 for tab bar)
+  //             The page itself does NOT scroll; only the content area scrolls.
+  //   Desktop → h-auto / min-h-screen: normal page flow, nav after content.
+  //
+  // We bypass AppShell here and apply md:ml-56 directly so we control the
+  // outer height without fighting AppShell's pb-20 padding.
+  //
+  const contentMaxW = isPayslipModule ? 'max-w-5xl' : 'max-w-2xl';
+
   return (
-    <AppShell>
-      <div className="flex-1 flex flex-col">
+    <div
+      className="flex flex-col h-[100dvh] lg:h-auto lg:min-h-screen md:ml-56"
+      style={{ backgroundColor: 'var(--bg)' }}
+    >
 
-        {/*
-         * Reading content.
-         * - Non-payslip modules: max-w-2xl centred (~65ch comfortable reading width)
-         * - Payslip module: max-w-5xl to accommodate side-by-side visual on lg+
-         */}
-        <div className={`flex-1 px-4 md:px-8 lg:px-12 py-8 mx-auto w-full ${isPayslipModule ? 'max-w-5xl' : 'max-w-2xl'}`}>
+      {/* ── 1. Header — never scrolls ──────────────────────────────────── */}
+      <div className={`flex-shrink-0 px-4 md:px-8 lg:px-12 pt-8 pb-3 mx-auto w-full ${contentMaxW}`}>
 
-          {/* Back links */}
-          <div className="mb-8 flex items-center gap-4">
-            <Link
-              href="/home"
-              className="font-sans text-sm underline underline-offset-2"
-              style={{ color: 'var(--ink-2)' }}
-            >
-              Back to home
-            </Link>
-            <span className="font-sans text-sm" style={{ color: 'var(--rule)' }}>·</span>
-            <Link
-              href="/lessons"
-              className="font-sans text-sm underline underline-offset-2"
-              style={{ color: 'var(--ink-2)' }}
-            >
-              All lessons
-            </Link>
-          </div>
+        {/* Back links */}
+        <div className="mb-5 flex items-center gap-4">
+          <Link
+            href="/home"
+            className="font-sans text-sm underline underline-offset-2"
+            style={{ color: 'var(--ink-2)' }}
+          >
+            Back to home
+          </Link>
+          <span className="font-sans text-sm" style={{ color: 'var(--rule)' }}>·</span>
+          <Link
+            href="/lessons"
+            className="font-sans text-sm underline underline-offset-2"
+            style={{ color: 'var(--ink-2)' }}
+          >
+            All lessons
+          </Link>
+        </div>
 
-          {/* Step progress dots */}
-          <div className="flex items-center gap-1.5 mb-5" aria-label={`Step ${currentStep + 1} of ${totalSteps}`}>
-            {Array.from({ length: totalSteps }).map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  width: i === currentStep ? '20px' : '6px',
-                  height: '6px',
-                  borderRadius: '3px',
-                  backgroundColor: i === currentStep
+        {/* Progress dots */}
+        <div
+          className="flex items-center gap-1.5 mb-4"
+          aria-label={`Step ${currentStep + 1} of ${totalSteps}`}
+        >
+          {Array.from({ length: totalSteps }).map((_, i) => (
+            <div
+              key={i}
+              style={{
+                width: i === currentStep ? '20px' : '6px',
+                height: '6px',
+                borderRadius: '3px',
+                backgroundColor:
+                  i === currentStep
                     ? 'var(--accent)'
                     : i < currentStep
                     ? 'var(--ink-2)'
                     : 'var(--rule)',
-                  transition: 'width 0.2s ease, background-color 0.2s ease',
-                  flexShrink: 0,
-                }}
-              />
-            ))}
-          </div>
+                transition: 'width 0.2s ease, background-color 0.2s ease',
+                flexShrink: 0,
+              }}
+            />
+          ))}
+        </div>
 
-          {/* Step header */}
-          <StepHeader
-            currentStep={currentStep + 1}
-            totalSteps={totalSteps}
-            label={step.label}
-          />
+        {/* Step title */}
+        <StepHeader
+          currentStep={currentStep + 1}
+          totalSteps={totalSteps}
+          label={step.label}
+        />
+      </div>
+
+      {/* ── 2. Content — scrolls independently on mobile ───────────────── */}
+      {/*
+       * overflow-y-auto creates an independent scroll context on mobile
+       * (where the outer container is height-constrained at 100dvh).
+       * On desktop, lg:h-auto means the outer has no explicit height →
+       * flex-1 doesn't constrain the content area → no overflow occurs →
+       * overflow-y-auto adds no scroll context → lg:sticky on the payslip
+       * visual works relative to the viewport as expected.
+       *
+       * lg:overflow-visible is added explicitly to prevent any cross-browser
+       * ambiguity around the scroll context on desktop.
+       */}
+      <div className="flex-1 min-h-0 overflow-y-auto lg:overflow-visible">
+        <div className={`px-4 md:px-8 lg:px-12 pt-1 pb-6 mx-auto w-full ${contentMaxW}`}>
 
           {/*
-           * Content area:
-           * - Payslip module on lg+: explanation left (col 1/2), PayslipVisual right (col 2/2, sticky)
-           * - Tablet / mobile payslip: visual inline above body text
-           * - All other modules: single reading column
+           * Payslip module on lg+: two-column grid (text left, visual right sticky)
+           * All other modules + payslip on mobile/tablet: single column
            */}
           <div className={hasPayslipVisual ? 'lg:grid lg:grid-cols-2 lg:gap-12 lg:items-start' : ''}>
 
-            {/* Primary text + callout + nav */}
+            {/* Primary text column */}
             <div>
-              {/* PayslipVisual above body text on mobile and tablet only */}
+              {/* PayslipVisual inline above body text on mobile/tablet */}
               {hasPayslipVisual && (
                 <div className="mb-8 lg:hidden">
                   <PayslipVisual highlight={step.highlight!} />
@@ -267,10 +291,7 @@ export default function LessonPage({ params }: Props) {
 
               <p
                 className="font-sans text-base lg:text-lg leading-relaxed mb-6"
-                style={{
-                  color: 'var(--ink)',
-                  maxWidth: '65ch',
-                }}
+                style={{ color: 'var(--ink)', maxWidth: '65ch' }}
               >
                 {step.body}
               </p>
@@ -280,17 +301,9 @@ export default function LessonPage({ params }: Props) {
                   <Callout kind={step.callout.kind} text={step.callout.text} />
                 </div>
               )}
-
-              {/* Navigation inside content column so it's contained within max-width */}
-              <LessonNav
-                onBack={handleBack}
-                onNext={handleNext}
-                isFirst={isFirst}
-                isLast={isLast}
-              />
             </div>
 
-            {/* PayslipVisual alongside body text on lg+ only, sticky so it stays visible while reading */}
+            {/* PayslipVisual in right column — desktop only, sticky */}
             {hasPayslipVisual && (
               <div className="hidden lg:block lg:sticky lg:top-20">
                 <PayslipVisual highlight={step.highlight!} />
@@ -299,8 +312,27 @@ export default function LessonPage({ params }: Props) {
 
           </div>
         </div>
-
       </div>
-    </AppShell>
+
+      {/* ── 3. Nav buttons — pinned to bottom, never scrolls ───────────── */}
+      {/*
+       * flex-shrink-0 ensures this row is never compressed by the flex layout.
+       * pb-20 md:pb-4: on mobile, 80px bottom padding lifts the buttons above
+       * the MobileTabBar (fixed, 64px + safe-area). On md+, normal padding only.
+       * border-top gives a visual separator from the content.
+       */}
+      <div
+        className={`flex-shrink-0 px-4 md:px-8 lg:px-12 pt-3 pb-20 md:pb-4 mx-auto w-full ${contentMaxW}`}
+        style={{ borderTop: '1px solid var(--rule)' }}
+      >
+        <LessonNav
+          onBack={handleBack}
+          onNext={handleNext}
+          isFirst={isFirst}
+          isLast={isLast}
+        />
+      </div>
+
+    </div>
   );
 }
