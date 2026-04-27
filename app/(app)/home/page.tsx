@@ -255,6 +255,7 @@ export default async function HomePage() {
               {[
                 { href: '/about', label: 'About' },
                 { href: '/contact', label: 'Contact' },
+                { href: '/glossary', label: 'Glossary' },
                 { href: '/sources', label: 'Sources' },
                 { href: '/methodology', label: 'Methodology' },
                 { href: '/privacy', label: 'Privacy' },
