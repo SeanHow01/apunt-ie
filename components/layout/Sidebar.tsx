@@ -19,6 +19,7 @@ const toolChildren = [
   { href: '/tools/etf-calculator', label: 'ETF calculator' },
   { href: '/tools/buy-vs-rent', label: 'Buy vs rent' },
   { href: '/tools/susi-estimator', label: 'SUSI estimator' },
+  { href: '/tools/side-hustle', label: 'Side hustle tax' },
 ] as const;
 
 const bottomNavItems = [
