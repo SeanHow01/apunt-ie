@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, BookOpen, Calculator, TrendingUp, Flame, Settings } from 'lucide-react';
+import { Home, BookOpen, Calculator, TrendingUp, Flame, Settings, CalendarDays } from 'lucide-react';
 
 const topNavItems = [
   { href: '/home', label: 'Home', icon: Home },
   { href: '/lessons', label: 'Lessons', icon: BookOpen },
+  { href: '/year', label: 'Your year', icon: CalendarDays },
   { href: '/calculator', label: 'Calculator', icon: Calculator },
 ] as const;
 
