@@ -5,6 +5,7 @@ import { Masthead } from '@/components/layout/Masthead';
 import { ContinueCard } from '@/components/home/ContinueCard';
 import { ArticleList } from '@/components/home/ArticleList';
 import { ToolCard } from '@/components/home/ToolCard';
+import { MonthlyActionsTile } from '@/components/home/MonthlyActionsTile';
 import { getGreeting, partnerLine } from '@/lib/copy';
 import { modules } from '@/content/modules/index';
 import HomeFireUpAttest from './HomeFireUpAttest';
@@ -121,7 +122,12 @@ export default async function HomePage() {
             />
           </section>
 
-          {/* 3. This week — full width */}
+          {/* 3. Monthly actions — full width */}
+          <section className="lg:col-span-3">
+            <MonthlyActionsTile />
+          </section>
+
+          {/* 4. This week — full width */}
           {thisWeekArticles && thisWeekArticles.length > 0 && (
             <section className="lg:col-span-3">
               <h2
