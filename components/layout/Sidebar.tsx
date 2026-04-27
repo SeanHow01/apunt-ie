@@ -11,10 +11,11 @@ const topNavItems = [
   { href: '/calculator', label: 'Calculator', icon: Calculator },
 ] as const;
 
-const loanToolChildren = [
+const toolChildren = [
   { href: '/tools/loan-calculator', label: 'Loan calculator' },
   { href: '/tools/loan-comparison', label: 'Loan comparison' },
   { href: '/tools/mortgage-calculator', label: 'Mortgage calculator' },
+  { href: '/tools/etf-calculator', label: 'ETF calculator' },
 ] as const;
 
 const bottomNavItems = [
@@ -76,7 +77,7 @@ export function Sidebar() {
           );
         })}
 
-        {/* Loan tools group */}
+        {/* Tools group */}
         <div>
           {/* Parent — link to loan-calculator when not in tools section */}
           <Link
@@ -90,13 +91,13 @@ export function Sidebar() {
             }}
           >
             <TrendingUp size={15} strokeWidth={1.5} aria-hidden="true" />
-            <span className="font-sans text-sm font-medium">Loan tools</span>
+            <span className="font-sans text-sm font-medium">Tools</span>
           </Link>
 
           {/* Sub-items — expand when anywhere under /tools */}
           {toolsActive && (
             <div className="mt-0.5 flex flex-col gap-0.5 pl-6">
-              {loanToolChildren.map(({ href, label }) => {
+              {toolChildren.map(({ href, label }) => {
                 const active = pathname === href || pathname.startsWith(href + '/');
                 return (
                   <Link
