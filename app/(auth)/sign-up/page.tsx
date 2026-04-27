@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, type FormEvent, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
@@ -64,12 +64,21 @@ function mapAuthError(message: string): string {
   return 'Something went wrong. Please try again.';
 }
 
-export default function SignUpPage() {
+function SignUpForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Pre-fill institution and cohort from /join/[institution] referral
+  const cohortId = searchParams.get('cohort') ?? null;
+  const institutionParam = searchParams.get('institution') ?? '';
+
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [institution, setInstitution] = useState('');
+  const [institution, setInstitution] = useState(
+    INSTITUTIONS.includes(institutionParam as (typeof INSTITUTIONS)[number])
+      ? institutionParam
+      : ''
+  );
   const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
   const [serverError, setServerError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -111,6 +120,7 @@ export default function SignUpPage() {
           first_name: parsed.data.firstName,
           institution_name: parsed.data.institution,
           institution_id: null, // reserved for future SSO/lookup integration
+          cohort_id: cohortId ?? null,
           theme: 'punt',
         });
       }
@@ -273,5 +283,13 @@ export default function SignUpPage() {
         </p>
       </div>
     </main>
+  );
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={null}>
+      <SignUpForm />
+    </Suspense>
   );
 }

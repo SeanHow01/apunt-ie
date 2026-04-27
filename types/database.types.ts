@@ -235,6 +235,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          cohort_id: string | null
           created_at: string | null
           first_name: string | null
           id: string
@@ -244,6 +245,7 @@ export type Database = {
           theme: string | null
         }
         Insert: {
+          cohort_id?: string | null
           created_at?: string | null
           first_name?: string | null
           id: string
@@ -253,6 +255,7 @@ export type Database = {
           theme?: string | null
         }
         Update: {
+          cohort_id?: string | null
           created_at?: string | null
           first_name?: string | null
           id?: string
