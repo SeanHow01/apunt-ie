@@ -16,6 +16,7 @@ const toolChildren = [
   { href: '/tools/loan-comparison', label: 'Loan comparison' },
   { href: '/tools/mortgage-calculator', label: 'Mortgage calculator' },
   { href: '/tools/etf-calculator', label: 'ETF calculator' },
+  { href: '/tools/buy-vs-rent', label: 'Buy vs rent' },
 ] as const;
 
 const bottomNavItems = [
