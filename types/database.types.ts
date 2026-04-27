@@ -56,6 +56,30 @@ export type Database = {
           }
         ]
       }
+      article_ratings: {
+        Row: {
+          id: string
+          article_id: string
+          session_id: string
+          helpful: boolean
+          rated_at: string
+        }
+        Insert: {
+          id?: string
+          article_id: string
+          session_id: string
+          helpful: boolean
+          rated_at?: string
+        }
+        Update: {
+          id?: string
+          article_id?: string
+          session_id?: string
+          helpful?: boolean
+          rated_at?: string
+        }
+        Relationships: []
+      }
       articles: {
         Row: {
           article_type: string

@@ -7,6 +7,7 @@ import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Rule } from '@/components/ui/Rule';
 import { ARTICLE_DISCLAIMER, MODULE_OPTIONS } from '@/lib/constants';
 import { ShareButton } from './ShareButton';
+import { ArticleRating } from '@/components/news/ArticleRating';
 import type { Json } from '@/types/database.types';
 
 type Article = {
@@ -401,8 +402,13 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           </p>
         </div>
 
+        {/* Was this helpful? */}
+        <div style={{ marginTop: '2rem', marginBottom: '0.75rem' }}>
+          <ArticleRating articleId={article.slug} />
+        </div>
+
         {/* Share button — Web Share API on mobile, clipboard copy on desktop */}
-        <div style={{ marginTop: '2rem' }}>
+        <div style={{ marginTop: '0.75rem' }}>
           <ShareButton title={article.title} text={article.summary} />
         </div>
 
