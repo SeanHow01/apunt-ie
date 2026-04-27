@@ -8,6 +8,7 @@ import { PayslipVisual } from '@/components/lessons/PayslipVisual';
 import { LessonNav } from '@/components/lessons/LessonNav';
 import { Callout } from '@/components/ui/Callout';
 import { Button } from '@/components/ui/Button';
+import { ConfidenceSurvey } from '@/components/lessons/ConfidenceSurvey';
 import { getModule, getNextModule } from '@/content/modules/index';
 import { createClient } from '@/lib/supabase/client';
 import type { Module } from '@/content/types';
@@ -161,7 +162,13 @@ export default function LessonPage({ params }: Props) {
               {module.closingLine}
             </h1>
 
-            <div className="mt-2 mb-10" style={{ borderTop: '1px solid var(--rule)' }} />
+            <div className="mt-2 mb-6" style={{ borderTop: '1px solid var(--rule)' }} />
+
+            <ConfidenceSurvey
+              userId={userId}
+              moduleId={module.id}
+              moduleName={module.title}
+            />
 
             <div className="flex flex-col sm:flex-row gap-3">
               {nextModule ? (

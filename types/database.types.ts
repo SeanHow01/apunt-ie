@@ -110,6 +110,30 @@ export type Database = {
         }
         Relationships: []
       }
+      confidence_surveys: {
+        Row: {
+          id: string
+          user_id: string
+          module_id: string
+          score: number
+          submitted_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          module_id: string
+          score: number
+          submitted_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          module_id?: string
+          score?: number
+          submitted_at?: string
+        }
+        Relationships: []
+      }
       fireup_completions: {
         Row: {
           certificate_url: string | null
