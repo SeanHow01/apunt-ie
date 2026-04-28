@@ -6,6 +6,7 @@ import { ContinueCard } from '@/components/home/ContinueCard';
 import { ArticleList } from '@/components/home/ArticleList';
 import { ToolCard } from '@/components/home/ToolCard';
 import { MonthlyActionsTile } from '@/components/home/MonthlyActionsTile';
+import { ModuleProgressBar } from '@/components/home/ModuleProgressBar';
 import { getGreeting, partnerLine } from '@/lib/copy';
 import { modules } from '@/content/modules/index';
 import HomeFireUpAttest from './HomeFireUpAttest';
@@ -65,6 +66,17 @@ export default async function HomePage() {
     : null;
 
   const greeting = getGreeting(profile?.first_name ?? null);
+
+  // Shape segments for the progress bar
+  const progressSegments = modules.map((mod) => {
+    const prog = progressMap.get(mod.id);
+    return {
+      id: mod.id,
+      title: mod.title,
+      completed: prog?.completed ?? false,
+      inProgress: !prog?.completed && (prog?.currentStep ?? 0) > 0,
+    };
+  });
 
   // Shape module list for ArticleList
   const moduleItems = modules.map((mod, idx) => {
@@ -233,6 +245,7 @@ export default async function HomePage() {
             >
               The curriculum
             </h2>
+            <ModuleProgressBar segments={progressSegments} />
             <ArticleList modules={moduleItems} />
           </section>
 
