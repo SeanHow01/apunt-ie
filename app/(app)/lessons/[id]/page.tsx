@@ -247,6 +247,17 @@ export default function LessonPage({ params }: Props) {
           </Link>
         </div>
 
+        {/* Review date — shown only on first step */}
+        {currentStep === 0 && module.lastReviewed && (
+          <p
+            className="font-sans text-xs mb-3"
+            style={{ color: 'var(--ink-2)' }}
+            title={module.reviewNote}
+          >
+            Content reviewed {module.lastReviewed}
+          </p>
+        )}
+
         {/* Progress dots */}
         <div
           className="flex items-center gap-1.5 mb-4"

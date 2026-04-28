@@ -37,6 +37,8 @@ const susi: Module = {
     },
   ],
   closingLine: "SUSI opens each spring. If there's any chance you qualify, apply — the deadline passes quickly.",
+  lastReviewed: 'April 2026',
+  reviewNote: '2025/26 grant year — household income thresholds, adjacent/non-adjacent amounts, and contribution rates verified.',
 };
 
 export default susi;

@@ -56,6 +56,8 @@ const loans: Module = {
     },
   ],
   closingLine: "You don't need to borrow often to borrow well. You just need to know what you're signing.",
+  lastReviewed: 'April 2026',
+  reviewNote: 'APR rules, CBI authorised lender register, and credit union guidance verified.',
 };
 
 export default loans;

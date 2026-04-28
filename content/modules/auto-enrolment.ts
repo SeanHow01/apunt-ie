@@ -42,6 +42,8 @@ const autoEnrolment: Module = {
     },
   ],
   closingLine: 'Your future self already has a pension. You just needed to know about it.',
+  lastReviewed: 'April 2026',
+  reviewNote: 'Auto-enrolment commencement and contribution rates verified against Department of Social Protection guidance.',
 };
 
 export default autoEnrolment;

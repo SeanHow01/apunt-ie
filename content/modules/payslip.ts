@@ -42,6 +42,8 @@ const payslip: Module = {
     },
   ],
   closingLine: 'You now know exactly where your money goes before it reaches you.',
+  lastReviewed: 'April 2026',
+  reviewNote: 'Budget 2026 rates — PAYE cutoff €44,000, credits €4,000, PRSI 4.1%, USC bands verified.',
 };
 
 export default payslip;

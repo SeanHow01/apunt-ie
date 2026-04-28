@@ -17,4 +17,6 @@ export type Module = {
   durationMinutes: number;
   steps: LessonStep[];
   closingLine: string;
+  lastReviewed?: string;   // e.g. 'April 2026'
+  reviewNote?: string;     // brief note on what was checked
 };

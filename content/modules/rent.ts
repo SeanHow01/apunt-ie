@@ -47,6 +47,8 @@ const rent: Module = {
     },
   ],
   closingLine: 'A tenancy is a contract. Read it before you sign, and keep a copy of everything.',
+  lastReviewed: 'April 2026',
+  reviewNote: 'RTB rules, 90-day notice periods, and deposit rules verified against current tenancy legislation.',
 };
 
 export default rent;

@@ -42,6 +42,8 @@ const investing: Module = {
     },
   ],
   closingLine: 'Starting small is starting. €50 a month for 30 years teaches you more than €5,000 lumped in once.',
+  lastReviewed: 'April 2026',
+  reviewNote: 'ETF exit tax (41%), deemed disposal rules, and PRSA/pension contribution limits verified for Budget 2026.',
 };
 
 export default investing;

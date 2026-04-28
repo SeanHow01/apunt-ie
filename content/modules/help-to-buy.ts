@@ -38,6 +38,8 @@ const helpToBuy: Module = {
     },
   ],
   closingLine: "Help to Buy is a refund of tax you've already paid. If you've worked in Ireland for a few years and are buying a new build, it's almost always worth applying.",
+  lastReviewed: 'April 2026',
+  reviewNote: 'HTB scheme cap (€30,000), property value limits, and eligibility rules verified against Revenue.ie.',
 };
 
 export default helpToBuy;
