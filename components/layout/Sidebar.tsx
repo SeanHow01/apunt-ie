@@ -21,6 +21,7 @@ const toolChildren = [
   { href: '/tools/susi-estimator', label: 'SUSI estimator' },
   { href: '/tools/side-hustle', label: 'Side hustle tax' },
   { href: '/tools/pay-rise', label: 'Pay rise' },
+  { href: '/tools/emergency-tax', label: 'Emergency tax' },
 ] as const;
 
 const bottomNavItems = [
