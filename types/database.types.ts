@@ -56,6 +56,30 @@ export type Database = {
           }
         ]
       }
+      module_questions: {
+        Row: {
+          id: string
+          user_id: string
+          module_id: string
+          question: string
+          submitted_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          module_id: string
+          question: string
+          submitted_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          module_id?: string
+          question?: string
+          submitted_at?: string
+        }
+        Relationships: []
+      }
       article_ratings: {
         Row: {
           id: string

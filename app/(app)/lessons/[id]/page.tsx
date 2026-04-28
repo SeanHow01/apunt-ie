@@ -10,6 +10,7 @@ import { Callout } from '@/components/ui/Callout';
 import { Button } from '@/components/ui/Button';
 import { ConfidenceSurvey } from '@/components/lessons/ConfidenceSurvey';
 import { ShareButton } from '@/components/ui/ShareButton';
+import { ModuleQuestion } from '@/components/lessons/ModuleQuestion';
 import { getModule, getNextModule } from '@/content/modules/index';
 import { createClient } from '@/lib/supabase/client';
 import type { Module } from '@/content/types';
@@ -164,6 +165,12 @@ export default function LessonPage({ params }: Props) {
             </h1>
 
             <div className="mt-2 mb-6" style={{ borderTop: '1px solid var(--rule)' }} />
+
+            <ModuleQuestion
+              userId={userId}
+              moduleId={module.id}
+              moduleName={module.title}
+            />
 
             <ConfidenceSurvey
               userId={userId}
