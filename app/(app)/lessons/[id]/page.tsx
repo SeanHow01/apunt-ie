@@ -9,6 +9,7 @@ import { LessonNav } from '@/components/lessons/LessonNav';
 import { Callout } from '@/components/ui/Callout';
 import { Button } from '@/components/ui/Button';
 import { ConfidenceSurvey } from '@/components/lessons/ConfidenceSurvey';
+import { ShareButton } from '@/components/ui/ShareButton';
 import { getModule, getNextModule } from '@/content/modules/index';
 import { createClient } from '@/lib/supabase/client';
 import type { Module } from '@/content/types';
@@ -170,7 +171,7 @@ export default function LessonPage({ params }: Props) {
               moduleName={module.title}
             />
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
               {nextModule ? (
                 <Link href={`/lessons/${nextModule.id}`}>
                   <Button variant="primary">
@@ -186,6 +187,12 @@ export default function LessonPage({ params }: Props) {
                 <Button variant="ghost">Home</Button>
               </Link>
             </div>
+
+            <ShareButton
+              title={module.title}
+              text={`I just completed "${module.title}" on Punt — Ireland's personal finance app.`}
+              label="Share this lesson"
+            />
           </div>
         </div>
       </AppShell>
