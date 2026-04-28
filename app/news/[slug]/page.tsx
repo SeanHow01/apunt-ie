@@ -158,6 +158,32 @@ export default async function ArticlePage({ params, searchParams }: Props) {
   const htmlContent = marked(article.content_md) as string;
 
   const sources = parseSources(article.sources);
+
+  // Related articles — same category first, then recent fallback
+  const supabaseForRelated = await createClient();
+  const { data: sameCatArticles } = await supabaseForRelated
+    .from('articles')
+    .select('id, slug, title, category, reading_minutes')
+    .eq('status', 'published')
+    .eq('category', article.category)
+    .neq('slug', article.slug)
+    .order('published_at', { ascending: false })
+    .limit(3);
+
+  let relatedArticles = sameCatArticles ?? [];
+
+  if (relatedArticles.length < 2) {
+    const excludeSlugs = [article.slug, ...relatedArticles.map((a) => a.slug)];
+    const { data: recentArticles } = await supabaseForRelated
+      .from('articles')
+      .select('id, slug, title, category, reading_minutes')
+      .eq('status', 'published')
+      .not('slug', 'in', `(${excludeSlugs.map((s) => `"${s}"`).join(',')})`)
+      .order('published_at', { ascending: false })
+      .limit(3 - relatedArticles.length);
+    relatedArticles = [...relatedArticles, ...(recentArticles ?? [])];
+  }
+
   const relatedModuleIds = article.related_module_ids ?? [];
 
   const relatedModules = relatedModuleIds
@@ -411,6 +437,86 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         <div style={{ marginTop: '0.75rem' }}>
           <ShareButton title={article.title} text={article.summary} />
         </div>
+
+        {/* Related articles */}
+        {relatedArticles.length > 0 && (
+          <div style={{ marginTop: '1.5rem' }}>
+            <p
+              className="font-sans font-semibold uppercase"
+              style={{
+                fontSize: '0.6875rem',
+                letterSpacing: '0.12em',
+                color: 'var(--ink-2)',
+                marginBottom: '0.75rem',
+              }}
+            >
+              More like this
+            </p>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                border: '1px solid var(--rule)',
+                borderRadius: '4px',
+                overflow: 'hidden',
+              }}
+            >
+              {relatedArticles.map((rel, idx) => (
+                <Link
+                  key={rel.id}
+                  href={`/news/${rel.slug}`}
+                  style={{
+                    display: 'block',
+                    padding: '0.75rem 1rem',
+                    borderTop: idx > 0 ? '1px solid var(--rule)' : 'none',
+                    textDecoration: 'none',
+                  }}
+                >
+                  {rel.category && (
+                    <span
+                      className="font-sans uppercase"
+                      style={{
+                        fontSize: '0.625rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.1em',
+                        color: 'var(--accent)',
+                        display: 'block',
+                        marginBottom: '0.2rem',
+                      }}
+                    >
+                      {rel.category}
+                    </span>
+                  )}
+                  <span
+                    className="font-display"
+                    style={{
+                      fontFamily: 'Instrument Serif, serif',
+                      fontSize: '1rem',
+                      lineHeight: 1.3,
+                      color: 'var(--ink)',
+                      display: 'block',
+                    }}
+                  >
+                    {rel.title}
+                  </span>
+                  {rel.reading_minutes && (
+                    <span
+                      className="font-sans"
+                      style={{
+                        fontSize: '0.75rem',
+                        color: 'var(--ink-2)',
+                        marginTop: '0.125rem',
+                        display: 'block',
+                      }}
+                    >
+                      {rel.reading_minutes} min read
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Category-based related module card (automatic, shown when category has a mapping) */}
         {suggestedModule && (
