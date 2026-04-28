@@ -24,6 +24,7 @@ const toolChildren = [
   { href: '/tools/emergency-tax', label: 'Emergency tax' },
   { href: '/tools/rpz-checker', label: 'RPZ checker' },
   { href: '/tools/payslip-checker', label: 'Payslip checker' },
+  { href: '/tools/salary-sacrifice', label: 'Salary sacrifice' },
 ] as const;
 
 const bottomNavItems = [
