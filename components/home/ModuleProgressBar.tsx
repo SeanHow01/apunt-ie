@@ -11,13 +11,19 @@ type Props = {
   segments: ModuleSegment[];
 };
 
-/** Short label for each segment — keep under ~10 chars so they fit on mobile */
-function shortTitle(title: string): string {
-  const overrides: Record<string, string> = {
-    'auto-enrolment': 'Auto-enrol',
-    'help-to-buy': 'Help to Buy',
-  };
-  return overrides[title.toLowerCase().replace(/\s+/g, '-')] ?? title.split(' ').slice(0, 2).join(' ');
+/** Reliable short labels keyed by module ID (not title, which has commas/extra words) */
+const SEGMENT_LABELS: Record<string, string> = {
+  'payslip': 'Payslip',
+  'auto-enrolment': 'Auto-enrol',
+  'loans': 'Loans',
+  'rent': 'Rent',
+  'help-to-buy': 'Help to Buy',
+  'susi': 'SUSI',
+  'investing': 'Investing',
+};
+
+function segmentLabel(id: string): string {
+  return SEGMENT_LABELS[id] ?? id;
 }
 
 export function ModuleProgressBar({ segments }: Props) {
@@ -28,9 +34,7 @@ export function ModuleProgressBar({ segments }: Props) {
   return (
     <div style={{ marginBottom: '1.5rem' }}>
       {/* Header row */}
-      <div
-        className="flex items-baseline justify-between mb-3"
-      >
+      <div className="flex items-baseline justify-between mb-3">
         <p
           className="font-sans text-xs font-semibold uppercase tracking-widest"
           style={{ color: 'var(--ink-2)' }}
@@ -41,9 +45,7 @@ export function ModuleProgressBar({ segments }: Props) {
           className="font-sans text-xs tabular-nums"
           style={{ color: allDone ? '#2E7D52' : 'var(--ink-2)' }}
         >
-          {allDone
-            ? 'All complete ✓'
-            : `${completedCount} of ${total} complete`}
+          {allDone ? 'All complete ✓' : `${completedCount} of ${total} complete`}
         </p>
       </div>
 
@@ -65,6 +67,7 @@ export function ModuleProgressBar({ segments }: Props) {
             title={seg.title}
             style={{ textDecoration: 'none' }}
           >
+            {/* Coloured bar */}
             <div
               style={{
                 height: '6px',
@@ -77,8 +80,13 @@ export function ModuleProgressBar({ segments }: Props) {
                 transition: 'background-color 0.2s ease',
               }}
             />
+            {/*
+             * Labels hidden on xs (≤ 639px) — 7 segments at 375px gives ~47px each,
+             * too narrow for readable text. The bar colours + tooltip are sufficient on
+             * mobile; labels appear at sm (640px+) where each column is ≥ 88px.
+             */}
             <p
-              className="font-sans text-center mt-1.5 leading-tight"
+              className="hidden sm:block font-sans text-center mt-1.5 leading-tight"
               style={{
                 fontSize: '0.625rem',
                 color: seg.completed ? 'var(--ink)' : 'var(--ink-2)',
@@ -88,7 +96,7 @@ export function ModuleProgressBar({ segments }: Props) {
                 whiteSpace: 'nowrap',
               }}
             >
-              {shortTitle(seg.title)}
+              {segmentLabel(seg.id)}
             </p>
           </Link>
         ))}

@@ -56,9 +56,9 @@ export default function PayslipCheckerPage() {
   }, [annualGross]);
 
   const actual = useMemo(() => ({
-    paye: monthlyPaye === '' ? null : parseInt(monthlyPaye, 10) || 0,
-    usc: monthlyUsc === '' ? null : parseInt(monthlyUsc, 10) || 0,
-    prsi: monthlyPrsi === '' ? null : parseInt(monthlyPrsi, 10) || 0,
+    paye: monthlyPaye === '' ? null : Math.max(0, parseInt(monthlyPaye, 10) || 0),
+    usc: monthlyUsc === '' ? null : Math.max(0, parseInt(monthlyUsc, 10) || 0),
+    prsi: monthlyPrsi === '' ? null : Math.max(0, parseInt(monthlyPrsi, 10) || 0),
   }), [monthlyPaye, monthlyUsc, monthlyPrsi]);
 
   const hasPayslipData = actual.paye !== null || actual.usc !== null || actual.prsi !== null;
@@ -421,7 +421,7 @@ export default function PayslipCheckerPage() {
                 paddingTop: '0.25rem',
               }}
             >
-              <span className="font-semibold" style={{ color: 'var(--ink)' }}>Total deductions</span>
+              <span className="font-semibold" style={{ color: 'var(--ink)' }}>Total</span>
               <span className="tabular-nums" style={{ color: 'var(--ink-2)', textAlign: 'right' }}>
                 {formatEuro(expectedTotal)}<span style={{ fontSize: '0.75rem' }}>/mo</span>
               </span>

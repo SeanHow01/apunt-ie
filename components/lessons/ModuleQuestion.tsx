@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-type Status = 'idle' | 'submitting' | 'done' | 'error';
+type Status = 'idle' | 'submitting' | 'done';
 
 const MAX_CHARS = 500;
 const MIN_CHARS = 5;
@@ -53,10 +53,9 @@ export function ModuleQuestion({ userId, moduleId, moduleName }: Props) {
       question: question.trim(),
     });
 
-    if (error) {
-      // Non-blocking: still show done to avoid frustrating the user
-      console.error('module_questions insert:', error.message);
-    }
+    // Non-blocking: show done even if the insert fails — cash flow impact is zero
+    // and re-prompting for a retry would be more frustrating than the lost question.
+    if (error) console.error('module_questions insert:', error.message);
     setStatus('done');
   }
 
@@ -118,11 +117,6 @@ export function ModuleQuestion({ userId, moduleId, moduleName }: Props) {
         </button>
       </div>
 
-      {status === 'error' && (
-        <p className="font-sans text-xs mt-2" style={{ color: 'var(--accent)' }}>
-          Something went wrong — please try again.
-        </p>
-      )}
     </form>
   );
 }
