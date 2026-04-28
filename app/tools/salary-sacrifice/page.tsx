@@ -163,7 +163,7 @@ export default function SalarySacrificePage() {
         </p>
 
         <div className="flex items-baseline justify-between mb-1.5">
-          <label className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
+          <label htmlFor="ss-salary" className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
             Annual gross
           </label>
           <span className="font-sans text-sm tabular-nums font-semibold" style={{ color: 'var(--accent)' }}>
@@ -171,6 +171,7 @@ export default function SalarySacrificePage() {
           </span>
         </div>
         <input
+          id="ss-salary"
           type="range"
           min={15_000}
           max={120_000}
@@ -243,7 +244,7 @@ export default function SalarySacrificePage() {
           {/* Bike cost slider */}
           <div className="mb-4">
             <div className="flex items-baseline justify-between mb-1">
-              <label className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
+              <label htmlFor="ss-bike-cost" className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
                 Bike / equipment cost
               </label>
               <span className="font-sans text-sm tabular-nums font-semibold" style={{ color: 'var(--accent)' }}>
@@ -251,6 +252,7 @@ export default function SalarySacrificePage() {
               </span>
             </div>
             <input
+              id="ss-bike-cost"
               type="range"
               min={200}
               max={bikeCap}
@@ -331,7 +333,7 @@ export default function SalarySacrificePage() {
           {/* Pass cost slider */}
           <div className="mb-4">
             <div className="flex items-baseline justify-between mb-1">
-              <label className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
+              <label htmlFor="ss-commuter-cost" className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
                 Annual pass cost
               </label>
               <span className="font-sans text-sm tabular-nums font-semibold" style={{ color: 'var(--accent)' }}>
@@ -339,6 +341,7 @@ export default function SalarySacrificePage() {
               </span>
             </div>
             <input
+              id="ss-commuter-cost"
               type="range"
               min={200}
               max={3_000}

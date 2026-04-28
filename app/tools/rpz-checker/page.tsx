@@ -123,12 +123,14 @@ export default function RPZCheckerPage() {
           {/* County */}
           <div>
             <label
+              htmlFor="rpz-county"
               className="font-sans text-sm font-medium block mb-1.5"
               style={{ color: 'var(--ink)' }}
             >
               County
             </label>
             <select
+              id="rpz-county"
               value={county}
               onChange={(e) => { setCounty(e.target.value); setLocalArea(''); }}
               className="font-sans text-sm w-full"
@@ -152,12 +154,14 @@ export default function RPZCheckerPage() {
           {county && hasSubAreas && (
             <div>
               <label
+                htmlFor="rpz-local-area"
                 className="font-sans text-sm font-medium block mb-1.5"
                 style={{ color: 'var(--ink)' }}
               >
                 Local electoral area
               </label>
               <select
+                id="rpz-local-area"
                 value={localArea}
                 onChange={(e) => setLocalArea(e.target.value)}
                 className="font-sans text-sm w-full"
@@ -237,7 +241,7 @@ export default function RPZCheckerPage() {
               {/* Current rent */}
               <div>
                 <div className="flex items-baseline justify-between mb-1.5">
-                  <label className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
+                  <label htmlFor="rpz-current-rent" className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
                     Current monthly rent
                   </label>
                   <span className="font-sans text-sm tabular-nums font-semibold" style={{ color: 'var(--accent)' }}>
@@ -249,6 +253,7 @@ export default function RPZCheckerPage() {
                   min={500}
                   max={4_000}
                   step={50}
+                  id="rpz-current-rent"
                   value={currentRent}
                   onChange={(e) => setCurrentRent(parseInt(e.target.value, 10))}
                   className="w-full"
@@ -263,7 +268,7 @@ export default function RPZCheckerPage() {
               {/* Months since last review */}
               <div>
                 <div className="flex items-baseline justify-between mb-1.5">
-                  <label className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
+                  <label htmlFor="rpz-months" className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
                     Months since last rent review
                   </label>
                   <span className="font-sans text-sm tabular-nums font-semibold" style={{ color: 'var(--accent)' }}>
@@ -275,6 +280,7 @@ export default function RPZCheckerPage() {
                   min={12}
                   max={60}
                   step={1}
+                  id="rpz-months"
                   value={monthsSinceReview}
                   onChange={(e) => setMonthsSinceReview(parseInt(e.target.value, 10))}
                   className="w-full"

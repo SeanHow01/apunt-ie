@@ -5,11 +5,11 @@ import { usePathname } from 'next/navigation';
 import { Home, BookOpen, Calculator, TrendingUp, Settings } from 'lucide-react';
 
 const tabs = [
-  { href: '/home', label: 'Home', icon: Home },
-  { href: '/lessons', label: 'Lessons', icon: BookOpen },
-  { href: '/calculator', label: 'Calculator', icon: Calculator },
-  { href: '/tools/loan-calculator', label: 'Tools', icon: TrendingUp },
-  { href: '/settings', label: 'Settings', icon: Settings },
+  { href: '/home',                 label: 'Home',       icon: Home },
+  { href: '/lessons',              label: 'Lessons',    icon: BookOpen },
+  { href: '/calculator',           label: 'Calculator', icon: Calculator },
+  { href: '/tools/loan-calculator', label: 'Tools',     icon: TrendingUp, activePrefix: '/tools' },
+  { href: '/settings',             label: 'Settings',   icon: Settings },
 ] as const;
 
 export function MobileTabBar() {
@@ -26,10 +26,13 @@ export function MobileTabBar() {
       }}
       aria-label="Mobile navigation"
     >
-      {tabs.map(({ href, label, icon: Icon }) => {
+      {tabs.map(({ href, label, icon: Icon, ...rest }) => {
+        const activePrefix = 'activePrefix' in rest ? rest.activePrefix : undefined;
         const active =
           href === '/home'
             ? pathname === '/home'
+            : activePrefix
+            ? pathname.startsWith(activePrefix)
             : pathname === href || pathname.startsWith(href + '/');
 
         return (

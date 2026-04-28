@@ -200,13 +200,14 @@ export default function PayslipCheckerPage() {
         <div className="flex flex-col gap-4 mb-6">
           {(
             [
-              { key: 'paye', label: 'PAYE (income tax)', value: monthlyPaye, setter: setMonthlyPaye, hint: 'Look for "PAYE" or "Income Tax" on your payslip.' },
-              { key: 'usc', label: 'USC (Universal Social Charge)', value: monthlyUsc, setter: setMonthlyUsc, hint: 'Usually labelled "USC" on your payslip.' },
-              { key: 'prsi', label: 'PRSI (employee contribution)', value: monthlyPrsi, setter: setMonthlyPrsi, hint: 'Look for "PRSI Emp" or "Employee PRSI".' },
+              { key: 'paye', id: 'ps-paye', label: 'PAYE (income tax)', value: monthlyPaye, setter: setMonthlyPaye, hint: 'Look for "PAYE" or "Income Tax" on your payslip.' },
+              { key: 'usc',  id: 'ps-usc',  label: 'USC (Universal Social Charge)', value: monthlyUsc,   setter: setMonthlyUsc,   hint: 'Usually labelled "USC" on your payslip.' },
+              { key: 'prsi', id: 'ps-prsi', label: 'PRSI (employee contribution)', value: monthlyPrsi,  setter: setMonthlyPrsi,  hint: 'Look for "PRSI Emp" or "Employee PRSI".' },
             ] as const
-          ).map(({ key, label, value, setter, hint }) => (
+          ).map(({ key, id, label, value, setter, hint }) => (
             <div key={key}>
               <label
+                htmlFor={id}
                 className="font-sans text-sm font-medium block mb-1"
                 style={{ color: 'var(--ink)' }}
               >
@@ -216,6 +217,7 @@ export default function PayslipCheckerPage() {
               <div style={{ position: 'relative' }}>
                 <span
                   className="font-sans text-sm"
+                  aria-hidden="true"
                   style={{
                     position: 'absolute',
                     left: '0.75rem',
@@ -227,6 +229,7 @@ export default function PayslipCheckerPage() {
                   €
                 </span>
                 <input
+                  id={id}
                   type="number"
                   min={0}
                   max={10_000}
