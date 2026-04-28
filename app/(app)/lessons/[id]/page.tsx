@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/Button';
 import { ConfidenceSurvey } from '@/components/lessons/ConfidenceSurvey';
 import { ShareButton } from '@/components/ui/ShareButton';
 import { ModuleQuestion } from '@/components/lessons/ModuleQuestion';
+import { SupportStrip } from '@/components/ui/SupportStrip';
 import { getModule, getNextModule } from '@/content/modules/index';
 import { createClient } from '@/lib/supabase/client';
 import type { Module } from '@/content/types';
@@ -200,6 +201,10 @@ export default function LessonPage({ params }: Props) {
               text={`I just completed "${module.title}" on Punt — Ireland's personal finance app.`}
               label="Share this lesson"
             />
+
+            <div className="mt-6">
+              <SupportStrip />
+            </div>
           </div>
         </div>
       </AppShell>

@@ -7,6 +7,7 @@ import { ArticleList } from '@/components/home/ArticleList';
 import { ToolCard } from '@/components/home/ToolCard';
 import { MonthlyActionsTile } from '@/components/home/MonthlyActionsTile';
 import { ModuleProgressBar } from '@/components/home/ModuleProgressBar';
+import { SupportStrip } from '@/components/ui/SupportStrip';
 import { getGreeting, partnerLine } from '@/lib/copy';
 import { modules } from '@/content/modules/index';
 import HomeFireUpAttest from './HomeFireUpAttest';
@@ -267,7 +268,12 @@ export default async function HomePage() {
             </div>
           </section>
 
-          {/* 6. Footer — full width */}
+          {/* 6. Support strip — full width */}
+          <section className="lg:col-span-3">
+            <SupportStrip />
+          </section>
+
+          {/* 7. Footer — full width */}
           <footer className="pt-4 lg:col-span-3" style={{ borderTop: '1px solid var(--rule)' }}>
             {/* Nav links */}
             <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
