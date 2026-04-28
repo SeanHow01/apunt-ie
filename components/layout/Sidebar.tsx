@@ -22,6 +22,7 @@ const toolChildren = [
   { href: '/tools/side-hustle', label: 'Side hustle tax' },
   { href: '/tools/pay-rise', label: 'Pay rise' },
   { href: '/tools/emergency-tax', label: 'Emergency tax' },
+  { href: '/tools/rpz-checker', label: 'RPZ checker' },
 ] as const;
 
 const bottomNavItems = [
