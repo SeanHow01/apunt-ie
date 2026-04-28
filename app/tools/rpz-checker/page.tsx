@@ -187,6 +187,16 @@ export default function RPZCheckerPage() {
           )}
         </div>
 
+        {/* Prompt when county has sub-areas but none selected yet */}
+        {county && hasSubAreas && !localArea && (
+          <p
+            className="font-sans text-sm mb-4"
+            style={{ color: 'var(--ink-2)', lineHeight: 1.6 }}
+          >
+            Select your local electoral area above to see whether you&rsquo;re in an RPZ.
+          </p>
+        )}
+
         {/* RPZ Status result */}
         {rpzStatus && (county && (!hasSubAreas || localArea)) && (
           <div

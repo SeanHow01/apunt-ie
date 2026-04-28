@@ -161,7 +161,7 @@ export default function PayslipCheckerPage() {
 
         <div className="mb-6">
           <div className="flex items-baseline justify-between mb-1.5">
-            <label className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
+            <label htmlFor="ps-annual-gross" className="font-sans text-sm font-medium" style={{ color: 'var(--ink)' }}>
               Annual gross
             </label>
             <span className="font-sans text-sm tabular-nums font-semibold" style={{ color: 'var(--accent)' }}>
@@ -173,6 +173,7 @@ export default function PayslipCheckerPage() {
             min={10_000}
             max={120_000}
             step={500}
+            id="ps-annual-gross"
             value={annualGross}
             onChange={(e) => setAnnualGross(parseInt(e.target.value, 10))}
             className="w-full"
