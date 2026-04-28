@@ -285,6 +285,7 @@ export default async function HomePage() {
                 { href: '/methodology', label: 'Methodology' },
                 { href: '/privacy', label: 'Privacy' },
                 { href: '/terms', label: 'Terms' },
+                { href: '/accessibility', label: 'Accessibility' },
               ].map(({ href, label }) => (
                 <a
                   key={href}
