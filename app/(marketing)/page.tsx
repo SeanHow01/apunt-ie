@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Rule } from '@/components/ui/Rule';
 import { Eyebrow } from '@/components/ui/Eyebrow';
-import { partnerLine } from '@/lib/copy';
 import { createClient } from '@/lib/supabase/server';
 
 export const revalidate = 300;
@@ -48,29 +47,37 @@ export default async function LandingPage() {
               fontFamily: 'Instrument Serif, serif',
             }}
           >
-            Your money, explained properly.
+            Irish finance, in plain English.
           </h1>
           <p
-            className="font-display italic text-xl sm:text-2xl leading-snug"
-            style={{ color: 'var(--ink-2)', fontFamily: 'Instrument Serif, serif' }}
+            className="font-sans text-base sm:text-lg leading-relaxed"
+            style={{ color: 'var(--ink-2)', maxWidth: '48ch' }}
           >
-            A financial literacy guide for Irish students.
+            Free modules, calculators, and explainers for Irish students and graduates — payslips, pensions, rent, SUSI, mortgages, and investing. No jargon. No advice. No affiliation.
           </p>
         </div>
 
         {/* CTAs */}
-        <div className="flex flex-col gap-3 mb-12 max-w-xs">
+        <div className="flex flex-col gap-3 mt-8 mb-5 max-w-xs">
           <Link href="/sign-up" className="w-full">
             <Button variant="primary" className="w-full">
-              Create an account
+              Get started — it&apos;s free
             </Button>
           </Link>
-          <Link href="/sign-in" className="w-full">
+          <Link href="/lessons" className="w-full">
             <Button variant="ghost" className="w-full">
-              Sign in
+              See the modules
             </Button>
           </Link>
         </div>
+
+        {/* Trust line */}
+        <p
+          className="font-sans text-xs mb-12"
+          style={{ color: 'var(--ink-2)', letterSpacing: '0.05em' }}
+        >
+          Independent · No bank affiliation · Irish system specific
+        </p>
 
         {/* Public tool link */}
         <p className="font-sans text-sm mb-12" style={{ color: 'var(--ink-2)' }}>
@@ -174,36 +181,30 @@ export default async function LandingPage() {
         {/* Divider */}
         <Rule className="mb-10" />
 
-        {/* Footer / Partner section */}
-        <div>
-          <p
-            className="font-sans text-xs mb-5"
-            style={{ color: 'var(--ink-2)' }}
-          >
-            A pilot project. In partnership with:
+        {/* Footer — service signpost */}
+        <div style={{ borderTop: '1px solid var(--rule)', paddingTop: '1.5rem' }}>
+          <p className="font-sans text-xs mb-1" style={{ color: 'var(--ink-2)' }}>
+            Free money advice:{' '}
+            <a
+              href="https://www.mabs.ie"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--ink-2)', textDecoration: 'underline' }}
+            >
+              MABS
+            </a>
+            {' '}· 0818 07 2000
           </p>
-
-          {/* Placeholder partner logo boxes */}
-          <div className="flex items-center gap-4 mb-8">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="h-8 w-24"
-                style={{
-                  border: '1px solid var(--rule)',
-                  borderRadius: '2px',
-                }}
-                aria-hidden="true"
-              />
-            ))}
-          </div>
-
-          {/* Attribution line */}
-          <p
-            className="font-sans italic text-xs"
-            style={{ color: 'var(--ink-2)' }}
-          >
-            {partnerLine}
+          <p className="font-sans text-xs" style={{ color: 'var(--ink-2)' }}>
+            Consumer financial comparisons:{' '}
+            <a
+              href="https://www.ccpc.ie"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--ink-2)', textDecoration: 'underline' }}
+            >
+              CCPC
+            </a>
           </p>
         </div>
 
