@@ -2,18 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { AppShell } from '@/components/layout/AppShell';
-import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
 import { Rule } from '@/components/ui/Rule';
-import { fireupExplainer } from '@/lib/copy';
 import { createClient } from '@/lib/supabase/client';
-
-// TODO(mabs-partnership): Wire up real MABS/Canvas API verification here when partnership is confirmed.
-// Call verify() to set verified_at once the integration is live.
-async function verify(userId: string): Promise<void> {
-  /* stub: future MABS/Canvas API integration */
-  void userId;
-}
 
 type Status = 'idle' | 'confirming' | 'saving' | 'done' | 'error';
 
@@ -78,14 +69,9 @@ export default function FireUpPage() {
     <AppShell>
       <div className="flex-1 flex flex-col px-6 py-10 md:px-8 w-full max-w-lg md:max-w-2xl md:mx-auto">
 
-        {/* Eyebrow */}
-        <div className="mb-4">
-          <Eyebrow>With compliments of MABS</Eyebrow>
-        </div>
-
         {/* Heading */}
         <h1
-          className="font-display text-4xl sm:text-5xl leading-tight mb-6"
+          className="font-display text-4xl sm:text-5xl leading-tight mb-4"
           style={{
             color: 'var(--ink)',
             letterSpacing: '-0.02em',
@@ -95,15 +81,21 @@ export default function FireUpPage() {
           FiRe Up Financial Wellbeing
         </h1>
 
-        <Rule className="mb-8" />
-
-        {/* Explainer */}
+        {/* Framing */}
         <p
-          className="font-sans text-base leading-relaxed mb-8"
+          className="font-sans text-base leading-relaxed mb-3"
           style={{ color: 'var(--ink)', maxWidth: '65ch' }}
         >
-          {fireupExplainer}
+          MABS runs a free financial wellbeing course for Irish students called FiRe Up. Here&rsquo;s what it covers and how to access it.
         </p>
+        <p
+          className="font-sans text-sm leading-relaxed mb-8"
+          style={{ color: 'var(--ink-2)', maxWidth: '65ch' }}
+        >
+          This course is provided by MABS (Money Advice and Budgeting Service) and Atlantic Technological University. Punt is independent.
+        </p>
+
+        <Rule className="mb-8" />
 
         {/* Content sections */}
         <div className="flex flex-col gap-6 mb-8" style={{ maxWidth: '65ch' }}>
@@ -133,12 +125,12 @@ export default function FireUpPage() {
               Why we recommend it
             </p>
             <p className="font-sans text-sm leading-relaxed" style={{ color: 'var(--ink-2)' }}>
-              Punt is built in partnership with MABS — the Money Advice and Budgeting Service, the Irish government&rsquo;s free financial guidance service. FiRe Up is their flagship financial wellbeing course, designed specifically for people starting out. Completing it alongside these lessons gives you a solid, practical foundation.
+              FiRe Up covers budgeting, debt, and financial planning in a structured 90-minute course with a digital badge on completion. It&rsquo;s a solid foundation — and Punt is designed to be the year-round reference you come back to after it.
             </p>
           </div>
         </div>
 
-        {/* Status / CTA */}
+        {/* Status / CTAs */}
         {status === 'done' || alreadyCompleted ? (
           <div
             className="p-6"
@@ -155,29 +147,25 @@ export default function FireUpPage() {
               Completion recorded. Well done.
             </p>
             {formattedDate && (
-              <p
-                className="font-sans text-sm"
-                style={{ color: 'var(--ink-2)' }}
-              >
+              <p className="font-sans text-sm" style={{ color: 'var(--ink-2)' }}>
                 Attested on {formattedDate}
               </p>
             )}
           </div>
         ) : (
           <div className="flex flex-col sm:flex-row items-start gap-4">
-            {/* Primary CTA: take the course */}
-            {/* TODO(mabs-partnership): replace href with real MABS Canvas URL once partnership confirmed */}
+            {/* Primary CTA: find out more at mabs.ie */}
             <a
-              href="#"
+              href="https://www.mabs.ie"
               target="_blank"
-              rel="noreferrer noopener"
+              rel="noopener noreferrer"
+              className="font-sans text-sm font-medium"
+              style={{ color: 'var(--accent)', textDecoration: 'none' }}
             >
-              <Button variant="primary">
-                Take the course on Canvas
-              </Button>
+              Find out more at mabs.ie &rarr;
             </a>
 
-            {/* Secondary CTA: mark completion */}
+            {/* Secondary CTA: self-attest completion */}
             <Button variant="ghost" onClick={handleOpenModal}>
               I&rsquo;ve completed FiRe Up
             </Button>
@@ -194,6 +182,20 @@ export default function FireUpPage() {
             Something went wrong. Please try again.
           </p>
         )}
+
+        {/* Independence disclaimer */}
+        <p
+          className="font-sans text-xs mt-10 leading-relaxed"
+          style={{
+            color: 'var(--ink-2)',
+            maxWidth: '65ch',
+            borderTop: '1px solid var(--rule)',
+            paddingTop: '1rem',
+          }}
+        >
+          FiRe Up is a MABS and ATU programme. Punt has no formal affiliation with MABS or ATU. We reference this course because it&rsquo;s a free, quality resource for Irish students.
+        </p>
+
       </div>
 
       {/* Confirmation modal */}
@@ -248,10 +250,7 @@ export default function FireUpPage() {
           className="fixed inset-0 flex items-center justify-center z-50"
           style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
         >
-          <p
-            className="font-sans text-base"
-            style={{ color: 'var(--surface)' }}
-          >
+          <p className="font-sans text-base" style={{ color: 'var(--surface)' }}>
             Saving...
           </p>
         </div>
