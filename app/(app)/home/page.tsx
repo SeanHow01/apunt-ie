@@ -8,7 +8,7 @@ import { ToolCard } from '@/components/home/ToolCard';
 import { MonthlyActionsTile } from '@/components/home/MonthlyActionsTile';
 import { ModuleProgressBar } from '@/components/home/ModuleProgressBar';
 import { SupportStrip } from '@/components/ui/SupportStrip';
-import { getGreeting, partnerLine } from '@/lib/copy';
+import { getGreeting } from '@/lib/copy';
 import { modules } from '@/content/modules/index';
 import HomeFireUpAttest from './HomeFireUpAttest';
 
@@ -297,11 +297,16 @@ export default async function HomePage() {
                 </a>
               ))}
             </div>
-            <p
-              className="font-sans italic text-xs mb-1"
-              style={{ color: 'var(--ink-2)' }}
-            >
-              {partnerLine}
+            <p className="font-sans text-xs mb-1" style={{ color: 'var(--ink-2)' }}>
+              Free money advice:{' '}
+              <a href="https://www.mabs.ie" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink-2)' }}>
+                MABS
+              </a>
+              {' '}· 0818 07 2000 ·{' '}
+              <a href="https://www.ccpc.ie" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink-2)' }}>
+                CCPC
+              </a>
+              {' '}for consumer comparisons
             </p>
             <p className="font-sans text-xs" style={{ color: 'var(--ink-2)', opacity: 0.6 }}>
               © 2026 Punt
