@@ -120,7 +120,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     term: 'FiRe Up',
     definition:
-      "MABS's free online Financial Wellbeing course. It builds practical money management skills in under two hours and can be done at your own pace. Punt integrates FiRe Up completion tracking as part of the platform.",
+      "A free online Financial Wellbeing course provided by MABS and Atlantic Technological University. It builds practical money management skills in under two hours and can be done at your own pace.",
     seeAlso: ['MABS'],
   },
   // G
@@ -190,7 +190,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     term: 'MABS',
     definition:
-      "The Money Advice and Budgeting Service — a free, independent, government-funded service that helps people manage money and deal with debt. MABS operates nationwide and online. Punt is built in partnership with MABS.",
+      "The Money Advice and Budgeting Service — a free, independent, government-funded service that helps people manage money and deal with debt. MABS operates nationwide and online. Call 0818 07 2000 or visit mabs.ie.",
     seeAlso: ['FiRe Up'],
   },
   {

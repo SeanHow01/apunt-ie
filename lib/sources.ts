@@ -87,7 +87,7 @@ export const primarySources: Source[] = [
     name: 'MABS (Money Advice and Budgeting Service)',
     url: 'https://www.mabs.ie',
     description:
-      "Ireland's free money advice service, and Punt's partner organisation. MABS guidance informs the practical framing of financial topics throughout the platform.",
+      "Ireland's free, government-funded money advice service. MABS provides confidential guidance on budgeting, debt, and money management. Punt references MABS as a public resource; there is no formal affiliation.",
     usedFor: [
       'Practical money management guidance',
       'FiRe Up Financial Wellbeing course',
