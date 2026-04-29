@@ -26,7 +26,5 @@ export function getGreeting(firstName: string | null, hour?: number): string {
 
 export const volumeLabel = 'Vol. 01';
 
-export const partnerLine = 'Higher Education Authority · CCPC · MABS';
-
 export const fireupExplainer =
-  'FiRe Up is a free financial wellbeing course from MABS — the Money Advice and Budgeting Service. It takes about two hours and covers budgeting, debt, and planning ahead. Completing it alongside these lessons gives you a solid foundation.';
+  'FiRe Up is a free financial wellbeing course provided by MABS (Money Advice and Budgeting Service) and Atlantic Technological University. It takes about 90 minutes and covers budgeting, debt, and planning ahead. Punt is independent.';

@@ -46,7 +46,7 @@ export function FiReUpCard({ completed, completedAt, onAttest }: Props) {
         {/* Left — eyebrow, title, description */}
         <div className="lg:col-span-3">
           <div className="mb-2">
-            <Eyebrow>With compliments of MABS</Eyebrow>
+            <Eyebrow>Free course · MABS + ATU</Eyebrow>
           </div>
 
           <h3
@@ -85,15 +85,14 @@ export function FiReUpCard({ completed, completedAt, onAttest }: Props) {
               {loading ? 'Saving...' : "I've completed FiRe Up"}
             </Button>
 
-            {/* TODO(mabs-partnership): replace with real MABS Canvas URL once partnership confirmed */}
             <a
-              href="#"
+              href="https://www.mabs.ie"
               target="_blank"
-              rel="noreferrer noopener"
+              rel="noopener noreferrer"
               className="font-sans text-sm underline underline-offset-2"
               style={{ color: 'var(--ink-2)' }}
             >
-              Take the course on Canvas &rarr;
+              Find out more at mabs.ie &rarr;
             </a>
           </div>
         )}
