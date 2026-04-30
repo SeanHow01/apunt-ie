@@ -65,16 +65,16 @@ export default async function LandingPage() {
               Get started — it&apos;s free
             </Button>
           </Link>
-          <Link href="/lessons" className="w-full">
+          <a href="#whats-inside" className="w-full">
             <Button variant="ghost" className="w-full">
               See the modules
             </Button>
-          </Link>
+          </a>
         </div>
 
         {/* Trust line */}
         <p
-          className="font-sans text-xs mb-12"
+          className="font-sans text-xs mb-6"
           style={{ color: 'var(--ink-2)', letterSpacing: '0.05em' }}
         >
           Independent · No bank affiliation · Irish system specific
@@ -82,8 +82,10 @@ export default async function LandingPage() {
 
         {/* What's inside — modules + tools preview */}
         <div
+          id="whats-inside"
           className="mb-12 rounded"
           style={{
+            marginTop: '2rem',
             backgroundColor: 'var(--surface)',
             border: '1px solid var(--rule)',
             padding: '2rem 1.75rem',
