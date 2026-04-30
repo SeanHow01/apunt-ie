@@ -1,8 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { Settings } from 'lucide-react';
-import { Eyebrow } from '@/components/ui/Eyebrow';
-import { volumeLabel } from '@/lib/copy';
 
 export function Masthead({ greeting }: { greeting: string }) {
   return (
@@ -10,7 +8,6 @@ export function Masthead({ greeting }: { greeting: string }) {
       className="flex items-center justify-between px-6 py-4"
       style={{ borderBottom: '1px solid var(--rule)' }}
     >
-      <Eyebrow>{volumeLabel}</Eyebrow>
       <p
         className="font-sans text-sm font-medium"
         style={{ color: 'var(--ink-2)' }}
