@@ -6,9 +6,9 @@ import { modules } from '@/content/modules/index';
 import type { YearData, YearCallout } from '@/lib/years';
 
 const CALLOUT_STYLES: Record<YearCallout['kind'], { borderColor: string; label: string }> = {
-  info: { borderColor: 'var(--rule)', label: 'Worth knowing' },
-  warning: { borderColor: 'var(--accent)', label: 'Watch out' },
-  tip: { borderColor: 'var(--ink-2)', label: 'Tip' },
+  info:    { borderColor: 'var(--rule)',   label: 'Note' },
+  tip:     { borderColor: 'var(--accent)', label: 'Tip' },
+  warning: { borderColor: '#C17F24',       label: 'Heads up' },
 };
 
 type Props = {
@@ -253,38 +253,43 @@ export function YearPageContent({ year }: Props) {
         )}
 
         {/* Previous / next year navigation */}
-        {(prevId ?? nextId) && (
-          <>
-            <Rule className="my-10" />
-            <nav
-              className="flex justify-between gap-4"
-              aria-label="Year navigation"
+        <Rule className="my-10" />
+        <nav
+          className="flex justify-between gap-4"
+          aria-label="Year navigation"
+        >
+          {/* Left side: earlier stage link, or "All years" on Year 1 */}
+          {prevId ? (
+            <Link
+              href={`/year/${prevId}`}
+              className="font-sans text-sm"
+              style={{ color: 'var(--accent)', textDecoration: 'none' }}
             >
-              {prevId ? (
-                <Link
-                  href={`/year/${prevId}`}
-                  className="font-sans text-sm"
-                  style={{ color: 'var(--accent)', textDecoration: 'none' }}
-                >
-                  &larr; Previous stage
-                </Link>
-              ) : (
-                <span />
-              )}
-              {nextId ? (
-                <Link
-                  href={`/year/${nextId}`}
-                  className="font-sans text-sm"
-                  style={{ color: 'var(--accent)', textDecoration: 'none' }}
-                >
-                  Next stage &rarr;
-                </Link>
-              ) : (
-                <span />
-              )}
-            </nav>
-          </>
-        )}
+              &larr; Earlier stage
+            </Link>
+          ) : (
+            <Link
+              href="/year"
+              className="font-sans text-sm"
+              style={{ color: 'var(--ink-2)', textDecoration: 'none' }}
+            >
+              &larr; All years
+            </Link>
+          )}
+
+          {/* Right side: only when a next stage exists */}
+          {nextId ? (
+            <Link
+              href={`/year/${nextId}`}
+              className="font-sans text-sm"
+              style={{ color: 'var(--accent)', textDecoration: 'none' }}
+            >
+              Next stage &rarr;
+            </Link>
+          ) : (
+            <span />
+          )}
+        </nav>
 
       </div>
     </AppShell>
