@@ -10,6 +10,8 @@ export const revalidate = 300;
 export default async function NewsPage() {
   const supabase = await createClient();
 
+  const { data: { user } } = await supabase.auth.getUser();
+
   // Fetch all published articles — client component handles category filtering
   const { data: articles } = await supabase
     .from('articles')
@@ -51,40 +53,42 @@ export default async function NewsPage() {
           </p>
         </div>
 
-        {/* CTA */}
-        <div
-          style={{
-            border: '1px solid var(--rule)',
-            borderRadius: '4px',
-            padding: '0.875rem 1.25rem',
-            marginBottom: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          <p className="font-sans text-sm" style={{ color: 'var(--ink-2)', margin: 0 }}>
-            Get lessons, track your progress, and save your calculations.
-          </p>
-          <Link
-            href="/sign-up"
-            className="font-sans"
+        {/* CTA — only shown to unauthenticated visitors */}
+        {!user && (
+          <div
             style={{
-              fontSize: '0.8125rem',
-              fontWeight: 600,
-              color: 'var(--accent-ink)',
-              backgroundColor: 'var(--accent)',
-              padding: '0.4375rem 1rem',
-              borderRadius: '2px',
-              textDecoration: 'none',
-              whiteSpace: 'nowrap',
+              border: '1px solid var(--rule)',
+              borderRadius: '4px',
+              padding: '0.875rem 1.25rem',
+              marginBottom: '2rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              flexWrap: 'wrap',
             }}
           >
-            Want the full Punt app? Sign up free &rarr;
-          </Link>
-        </div>
+            <p className="font-sans text-sm" style={{ color: 'var(--ink-2)', margin: 0 }}>
+              Get lessons, track your progress, and save your calculations.
+            </p>
+            <Link
+              href="/sign-up"
+              className="font-sans"
+              style={{
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                color: 'var(--accent-ink)',
+                backgroundColor: 'var(--accent)',
+                padding: '0.4375rem 1rem',
+                borderRadius: '2px',
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Want the full Punt app? Sign up free &rarr;
+            </Link>
+          </div>
+        )}
 
         <Rule className="mb-6" />
 
