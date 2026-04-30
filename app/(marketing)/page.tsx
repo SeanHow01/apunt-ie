@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button';
 import { Rule } from '@/components/ui/Rule';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { createClient } from '@/lib/supabase/server';
+import { modules } from '@/content/modules/index';
 
 export const revalidate = 300;
 
@@ -79,16 +80,123 @@ export default async function LandingPage() {
           Independent · No bank affiliation · Irish system specific
         </p>
 
-        {/* Public tool link */}
-        <p className="font-sans text-sm mb-12" style={{ color: 'var(--ink-2)' }}>
-          <Link
-            href="/tools/loan-calculator"
-            className="underline underline-offset-2"
-            style={{ color: 'var(--ink)' }}
+        {/* What's inside — modules + tools preview */}
+        <div
+          className="mb-12 rounded"
+          style={{
+            backgroundColor: 'var(--surface)',
+            border: '1px solid var(--rule)',
+            padding: '2rem 1.75rem',
+          }}
+        >
+          <h2
+            className="font-display mb-8"
+            style={{
+              fontFamily: 'Instrument Serif, serif',
+              fontSize: 'clamp(1.375rem, 4vw, 1.75rem)',
+              letterSpacing: '-0.01em',
+              lineHeight: 1.15,
+              color: 'var(--ink)',
+            }}
           >
-            Work out what a loan actually costs &rarr;
-          </Link>
-        </p>
+            Everything you need to know
+          </h2>
+
+          <div className="flex flex-col md:grid md:grid-cols-2 md:gap-10">
+            {/* Modules column */}
+            <div>
+              <p
+                className="font-sans text-xs font-semibold uppercase tracking-widest mb-4"
+                style={{ color: 'var(--ink-2)' }}
+              >
+                Seven modules
+              </p>
+              <div className="flex flex-col">
+                {modules.map((mod, idx) => (
+                  <Link
+                    key={mod.id}
+                    href="/sign-up"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'baseline',
+                      gap: '0.625rem',
+                      padding: '0.625rem 0',
+                      borderBottom: idx < modules.length - 1 ? '1px solid var(--rule)' : 'none',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <span
+                      className="font-display italic flex-shrink-0"
+                      style={{
+                        fontFamily: 'Instrument Serif, serif',
+                        fontSize: '0.875rem',
+                        color: 'var(--accent)',
+                        opacity: 0.5,
+                        minWidth: '1rem',
+                      }}
+                    >
+                      {idx + 1}
+                    </span>
+                    <div style={{ minWidth: 0 }}>
+                      <p
+                        className="font-display text-sm leading-snug"
+                        style={{ fontFamily: 'Instrument Serif, serif', color: 'var(--ink)' }}
+                      >
+                        {mod.title}
+                      </p>
+                      <p className="font-sans" style={{ fontSize: '0.75rem', color: 'var(--ink-2)', marginTop: '0.125rem' }}>
+                        {mod.subtitle}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Tools column */}
+            <div className="mt-8 md:mt-0">
+              <Rule className="mb-8 md:hidden" />
+              <p
+                className="font-sans text-xs font-semibold uppercase tracking-widest mb-4"
+                style={{ color: 'var(--ink-2)' }}
+              >
+                Free tools
+              </p>
+              <ul
+                className="font-sans text-sm flex flex-col gap-2"
+                style={{ color: 'var(--ink-2)', listStyle: 'none', padding: 0, margin: 0 }}
+              >
+                {[
+                  'Take-home pay calculator',
+                  'Pension contribution calculator',
+                  'Loan calculator and comparison',
+                  'Mortgage calculator',
+                  'ETF vs investment trust calculator',
+                  'SUSI eligibility estimator',
+                  'Buy vs rent calculator',
+                  'Irish financial calendar',
+                ].map((tool) => (
+                  <li key={tool} style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+                    <span style={{ color: 'var(--accent)', flexShrink: 0, fontSize: '0.75rem' }}>→</span>
+                    {tool}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-8 pt-6 flex flex-col items-center gap-4" style={{ borderTop: '1px solid var(--rule)' }}>
+            <p className="font-sans text-xs text-center" style={{ color: 'var(--ink-2)', letterSpacing: '0.05em' }}>
+              All free. No bank affiliation. No advice.
+            </p>
+            <Link href="/sign-up">
+              <Button variant="primary">
+                Get started &rarr;
+              </Button>
+            </Link>
+          </div>
+        </div>
 
         {/* News section — only when published articles exist */}
         {latestArticles && latestArticles.length > 0 && (
