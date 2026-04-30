@@ -3,7 +3,13 @@ import { AppShell } from '@/components/layout/AppShell';
 import { Rule } from '@/components/ui/Rule';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { modules } from '@/content/modules/index';
-import type { YearData } from '@/lib/years';
+import type { YearData, YearCallout } from '@/lib/years';
+
+const CALLOUT_STYLES: Record<YearCallout['kind'], { borderColor: string; label: string }> = {
+  info: { borderColor: 'var(--rule)', label: 'Worth knowing' },
+  warning: { borderColor: 'var(--accent)', label: 'Watch out' },
+  tip: { borderColor: 'var(--ink-2)', label: 'Tip' },
+};
 
 type Props = {
   year: YearData;
@@ -200,6 +206,51 @@ export function YearPageContent({ year }: Props) {
           </section>
 
         </div>
+
+        {/* Worth knowing callouts */}
+        {year.callouts && year.callouts.length > 0 && (
+          <>
+            <Rule className="my-10" />
+            <section>
+              <h2
+                className="font-display text-2xl leading-tight mb-5"
+                style={{
+                  fontFamily: 'Instrument Serif, serif',
+                  color: 'var(--ink)',
+                  letterSpacing: '-0.01em',
+                }}
+              >
+                Worth knowing
+              </h2>
+              <div className="flex flex-col gap-3">
+                {year.callouts.map((callout, idx) => {
+                  const style = CALLOUT_STYLES[callout.kind];
+                  return (
+                    <div
+                      key={idx}
+                      style={{
+                        borderLeft: `3px solid ${style.borderColor}`,
+                        paddingLeft: '1rem',
+                        paddingTop: '0.125rem',
+                        paddingBottom: '0.125rem',
+                      }}
+                    >
+                      <p
+                        className="font-sans text-xs font-semibold uppercase tracking-widest mb-1"
+                        style={{ color: 'var(--ink-2)' }}
+                      >
+                        {style.label}
+                      </p>
+                      <p className="font-sans text-sm leading-relaxed" style={{ color: 'var(--ink)' }}>
+                        {callout.text}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          </>
+        )}
 
         {/* Previous / next year navigation */}
         {(prevId ?? nextId) && (
