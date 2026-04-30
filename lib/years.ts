@@ -43,7 +43,7 @@ export const years: YearData[] = [
     ],
     callouts: [
       {
-        kind: 'info',
+        kind: 'tip',
         text: 'SUSI applications open every April. Missing the deadline can cost you a full year of grant support.',
       },
       {
