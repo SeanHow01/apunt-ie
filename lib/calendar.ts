@@ -82,14 +82,14 @@ const RAW_EVENTS: Array<CalendarEvent & { month: number }> = [
 
   // ── February ───────────────────────────────────────────────────────────────
   {
-    id: 'feb-p21',
+    id: 'feb-eds',
     month: 2, day: null,
     dateLabel: 'From February',
-    title: 'Request a P21 / Income Tax Statement',
-    description: 'If you overpaid tax last year, log into myAccount on Revenue.ie and request a P21 review — refunds are usually processed within days.',
+    title: 'Employment Detail Summary available',
+    description: 'Your Employment Detail Summary is now available on Revenue MyAccount. This replaced the old P60 and shows your total earnings and tax paid last year. Download it now — you may need it for SUSI, rent credit claims, or a mortgage application.',
     category: 'tax',
     important: false,
-    externalHref: 'https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/income-and-employment/p21-balancing-statement/index.aspx',
+    externalHref: 'https://www.ros.ie/myaccount-web/sign_in.html',
   },
   {
     id: 'feb-lpt',
@@ -139,7 +139,7 @@ const RAW_EVENTS: Array<CalendarEvent & { month: number }> = [
     month: 4, day: null,
     dateLabel: 'April–May',
     title: 'Prepare for SUSI grant applications',
-    description: 'SUSI opens in May. Start gathering household income documents (2024 tax statements, P60s) for the grant application.',
+    description: 'SUSI opens in May. Start gathering household income documents (Employment Detail Summaries from Revenue MyAccount) for the grant application.',
     category: 'benefits',
     important: false,
     href: '/tools/susi-estimator',
