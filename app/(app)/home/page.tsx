@@ -151,7 +151,7 @@ export default async function HomePage() {
                   fontFamily: 'Instrument Serif, serif',
                 }}
               >
-                This week
+                What&rsquo;s happening
               </h2>
               <div
                 style={{
