@@ -77,6 +77,33 @@
   --ls-display:    -0.03em;
 }
 
+/* ── Dark mode ─────────────────────────────────────────────────────────── */
+/*
+ * Warm OKLCH dark palette. Same hue angle (75) as --bg keeps the
+ * warmth; only lightness shifts. Accent lifts slightly (L 0.60 → 0.65)
+ * to compensate for the darker background.
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Surfaces */
+    --bg:           oklch(0.14 0.008 75);    /* deep warm dark — page background */
+    --paper:        oklch(0.20 0.008 75);    /* lifted dark — cards, panels */
+    --surface:      var(--paper);
+
+    /* Ink */
+    --ink:          oklch(0.94 0.006 75);    /* warm near-white — primary text */
+    --ink-2:        oklch(0.72 0.006 75);    /* secondary text */
+    --ink-3:        oklch(0.52 0.004 75);    /* tertiary text, placeholders */
+
+    /* Rules */
+    --rule:         oklch(0.94 0.006 75 / 0.10);
+
+    /* Accent — lift L slightly so it reads against the dark bg */
+    --accent:       oklch(0.65 0.19 27);
+    --accent-ink:   oklch(0.977 0.008 75);   /* unchanged — light on accent */
+  }
+}
+
 /* ── Tailwind v4 design tokens ─────────────────────────────────────────── */
 @theme inline {
   /* Font stacks */
