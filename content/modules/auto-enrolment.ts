@@ -15,6 +15,10 @@ const autoEnrolment: Module = {
       id: 'your-contribution',
       label: 'Your contribution',
       body: 'You start by contributing 1.5% of your gross pay. This rises gradually over ten years, reaching 6% by 2035. The increases are small and phased — you will not notice a sudden drop in your take-home.',
+      callout: {
+        kind: 'info',
+        text: 'Pension contributions reduce your taxable income through your payslip — but other credits (rent, medical, working from home) only reduce tax when you claim them yourself. Module VIII covers what to claim and how.',
+      },
     },
     {
       id: 'employer-match',

@@ -39,6 +39,10 @@ const payslip: Module = {
       label: 'Net pay',
       body: 'This is what lands in your account. Everything else on the payslip is an explanation of how you got here from gross.',
       highlight: 'net',
+      callout: {
+        kind: 'info',
+        text: "If you've ever been on emergency tax — or if any of the credits on your Tax Credit Certificate look wrong — you may be owed a refund for previous years. The \"Tax you might be owed\" module covers how to check and claim.",
+      },
     },
   ],
   closingLine: 'You now know exactly where your money goes before it reaches you.',
