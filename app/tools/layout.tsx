@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { ToolsThemeWrapper } from './ToolsThemeWrapper';
 
 export const metadata: Metadata = {
   title: 'Tools | Punt',
@@ -8,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ToolsLayout({ children }: { children: React.ReactNode }) {
-  return <ToolsThemeWrapper>{children}</ToolsThemeWrapper>;
+  return <>{children}</>;
 }

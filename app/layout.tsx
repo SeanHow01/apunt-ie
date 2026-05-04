@@ -1,24 +1,10 @@
 import type { Metadata, Viewport } from 'next';
 import {
-  Instrument_Serif,
   Inter,
   Fraunces,
-  DM_Sans,
   DM_Mono,
 } from 'next/font/google';
 import './globals.css';
-
-/*
- * All theme fonts loaded upfront.
- * Acceptable cost for MVP; each theme's display font is available immediately on switch.
- */
-const instrumentSerif = Instrument_Serif({
-  weight: ['400'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  variable: '--font-instrument-serif',
-  display: 'swap',
-});
 
 const inter = Inter({
   weight: ['400', '500', '600'],
@@ -28,17 +14,10 @@ const inter = Inter({
 });
 
 const fraunces = Fraunces({
-  weight: ['400', '600'],
+  weight: ['300', '400', '600', '700'],
   style: ['normal', 'italic'],
   subsets: ['latin'],
   variable: '--font-fraunces',
-  display: 'swap',
-});
-
-const dmSans = DM_Sans({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  variable: '--font-dm-sans',
   display: 'swap',
 });
 
@@ -76,10 +55,8 @@ export default function RootLayout({
     <html
       lang="en"
       className={[
-        instrumentSerif.variable,
         inter.variable,
         fraunces.variable,
-        dmSans.variable,
         dmMono.variable,
       ].join(' ')}
     >

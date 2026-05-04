@@ -6,19 +6,20 @@
  * ThemeProvider overwrites them at runtime via document.documentElement.style.
  */
 :root {
-  --bg: #F5EDD8;
+  /* Punt single-brand palette — hex values preserved here for Phase 1 OKLCH migration */
+  --bg: #FAF7F2;
   --surface: #FFFFFF;
-  --ink: #2A1A14;
-  --ink-2: #4A2C1E;
-  --accent: #B85C38;
-  --accent-ink: #F5EDD8;
-  --rule: rgba(42, 26, 20, 0.15);
-  --shell-bg: linear-gradient(180deg, #2A1A14 0%, #1A0F0B 100%);
+  --ink: #1A1A1A;
+  --ink-2: #3A3A3A;
+  --accent: #E94F37;
+  --accent-ink: #FAF7F2;
+  --rule: rgba(26, 26, 26, 0.15);
+  --shell-bg: linear-gradient(180deg, #1A1A1A 0%, #0A0A0A 100%);
 
-  /* Border radius tokens (overridden by ThemeProvider per theme.radius) */
-  --radius-sm: 0px;
-  --radius-md: 2px;
-  --radius-lg: 4px;
+  /* Border radius tokens */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
 }
 
 /*
@@ -27,7 +28,7 @@
  * This means bg-[var(--bg)] etc. will always reflect the current theme.
  */
 @theme inline {
-  --font-display: var(--font-instrument-serif), serif;
+  --font-display: var(--font-fraunces), serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-dm-mono), ui-monospace, monospace;
 }
@@ -91,13 +92,13 @@ em.font-display {
     display: none !important;
   }
 
-  /* Reset backgrounds — print in light mode regardless of theme */
+  /* Reset backgrounds — print in light mode */
   :root {
     --bg: #ffffff;
     --surface: #ffffff;
     --ink: #1a1a1a;
     --ink-2: #555555;
-    --accent: #b85c38;
+    --accent: #e94f37;
     --rule: rgba(0, 0, 0, 0.15);
   }
 
