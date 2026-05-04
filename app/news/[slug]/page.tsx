@@ -273,7 +273,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
             display: 'flex',
             gap: '1rem',
             flexWrap: 'wrap',
-            marginBottom: '1.5rem',
+            marginBottom: '0.75rem',
           }}
         >
           {article.published_at && (
@@ -287,6 +287,14 @@ export default async function ArticlePage({ params, searchParams }: Props) {
             </span>
           )}
         </div>
+
+        {/* Last reviewed */}
+        <p
+          className="font-mono uppercase"
+          style={{ fontSize: '0.5625rem', letterSpacing: '0.12em', color: 'var(--ink-3)', margin: '0 0 1.5rem' }}
+        >
+          Last reviewed: {formatDate(article.updated_at ?? article.published_at ?? new Date().toISOString())}
+        </p>
 
         <Rule className="mb-6" />
 
@@ -375,6 +383,15 @@ export default async function ArticlePage({ params, searchParams }: Props) {
             border-top: 1px solid var(--rule);
             margin: 2rem 0;
           }
+          .article-body > p:first-of-type::first-letter {
+            font-family: var(--font-fraunces), serif;
+            font-size: 3.5em;
+            line-height: 0.8;
+            float: left;
+            margin-right: 0.075em;
+            margin-top: 0.05em;
+            color: var(--ink);
+          }
         `}</style>
 
         <Rule className="my-10" />
@@ -411,6 +428,40 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                 </Link>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Sources — bottom of article body */}
+        {sources.length > 0 && (
+          <div style={{ marginTop: '2rem', marginBottom: '1.5rem' }}>
+            <p
+              className="font-mono uppercase"
+              style={{ fontSize: '0.5625rem', letterSpacing: '0.18em', color: 'var(--ink-3)', margin: '0 0 0.75rem' }}
+            >
+              SOURCES
+            </p>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+              {sources.map((s, i) => (
+                <li key={i}>
+                  {s.url ? (
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-sans"
+                      style={{ fontSize: '0.8125rem', color: 'var(--accent)', textDecoration: 'underline' }}
+                    >
+                      {s.title || s.publication || s.url}
+                      {s.publication && s.title ? ` — ${s.publication}` : ''}
+                    </a>
+                  ) : (
+                    <span className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)' }}>
+                      {s.title || s.publication}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 
