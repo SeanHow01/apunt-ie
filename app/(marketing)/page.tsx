@@ -145,15 +145,20 @@ export default async function LandingPage() {
     });
   }
 
-  const tools: { label: string; href: string }[] = [
-    { label: 'Take-home pay calculator', href: '/calculator' },
-    { label: 'Loan calculator and comparison', href: '/tools/loan-calculator' },
-    { label: 'Mortgage calculator', href: '/tools/mortgage-calculator' },
-    { label: 'Buy vs rent calculator', href: '/tools/buy-vs-rent' },
-    { label: 'ETF vs investment trust', href: '/tools/etf-calculator' },
-    { label: 'SUSI eligibility estimator', href: '/tools/susi-estimator' },
-    { label: 'Side hustle tax calculator', href: '/tools/side-hustle' },
-    { label: 'Irish financial calendar', href: '/calendar' },
+  const leadTool = {
+    label: 'Take-home pay calculator',
+    subtitle: 'See your real take-home after PAYE, USC, and PRSI — with optional pension.',
+    href: '/calculator',
+  };
+
+  const secondaryTools: { label: string; subtitle: string; href: string }[] = [
+    { label: 'Loan calculator', subtitle: 'Compare APR, total cost, and term across providers.', href: '/tools/loan-calculator' },
+    { label: 'Mortgage calculator', subtitle: 'Estimate repayments and stress-test at higher rates.', href: '/tools/mortgage-calculator' },
+    { label: 'Buy vs rent', subtitle: 'Break-even analysis for Irish property prices.', href: '/tools/buy-vs-rent' },
+    { label: 'ETF vs investment trust', subtitle: 'Model the 8-year deemed disposal and exit tax.', href: '/tools/etf-calculator' },
+    { label: 'SUSI estimator', subtitle: 'Estimate your grant based on reckonable income.', href: '/tools/susi-estimator' },
+    { label: 'Side hustle tax', subtitle: 'Income tax and PRSI on self-employed earnings.', href: '/tools/side-hustle' },
+    { label: 'Financial calendar', subtitle: 'Deadlines, tax dates, and key filing periods.', href: '/calendar' },
   ];
 
   return (
@@ -398,12 +403,92 @@ export default async function LandingPage() {
             Free calculators built for the Irish system. No sign-up required.
           </p>
 
-          {/* Tool cards grid */}
+          {/* Lead card — full width, instrument feel */}
+          <Link href={leadTool.href} style={{ textDecoration: 'none', display: 'block', marginBottom: '0.75rem' }}>
+            <div
+              style={{
+                background: 'var(--paper)',
+                border: '1px solid var(--rule)',
+                borderRadius: 'var(--radius-md)',
+                padding: '1.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1.5rem',
+              }}
+            >
+              <div style={{ minWidth: 0 }}>
+                {/* Mono metadata row */}
+                <p
+                  className="font-mono uppercase"
+                  style={{ fontSize: '0.5625rem', color: 'var(--ink-3)', letterSpacing: '0.14em', marginBottom: '0.5rem' }}
+                >
+                  Updated 2026 · 30 sec · No sign-up
+                </p>
+                {/* Serif title */}
+                <h3
+                  className="font-display"
+                  style={{ fontSize: '1.5rem', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--ink)', margin: '0 0 0.375rem' }}
+                >
+                  {leadTool.label}
+                </h3>
+                {/* Description */}
+                <p className="font-sans" style={{ fontSize: '0.9375rem', color: 'var(--ink-2)', lineHeight: 1.5, margin: 0 }}>
+                  {leadTool.subtitle}
+                </p>
+                {/* Arrow */}
+                <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--accent)', display: 'block', marginTop: '1rem' }}>
+                  Open calculator →
+                </span>
+              </div>
+              {/* Mini ledger preview */}
+              <div
+                aria-hidden="true"
+                style={{
+                  background: 'var(--bg)',
+                  border: '1px solid var(--rule)',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '0.625rem 0.75rem',
+                  flexShrink: 0,
+                  width: '128px',
+                  display: 'none',
+                }}
+                className="sm:block"
+              >
+                {[
+                  { label: 'GROSS', value: '€35,000', accent: false },
+                  { label: 'PAYE', value: '−€5,200', accent: false },
+                  { label: 'USC', value: '−€916', accent: false },
+                  { label: 'PRSI', value: '−€1,435', accent: false },
+                ].map(({ label, value }, i, arr) => (
+                  <div
+                    key={label}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'baseline',
+                      padding: '0.1875rem 0',
+                      borderBottom: i < arr.length - 1 ? '1px solid var(--rule)' : 'none',
+                    }}
+                  >
+                    <span className="font-mono" style={{ fontSize: '0.5625rem', color: 'var(--ink-3)', letterSpacing: '0.06em' }}>{label}</span>
+                    <span className="font-mono" style={{ fontSize: '0.5625rem', color: 'var(--ink-2)' }}>{value}</span>
+                  </div>
+                ))}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingTop: '0.3125rem', marginTop: '0.125rem' }}>
+                  <span className="font-mono" style={{ fontSize: '0.5625rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em' }}>NET</span>
+                  <span className="font-mono" style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--accent)' }}>€27,449</span>
+                </div>
+              </div>
+            </div>
+          </Link>
+
+          {/* Secondary tools grid */}
           <div
             className="grid gap-3"
-            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 290px), 1fr))' }}
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))' }}
           >
-            {tools.map(({ label, href }) => (
+            {secondaryTools.map(({ label, subtitle, href }) => (
               <Link key={label} href={href} style={{ textDecoration: 'none' }}>
                 <div
                   style={{
@@ -412,15 +497,21 @@ export default async function LandingPage() {
                     borderRadius: 'var(--radius-md)',
                     padding: '0.875rem 1rem',
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     justifyContent: 'space-between',
                     gap: '0.75rem',
+                    height: '100%',
                   }}
                 >
-                  <span className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink)', lineHeight: 1.35 }}>
-                    {label}
-                  </span>
-                  <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--accent)', flexShrink: 0 }}>→</span>
+                  <div style={{ minWidth: 0 }}>
+                    <p className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink)', lineHeight: 1.3, margin: '0 0 0.25rem' }}>
+                      {label}
+                    </p>
+                    <p className="font-sans" style={{ fontSize: '0.75rem', color: 'var(--ink-3)', lineHeight: 1.4, margin: 0 }}>
+                      {subtitle}
+                    </p>
+                  </div>
+                  <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--accent)', flexShrink: 0, marginTop: '0.125rem' }}>→</span>
                 </div>
               </Link>
             ))}
