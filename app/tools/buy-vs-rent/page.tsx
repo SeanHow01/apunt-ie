@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Rule } from '@/components/ui/Rule';
-import { Eyebrow } from '@/components/ui/Eyebrow';
 import { formatEuro } from '@/lib/tax';
 import {
   calcBuyVsRent,
@@ -335,7 +334,7 @@ export default function BuyVsRentPage() {
   const buyingWins = buyFinal >= rentFinal;
 
   return (
-    <main className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 py-8 md:py-12">
+    <main className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 py-8 md:py-12">
 
       {/* Back link */}
       <div className="mb-5">
@@ -347,16 +346,21 @@ export default function BuyVsRentPage() {
         </Link>
       </div>
 
-      <div className="mb-1">
-        <Eyebrow>Tool</Eyebrow>
-      </div>
+      {/* Mono eyebrow */}
+      <p
+        className="font-mono uppercase"
+        style={{ fontSize: '0.5625rem', letterSpacing: '0.18em', color: 'var(--ink-3)', margin: '0 0 0.5rem' }}
+      >
+        CALCULATOR · PROPERTY
+      </p>
 
       <h1
+        className="font-display"
         style={{
-          fontSize: 'clamp(2rem, 5vw, 2.75rem)',
+          fontSize: 'clamp(2rem, 5vw, 3rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
-          margin: '0.25rem 0 0.5rem',
+          margin: '0 0 0.5rem',
           color: 'var(--ink)',
         }}
       >

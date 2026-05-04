@@ -7,7 +7,6 @@ import { LoanResults } from '@/components/tools/LoanResults';
 import { AmortisationBars } from '@/components/tools/AmortisationBars';
 import { Button } from '@/components/ui/Button';
 import { Rule } from '@/components/ui/Rule';
-import { Eyebrow } from '@/components/ui/Eyebrow';
 import { calculateLoan } from '@/lib/loans';
 import type { LenderType } from '@/lib/loans';
 import { createClient } from '@/lib/supabase/client';
@@ -63,7 +62,7 @@ export default function LoanCalculatorPage() {
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 py-8 md:py-12">
+    <main className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 py-8 md:py-12">
       {/* Back link */}
       <div className="mb-5">
         <Link
@@ -78,19 +77,22 @@ export default function LoanCalculatorPage() {
         </Link>
       </div>
 
-      {/* Eyebrow */}
-      <div className="mb-1">
-        <Eyebrow>Tool</Eyebrow>
-      </div>
+      {/* Mono eyebrow */}
+      <p
+        className="font-mono uppercase"
+        style={{ fontSize: '0.5625rem', letterSpacing: '0.18em', color: 'var(--ink-3)', margin: '0 0 0.5rem' }}
+      >
+        CALCULATOR · LOANS
+      </p>
 
       {/* Heading */}
       <h1
+        className="font-display"
         style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(2rem, 5vw, 2.75rem)',
+          fontSize: 'clamp(2rem, 5vw, 3rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
-          margin: '0.25rem 0 0.5rem',
+          margin: '0 0 0.5rem',
           color: 'var(--ink)',
         }}
       >
@@ -292,9 +294,35 @@ export default function LoanCalculatorPage() {
             className="lg:col-span-7 p-6 lg:p-8"
             style={{ borderTop: '1px solid var(--rule)' }}
           >
-            <LoanResults output={output} principalCents={amountCents} />
-            <div style={{ marginTop: '1.5rem' }}>
-              <AmortisationBars breakdown={output.breakdown} termMonths={termMonths} />
+            {/* Receipt wrapper */}
+            <div
+              style={{
+                background: 'var(--paper)',
+                border: '1px solid var(--rule)',
+                borderRadius: 'var(--radius-sm)',
+                overflow: 'hidden',
+              }}
+            >
+              {/* Receipt header */}
+              <div
+                style={{
+                  padding: '0.625rem 1rem',
+                  borderBottom: '1px solid var(--rule)',
+                }}
+              >
+                <p
+                  className="font-mono uppercase"
+                  style={{ fontSize: '0.5625rem', letterSpacing: '0.18em', color: 'var(--ink-3)', margin: 0 }}
+                >
+                  CALCULATION RESULT
+                </p>
+              </div>
+              <div style={{ padding: '1.25rem 1rem' }}>
+                <LoanResults output={output} principalCents={amountCents} />
+                <div style={{ marginTop: '1.5rem' }}>
+                  <AmortisationBars breakdown={output.breakdown} termMonths={termMonths} />
+                </div>
+              </div>
             </div>
           </div>
 

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Rule } from '@/components/ui/Rule';
-import { Eyebrow } from '@/components/ui/Eyebrow';
 import { formatEuro } from '@/lib/tax';
 import { createClient } from '@/lib/supabase/client';
 
@@ -141,7 +140,7 @@ export default function MortgageCalculatorPage() {
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 py-8 md:py-12">
+    <main className="max-w-4xl mx-auto px-4 md:px-8 lg:px-12 py-8 md:py-12">
       {/* Back link */}
       <div className="mb-5">
         <Link href="/home" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', textDecoration: 'none' }}>
@@ -149,17 +148,21 @@ export default function MortgageCalculatorPage() {
         </Link>
       </div>
 
-      <div className="mb-1">
-        <Eyebrow>Tool</Eyebrow>
-      </div>
+      {/* Mono eyebrow */}
+      <p
+        className="font-mono uppercase"
+        style={{ fontSize: '0.5625rem', letterSpacing: '0.18em', color: 'var(--ink-3)', margin: '0 0 0.5rem' }}
+      >
+        CALCULATOR · MORTGAGES
+      </p>
 
       <h1
+        className="font-display"
         style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(2rem, 5vw, 2.75rem)',
+          fontSize: 'clamp(2rem, 5vw, 3rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
-          margin: '0.25rem 0 0.5rem',
+          margin: '0 0 0.5rem',
           color: 'var(--ink)',
         }}
       >
