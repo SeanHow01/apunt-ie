@@ -39,6 +39,7 @@ const toolGroups: ToolGroup[] = [
       { href: '/tools/rpz-checker', label: 'RPZ checker' },
       { href: '/tools/payslip-checker', label: 'Payslip checker' },
       { href: '/tools/side-hustle', label: 'Side hustle tax' },
+      { href: '/tools/refund-checker', label: 'Refund checker' },
     ],
   },
 ];
