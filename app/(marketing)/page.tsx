@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/Button';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { createClient } from '@/lib/supabase/server';
 import { modules } from '@/content/modules/index';
+import { Spell } from '@/lib/copy';
 
 export const revalidate = 300;
 
@@ -280,7 +281,7 @@ export default async function LandingPage() {
                 className="font-mono uppercase"
                 style={{ fontSize: '0.6875rem', color: 'var(--ink-3)', letterSpacing: '0.15em', marginBottom: '1rem', fontWeight: 600 }}
               >
-                {modules.length} modules
+                {Spell(modules.length)} modules
               </p>
               <div>
                 {modules.map((mod, idx) => (

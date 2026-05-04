@@ -26,3 +26,25 @@ export function getGreeting(firstName: string | null, hour?: number): string {
 
 export const fireupExplainer =
   'FiRe Up is a free financial wellbeing course provided by MABS (Money Advice and Budgeting Service) and Atlantic Technological University. It takes about 90 minutes and covers budgeting, debt, and planning ahead. Punt is independent.';
+
+/* ── Number spelling ────────────────────────────────────────────────────── */
+
+const SPELL_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+
+/**
+ * Spell out integers 0–10 as words; return the numeral string for anything
+ * outside that range. Use in editorial body copy — not in data tables,
+ * calculators, or monospaced metadata (dates, "1 of 6", durations).
+ *
+ *   spell(8)  → "eight"
+ *   spell(12) → "12"
+ */
+export function spell(n: number): string {
+  return n >= 0 && n <= 10 ? SPELL_WORDS[n] : String(n);
+}
+
+/** spell(n) with the first letter capitalised. */
+export function Spell(n: number): string {
+  const s = spell(n);
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
