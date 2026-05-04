@@ -1,39 +1,112 @@
 @import "tailwindcss";
 
 /*
- * Craic — CSS variable theming system.
- * These default values are for the 'craic' theme.
- * ThemeProvider overwrites them at runtime via document.documentElement.style.
+ * Punt — design system foundations.
+ * Single brand identity. Colors in OKLCH. Type scale paired with leading + tracking.
+ */
+
+/* ── Color palette ─────────────────────────────────────────────────────── */
+/*
+ * All accents share L=0.60, C=0.19; only hue varies. This keeps
+ * any future accent additions perceptually equal to the primary.
+ *
+ * Hex reference (for tooling / devtools):
+ *   --bg          #FAF7F2   --ink       #1A1A1A
+ *   --accent      #E94F37   --ink-2     #3A3A3A
  */
 :root {
-  /* Punt single-brand palette — hex values preserved here for Phase 1 OKLCH migration */
-  --bg: #FAF7F2;
-  --surface: #FFFFFF;
-  --ink: #1A1A1A;
-  --ink-2: #3A3A3A;
-  --accent: #E94F37;
-  --accent-ink: #FAF7F2;
-  --rule: rgba(26, 26, 26, 0.15);
-  --shell-bg: linear-gradient(180deg, #1A1A1A 0%, #0A0A0A 100%);
+  /* Surfaces */
+  --bg:           oklch(0.977 0.008 75);    /* warm off-white, page background */
+  --paper:        oklch(1 0 0);             /* white — cards, panels */
+  --surface:      var(--paper);             /* backward-compat alias */
 
-  /* Border radius tokens */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  /* Ink (type + UI) */
+  --ink:          oklch(0.20 0 0);          /* near-black — primary text */
+  --ink-2:        oklch(0.34 0 0);          /* secondary text, captions */
+  --ink-3:        oklch(0.52 0 0);          /* tertiary text, placeholders */
+
+  /* Rules and dividers */
+  --rule:         oklch(0.20 0 0 / 0.12);   /* subtle borders */
+
+  /* Accents — same L=0.60 C=0.19, hue only varies */
+  --accent:       oklch(0.60 0.19 27);      /* red-orange — primary action */
+  --accent-2:     oklch(0.60 0.19 207);     /* teal — secondary (reserved) */
+  --accent-ink:   oklch(0.977 0.008 75);    /* text on accent background */
+
+  /* Shell */
+  --shell-bg:     linear-gradient(180deg, oklch(0.20 0 0) 0%, oklch(0.12 0 0) 100%);
+
+  /* Border radius */
+  --radius-sm:    4px;
+  --radius-md:    8px;
+  --radius-lg:    12px;
 }
 
+/* ── Type scale ────────────────────────────────────────────────────────── */
 /*
- * Map CSS vars to Tailwind v4 @theme tokens.
- * Using `inline` so Tailwind references the runtime CSS var, not a static value.
- * This means bg-[var(--bg)] etc. will always reflect the current theme.
+ * Five steps. Paired line-heights (--lh-*) and letter-spacing (--ls-*).
+ * Sizes are wired into Tailwind text-* utilities via @theme inline below.
+ * Use leading and tracking values directly: line-height: var(--lh-body) etc.
+ *
+ *  label   12px / 1.4  / +0.08em  — eyebrows, metadata, mono labels
+ *  body    16px / 1.65 / 0        — body copy, UI text
+ *  lead    19px / 1.45 / -0.01em  — subtitles, lead paragraphs
+ *  heading 30px / 1.15 / -0.02em  — section headings (H2/H3)
+ *  display 52px / 1.05 / -0.03em  — page titles (H1), hero copy
  */
-@theme inline {
-  --font-display: var(--font-fraunces), serif;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-dm-mono), ui-monospace, monospace;
+:root {
+  /* Sizes */
+  --step-label:    0.75rem;      /* 12px */
+  --step-body:     1rem;         /* 16px */
+  --step-lead:     1.1875rem;    /* 19px */
+  --step-heading:  1.875rem;     /* 30px */
+  --step-display:  3.25rem;      /* 52px */
+
+  /* Line heights */
+  --lh-label:      1.4;
+  --lh-body:       1.65;
+  --lh-lead:       1.45;
+  --lh-heading:    1.15;
+  --lh-display:    1.05;
+
+  /* Letter spacing */
+  --ls-label:      0.08em;
+  --ls-body:       0em;
+  --ls-lead:       -0.01em;
+  --ls-heading:    -0.02em;
+  --ls-display:    -0.03em;
 }
 
-/* Global resets and base styles */
+/* ── Tailwind v4 design tokens ─────────────────────────────────────────── */
+@theme inline {
+  /* Font stacks */
+  --font-display:    var(--font-fraunces), serif;
+  --font-sans:       var(--font-inter), system-ui, sans-serif;
+  --font-mono:       var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  /* Type scale → text-label / text-body / text-lead / text-heading / text-display */
+  --text-label:      var(--step-label);
+  --text-body:       var(--step-body);
+  --text-lead:       var(--step-lead);
+  --text-heading:    var(--step-heading);
+  --text-display:    var(--step-display);
+
+  /* Line heights → leading-label / leading-body / etc. */
+  --leading-label:   var(--lh-label);
+  --leading-body:    var(--lh-body);
+  --leading-lead:    var(--lh-lead);
+  --leading-heading: var(--lh-heading);
+  --leading-display: var(--lh-display);
+
+  /* Letter spacing → tracking-label / tracking-body / etc. */
+  --tracking-label:   var(--ls-label);
+  --tracking-body:    var(--ls-body);
+  --tracking-lead:    var(--ls-lead);
+  --tracking-heading: var(--ls-heading);
+  --tracking-display: var(--ls-display);
+}
+
+/* ── Global resets ─────────────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -51,17 +124,66 @@ body {
   background-color: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
-  line-height: 1.6;
+  font-size: var(--step-body);
+  line-height: var(--lh-body);
   margin: 0;
 }
 
-/* Focus ring using accent colour for accessibility */
+/* ── Focus ring ────────────────────────────────────────────────────────── */
+/*
+ * Base rule: every interactive element gets a visible focus ring.
+ * .focus-ring is an opt-in utility for bespoke components that manage
+ * their own focus appearance but want the standard ring on keyboard nav.
+ */
 :focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
-/* Respect reduced motion */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Skip link ─────────────────────────────────────────────────────────── */
+/*
+ * Visually hidden until focused. Target: <main id="main-content">.
+ * Progressive: pages that add the id get free skip behaviour.
+ */
+.skip-link {
+  position: absolute;
+  left: -100%;
+  top: 0.5rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background-color: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-sans);
+  font-size: var(--step-body);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.skip-link:focus {
+  left: 0.5rem;
+}
+
+/* ── Display font italic emphasis ──────────────────────────────────────── */
+.font-display em,
+em.font-display {
+  font-style: italic;
+}
+
+/* ── Tabular numbers for financial data ────────────────────────────────── */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -72,34 +194,24 @@ body {
   }
 }
 
-/* Instrument Serif italic emphasis */
-.font-display em,
-em.font-display {
-  font-style: italic;
-}
-
-/* Tabular numbers for financial data */
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
-}
-
-/* ── Print styles ────────────────────────────────────────────────────────── */
+/* ── Print styles ──────────────────────────────────────────────────────── */
 @media print {
-  /* Hide navigation, sidebars, and interactive elements */
   aside,
   nav,
   .print\:hidden {
     display: none !important;
   }
 
-  /* Reset backgrounds — print in light mode */
+  /* Print in light mode — use sRGB fallbacks for broadest printer support */
   :root {
-    --bg: #ffffff;
+    --bg:      #ffffff;
+    --paper:   #ffffff;
     --surface: #ffffff;
-    --ink: #1a1a1a;
-    --ink-2: #555555;
-    --accent: #e94f37;
-    --rule: rgba(0, 0, 0, 0.15);
+    --ink:     #1a1a1a;
+    --ink-2:   #555555;
+    --ink-3:   #888888;
+    --accent:  oklch(0.60 0.19 27);
+    --rule:    rgba(0, 0, 0, 0.15);
   }
 
   body {
@@ -109,24 +221,20 @@ em.font-display {
     line-height: 1.5;
   }
 
-  /* Full-width layout when printing (no sidebar offset) */
   .md\:ml-56 {
     margin-left: 0 !important;
   }
 
-  /* Avoid breaking events across pages */
   section {
     break-inside: avoid;
   }
 
-  /* Show URLs after external links */
   a[href^="http"]::after {
     content: ' (' attr(href) ')';
     font-size: 8pt;
     color: #555;
   }
 
-  /* Suppress URL display for internal nav links */
   a[href^="/"]::after {
     content: none;
   }

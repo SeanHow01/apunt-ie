@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import {
   Inter,
   Fraunces,
-  DM_Mono,
+  JetBrains_Mono,
 } from 'next/font/google';
 import './globals.css';
 
@@ -21,10 +21,10 @@ const fraunces = Fraunces({
   display: 'swap',
 });
 
-const dmMono = DM_Mono({
+const jetbrainsMono = JetBrains_Mono({
   weight: ['400', '500'],
   subsets: ['latin'],
-  variable: '--font-dm-mono',
+  variable: '--font-jetbrains-mono',
   display: 'swap',
 });
 
@@ -57,10 +57,15 @@ export default function RootLayout({
       className={[
         inter.variable,
         fraunces.variable,
-        dmMono.variable,
+        jetbrainsMono.variable,
       ].join(' ')}
     >
-      <body>{children}</body>
+      <body>
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        {children}
+      </body>
     </html>
   );
 }
