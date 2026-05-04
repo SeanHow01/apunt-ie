@@ -126,6 +126,40 @@ function SectionMarker({ n, label }: { n: string; label: string }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
+ * ToolCard
+ * Secondary tool pill: label, subtitle, arrow.
+ * ─────────────────────────────────────────────────────────────────────────*/
+function ToolCard({ label, subtitle, href }: { label: string; subtitle: string; href: string }) {
+  return (
+    <Link href={href} style={{ textDecoration: 'none' }}>
+      <div
+        style={{
+          background: 'var(--paper)',
+          border: '1px solid var(--rule)',
+          borderRadius: 'var(--radius-md)',
+          padding: '0.875rem 1rem',
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: '0.75rem',
+          height: '100%',
+        }}
+      >
+        <div style={{ minWidth: 0 }}>
+          <p className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink)', lineHeight: 1.3, margin: '0 0 0.25rem' }}>
+            {label}
+          </p>
+          <p className="font-sans" style={{ fontSize: '0.75rem', color: 'var(--ink-3)', lineHeight: 1.4, margin: 0 }}>
+            {subtitle}
+          </p>
+        </div>
+        <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--accent)', flexShrink: 0, marginTop: '0.125rem' }}>→</span>
+      </div>
+    </Link>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
  * Page
  * ─────────────────────────────────────────────────────────────────────────*/
 export default async function LandingPage() {
@@ -379,15 +413,15 @@ export default async function LandingPage() {
           SECTION 02 — TOOLS — airy, bg color (full-bleed feel)
           ═══════════════════════════════════════════════════════════════════ */}
       <section style={{ backgroundColor: 'var(--bg)', borderBottom: '1px solid var(--rule)' }}>
-        <div className="mx-auto px-6 py-16 lg:py-24" style={{ maxWidth: '1280px' }}>
+        <div className="mx-auto px-6 py-20 lg:py-32" style={{ maxWidth: '1280px' }}>
 
           <SectionMarker n="02" label="Calculate" />
 
           <h2
             className="font-display"
             style={{
-              fontSize: 'clamp(1.5rem, 4vw, 2.375rem)',
-              lineHeight: 1.1,
+              fontSize: 'clamp(1.75rem, 5vw, 3rem)',
+              lineHeight: 1.05,
               letterSpacing: '-0.02em',
               color: 'var(--ink)',
               margin: '0 0 0.75rem',
@@ -397,8 +431,15 @@ export default async function LandingPage() {
             Run the numbers yourself.
           </h2>
           <p
-            className="font-sans"
-            style={{ fontSize: '1rem', color: 'var(--ink-2)', margin: '0 0 2.5rem', maxWidth: '48ch', lineHeight: 1.65 }}
+            className="font-display"
+            style={{
+              fontSize: 'var(--step-lead)',
+              fontStyle: 'italic',
+              lineHeight: 'var(--lh-lead)',
+              color: 'var(--ink-2)',
+              margin: '0 0 2.75rem',
+              maxWidth: '44ch',
+            }}
           >
             Free calculators built for the Irish system. No sign-up required.
           </p>
@@ -483,38 +524,42 @@ export default async function LandingPage() {
             </div>
           </Link>
 
-          {/* Secondary tools grid */}
+          {/* Secondary tools — top 4 above fold */}
+          <div
+            className="grid gap-3"
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))', marginBottom: '0.75rem' }}
+          >
+            {secondaryTools.slice(0, 4).map(({ label, subtitle, href }) => (
+              <ToolCard key={label} label={label} subtitle={subtitle} href={href} />
+            ))}
+          </div>
+
+          {/* Bottom 3 + "See all" */}
           <div
             className="grid gap-3"
             style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))' }}
           >
-            {secondaryTools.map(({ label, subtitle, href }) => (
-              <Link key={label} href={href} style={{ textDecoration: 'none' }}>
-                <div
-                  style={{
-                    background: 'var(--paper)',
-                    border: '1px solid var(--rule)',
-                    borderRadius: 'var(--radius-md)',
-                    padding: '0.875rem 1rem',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    justifyContent: 'space-between',
-                    gap: '0.75rem',
-                    height: '100%',
-                  }}
-                >
-                  <div style={{ minWidth: 0 }}>
-                    <p className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink)', lineHeight: 1.3, margin: '0 0 0.25rem' }}>
-                      {label}
-                    </p>
-                    <p className="font-sans" style={{ fontSize: '0.75rem', color: 'var(--ink-3)', lineHeight: 1.4, margin: 0 }}>
-                      {subtitle}
-                    </p>
-                  </div>
-                  <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--accent)', flexShrink: 0, marginTop: '0.125rem' }}>→</span>
-                </div>
-              </Link>
+            {secondaryTools.slice(4).map(({ label, subtitle, href }) => (
+              <ToolCard key={label} label={label} subtitle={subtitle} href={href} />
             ))}
+            <Link href="/tools" style={{ textDecoration: 'none' }}>
+              <div
+                style={{
+                  border: '1px dashed var(--rule)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '0.875rem 1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  height: '100%',
+                }}
+              >
+                <span className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink-2)', lineHeight: 1.3 }}>
+                  See all {Spell(secondaryTools.length + 1).toLowerCase()} calculators
+                </span>
+                <span className="font-mono" style={{ fontSize: '0.75rem', color: 'var(--accent)', flexShrink: 0 }}>→</span>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
