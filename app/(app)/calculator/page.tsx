@@ -183,7 +183,6 @@ export default function CalculatorPage() {
             style={{
               color: 'var(--ink)',
               letterSpacing: '-0.02em',
-              fontFamily: 'Instrument Serif, serif',
             }}
           >
             Take-home pay calculator
@@ -220,7 +219,6 @@ export default function CalculatorPage() {
                 <p
                   className="font-display text-3xl mb-3 tabular-nums"
                   style={{
-                    fontFamily: 'Instrument Serif, serif',
                     color: 'var(--ink)',
                     letterSpacing: '-0.02em',
                   }}
@@ -557,7 +555,6 @@ export default function CalculatorPage() {
                 <p
                   className="font-display text-5xl lg:text-7xl leading-none"
                   style={{
-                    fontFamily: 'Instrument Serif, serif',
                     color: 'var(--ink)',
                     letterSpacing: '-0.02em',
                   }}
@@ -582,7 +579,6 @@ export default function CalculatorPage() {
                 <p
                   className="font-display text-2xl leading-none"
                   style={{
-                    fontFamily: 'Instrument Serif, serif',
                     color: 'var(--ink)',
                     letterSpacing: '-0.02em',
                   }}

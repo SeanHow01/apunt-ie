@@ -67,7 +67,6 @@ export function Sidebar() {
             className="font-display italic text-2xl"
             style={{
               color: 'var(--accent)',
-              fontFamily: 'Instrument Serif, serif',
               letterSpacing: '-0.02em',
             }}
           >

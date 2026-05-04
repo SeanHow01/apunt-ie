@@ -102,7 +102,6 @@ export default function PayslipCheckerPage() {
 
       <h1
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontSize: 'clamp(2rem, 5vw, 2.75rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
@@ -115,7 +114,6 @@ export default function PayslipCheckerPage() {
 
       <p
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontStyle: 'italic',
           fontSize: '1.125rem',
           color: 'var(--ink-2)',

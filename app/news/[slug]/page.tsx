@@ -257,7 +257,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         <h1
           className="font-display"
           style={{
-            fontFamily: 'Instrument Serif, serif',
             fontSize: 'clamp(1.75rem, 5vw, 2.5rem)',
             letterSpacing: '-0.02em',
             lineHeight: 1.1,
@@ -327,7 +326,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         {/* Inline styles for article body prose */}
         <style>{`
           .article-body h2 {
-            font-family: Instrument Serif, serif;
+            font-family: var(--font-fraunces), serif;
             font-size: 1.375rem;
             line-height: 1.25;
             letter-spacing: -0.01em;
@@ -335,7 +334,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
             margin: 2rem 0 0.75rem;
           }
           .article-body h3 {
-            font-family: Instrument Serif, serif;
+            font-family: var(--font-fraunces), serif;
             font-size: 1.125rem;
             line-height: 1.3;
             color: var(--ink);
@@ -386,7 +385,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
             <h2
               className="font-display"
               style={{
-                fontFamily: 'Instrument Serif, serif',
                 fontSize: '1.25rem',
                 color: 'var(--ink)',
                 margin: '0 0 0.375rem',
@@ -490,7 +488,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
                   <span
                     className="font-display"
                     style={{
-                      fontFamily: 'Instrument Serif, serif',
                       fontSize: '1rem',
                       lineHeight: 1.3,
                       color: 'var(--ink)',
@@ -543,7 +540,6 @@ export default async function ArticlePage({ params, searchParams }: Props) {
             <h3
               className="font-display"
               style={{
-                fontFamily: 'Instrument Serif, serif',
                 fontSize: '1.25rem',
                 lineHeight: 1.25,
                 color: 'var(--ink)',

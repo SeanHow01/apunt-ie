@@ -1,8 +1,8 @@
 /**
  * Generates public/icon-192.png and public/icon-512.png for the PWA manifest.
  *
- * Design: lowercase italic "c" in Instrument Serif, centred on the Craic
- * default theme's cream background (#F5EDD8) with burnt-orange accent (#B85C38).
+ * Design: lowercase italic "c" in Fraunces, centred on the Punt
+ * brand background (oklch 0.977 0.008 75) with accent (oklch 0.60 0.19 27).
  *
  * Run with:
  *   pnpm tsx scripts/generate-icons.ts

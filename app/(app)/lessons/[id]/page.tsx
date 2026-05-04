@@ -77,7 +77,6 @@ export default function LessonPage({ params }: Props) {
         >
           <h1
             className="font-display text-3xl mb-4"
-            style={{ fontFamily: 'Instrument Serif, serif' }}
           >
             Lesson not found
           </h1>
@@ -159,7 +158,6 @@ export default function LessonPage({ params }: Props) {
               style={{
                 color: 'var(--ink)',
                 letterSpacing: '-0.02em',
-                fontFamily: 'Instrument Serif, serif',
               }}
             >
               {module.closingLine}

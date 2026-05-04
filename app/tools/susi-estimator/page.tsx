@@ -47,7 +47,6 @@ export default function SUSIEstimatorPage() {
 
       <h1
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontSize: 'clamp(2rem, 5vw, 2.75rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
@@ -60,7 +59,6 @@ export default function SUSIEstimatorPage() {
 
       <p
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontStyle: 'italic',
           fontSize: '1.125rem',
           color: 'var(--ink-2)',
@@ -292,7 +290,6 @@ export default function SUSIEstimatorPage() {
                   <p
                     className="font-display tabular-nums leading-none"
                     style={{
-                      fontFamily: 'Instrument Serif, serif',
                       fontSize: 'clamp(2rem, 5vw, 3rem)',
                       color: 'var(--ink)',
                       letterSpacing: '-0.02em',

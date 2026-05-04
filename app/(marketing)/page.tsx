@@ -45,7 +45,6 @@ export default async function LandingPage() {
             style={{
               color: 'var(--ink)',
               letterSpacing: '-0.02em',
-              fontFamily: 'Instrument Serif, serif',
             }}
           >
             Irish finance, in plain English.
@@ -94,7 +93,6 @@ export default async function LandingPage() {
           <h2
             className="font-display mb-8"
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: 'clamp(1.375rem, 4vw, 1.75rem)',
               letterSpacing: '-0.01em',
               lineHeight: 1.15,
@@ -130,7 +128,6 @@ export default async function LandingPage() {
                     <span
                       className="font-display italic flex-shrink-0"
                       style={{
-                        fontFamily: 'Instrument Serif, serif',
                         fontSize: '0.875rem',
                         color: 'var(--accent)',
                         opacity: 0.5,
@@ -142,7 +139,7 @@ export default async function LandingPage() {
                     <div style={{ minWidth: 0 }}>
                       <p
                         className="font-display text-sm leading-snug"
-                        style={{ fontFamily: 'Instrument Serif, serif', color: 'var(--ink)' }}
+                        style={{ color: 'var(--ink)' }}
                       >
                         {mod.title}
                       </p>
@@ -218,7 +215,6 @@ export default async function LandingPage() {
                 <h2
                   className="font-display"
                   style={{
-                    fontFamily: 'Instrument Serif, serif',
                     fontSize: 'clamp(1.375rem, 4vw, 1.75rem)',
                     letterSpacing: '-0.01em',
                     lineHeight: 1.15,
@@ -261,7 +257,6 @@ export default async function LandingPage() {
                       <h3
                         className="font-display"
                         style={{
-                          fontFamily: 'Instrument Serif, serif',
                           fontSize: '1.0625rem',
                           lineHeight: 1.3,
                           color: 'var(--ink)',

@@ -135,7 +135,6 @@ export function ConfidenceSurvey({ userId, moduleId, moduleName }: Props) {
             <span
               className="font-display"
               style={{
-                fontFamily: 'Instrument Serif, serif',
                 fontSize: '1.25rem',
                 lineHeight: 1,
                 color: 'inherit',

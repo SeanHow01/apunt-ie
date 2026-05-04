@@ -140,7 +140,6 @@ export default function MethodologyPage() {
 
       <h1
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontSize: 'clamp(2rem, 5vw, 2.75rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
@@ -169,7 +168,6 @@ export default function MethodologyPage() {
           <section key={idx}>
             <h2
               style={{
-                fontFamily: 'Instrument Serif, serif',
                 fontSize: '1.5rem',
                 letterSpacing: '-0.01em',
                 lineHeight: 1.2,

@@ -34,7 +34,6 @@ export function MonthlyActionsTile() {
       >
         <h2
           style={{
-            fontFamily: 'Instrument Serif, serif',
             fontSize: '1.125rem',
             lineHeight: 1.2,
             color: 'var(--ink)',

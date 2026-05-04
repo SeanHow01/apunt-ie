@@ -361,7 +361,6 @@ export function ArticleEditForm({ article }: { article: Article }) {
         >
           <h1
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '2.25rem',
               fontWeight: 400,
               color: 'var(--ink)',

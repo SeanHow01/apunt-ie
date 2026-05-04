@@ -13,7 +13,6 @@ export default function ContactPage() {
 
       <h1
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontSize: 'clamp(2rem, 5vw, 2.75rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,

@@ -86,7 +86,6 @@ export default function SignInPage() {
           style={{
             color: 'var(--ink)',
             letterSpacing: '-0.02em',
-            fontFamily: 'Instrument Serif, serif',
           }}
         >
           Sign in

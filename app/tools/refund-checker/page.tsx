@@ -149,7 +149,6 @@ function ResultCard({ item }: { item: ResultItem }) {
     >
       <h3
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontSize: '1.0625rem',
           lineHeight: 1.3,
           color: 'var(--ink)',
@@ -236,7 +235,6 @@ export default function RefundCheckerPage() {
 
       <h1
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontSize: 'clamp(2rem, 5vw, 2.75rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
@@ -249,7 +247,6 @@ export default function RefundCheckerPage() {
 
       <p
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontStyle: 'italic',
           fontSize: '1.125rem',
           color: 'var(--ink-2)',
@@ -289,7 +286,6 @@ export default function RefundCheckerPage() {
           </p>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.25rem',
               lineHeight: 1.25,
               color: 'var(--ink)',
@@ -322,7 +318,6 @@ export default function RefundCheckerPage() {
             </p>
             <h2
               style={{
-                fontFamily: 'Instrument Serif, serif',
                 fontSize: '1.25rem',
                 lineHeight: 1.25,
                 color: 'var(--ink)',
@@ -356,7 +351,6 @@ export default function RefundCheckerPage() {
           </p>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.25rem',
               lineHeight: 1.25,
               color: 'var(--ink)',
@@ -390,7 +384,6 @@ export default function RefundCheckerPage() {
           </p>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.25rem',
               lineHeight: 1.25,
               color: 'var(--ink)',
@@ -427,7 +420,6 @@ export default function RefundCheckerPage() {
           </p>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.25rem',
               lineHeight: 1.25,
               color: 'var(--ink)',
@@ -460,7 +452,6 @@ export default function RefundCheckerPage() {
           </p>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.25rem',
               lineHeight: 1.25,
               color: 'var(--ink)',
@@ -526,7 +517,6 @@ export default function RefundCheckerPage() {
 
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.75rem',
               letterSpacing: '-0.01em',
               color: 'var(--ink)',

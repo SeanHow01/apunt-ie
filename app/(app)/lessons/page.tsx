@@ -60,7 +60,6 @@ export default async function LessonsPage() {
             style={{
               color: 'var(--ink)',
               letterSpacing: '-0.02em',
-              fontFamily: 'Instrument Serif, serif',
             }}
           >
             All lessons

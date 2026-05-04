@@ -143,7 +143,6 @@ export function NewsCategoryFilter({ articles, categories }: Props) {
                   <h2
                     className="font-display"
                     style={{
-                      fontFamily: 'Instrument Serif, serif',
                       fontSize: 'clamp(1.125rem, 3vw, 1.375rem)',
                       lineHeight: 1.25,
                       color: 'var(--ink)',

@@ -353,7 +353,6 @@ export default function BuyVsRentPage() {
 
       <h1
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontSize: 'clamp(2rem, 5vw, 2.75rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
@@ -366,7 +365,6 @@ export default function BuyVsRentPage() {
 
       <p
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontStyle: 'italic',
           fontSize: '1.125rem',
           color: 'var(--ink-2)',
@@ -570,7 +568,6 @@ export default function BuyVsRentPage() {
                 <p
                   className="font-display tabular-nums leading-none mb-0.5"
                   style={{
-                    fontFamily: 'Instrument Serif, serif',
                     fontSize: 'clamp(1.5rem, 3.5vw, 2rem)',
                     color: 'var(--ink)',
                     letterSpacing: '-0.02em',
@@ -629,7 +626,6 @@ export default function BuyVsRentPage() {
                 <p
                   className="font-display tabular-nums leading-none mb-0.5"
                   style={{
-                    fontFamily: 'Instrument Serif, serif',
                     fontSize: 'clamp(1.5rem, 3.5vw, 2rem)',
                     color: 'var(--ink)',
                     letterSpacing: '-0.02em',

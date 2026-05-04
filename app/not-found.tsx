@@ -23,7 +23,6 @@ export default async function NotFound() {
               className="font-display italic text-2xl"
               style={{
                 color: 'var(--accent)',
-                fontFamily: 'Instrument Serif, serif',
                 letterSpacing: '-0.02em',
               }}
             >
@@ -45,7 +44,6 @@ export default async function NotFound() {
           style={{
             color: 'var(--ink)',
             letterSpacing: '-0.02em',
-            fontFamily: 'Instrument Serif, serif',
           }}
         >
           We can&rsquo;t find that page.

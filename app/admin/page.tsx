@@ -61,7 +61,6 @@ export default async function AdminDashboardPage() {
         <h1
           className="font-display"
           style={{
-            fontFamily: 'Instrument Serif, serif',
             fontSize: '2.25rem',
             fontWeight: 400,
             color: 'var(--ink)',

@@ -75,7 +75,6 @@ export default function FireUpPage() {
           style={{
             color: 'var(--ink)',
             letterSpacing: '-0.02em',
-            fontFamily: 'Instrument Serif, serif',
           }}
         >
           FiRe Up Financial Wellbeing
@@ -220,7 +219,6 @@ export default function FireUpPage() {
               className="font-display text-2xl leading-snug mb-4"
               style={{
                 color: 'var(--ink)',
-                fontFamily: 'Instrument Serif, serif',
                 letterSpacing: '-0.02em',
               }}
             >

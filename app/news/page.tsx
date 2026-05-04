@@ -30,7 +30,6 @@ export default async function NewsPage() {
           <h1
             className="font-display"
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: 'clamp(2rem, 5vw, 2.75rem)',
               letterSpacing: '-0.02em',
               lineHeight: 1.1,
@@ -43,7 +42,6 @@ export default async function NewsPage() {
           <p
             className="font-display italic"
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.125rem',
               color: 'var(--ink-2)',
               margin: 0,

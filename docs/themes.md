@@ -83,7 +83,7 @@ Components use `style={{ color: 'var(--ink)' }}` for colour (most reliable with 
 | ink | `#2A1A14` — deep brown-black |
 | ink-2 | `#4A2C1E` — softer brown |
 | accent | `#B85C38` — burnt orange |
-| Display font | Instrument Serif |
+| Display font | Fraunces |
 | Body font | Inter |
 | Radius | Sharp (0/2/4px) |
 | Numerals | Roman (i, ii, iii...) |

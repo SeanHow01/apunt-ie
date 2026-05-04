@@ -37,7 +37,6 @@ export default function CalendarPage() {
             </p>
             <h1
               style={{
-                fontFamily: 'Instrument Serif, serif',
                 fontSize: 'clamp(1.75rem, 5vw, 2.5rem)',
                 letterSpacing: '-0.02em',
                 lineHeight: 1.1,
@@ -98,7 +97,6 @@ export default function CalendarPage() {
                 >
                   <h2
                     style={{
-                      fontFamily: 'Instrument Serif, serif',
                       fontSize: '1.5rem',
                       letterSpacing: '-0.02em',
                       color: isCurrent ? 'var(--accent)' : 'var(--ink)',

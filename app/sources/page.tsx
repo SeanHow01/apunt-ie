@@ -23,7 +23,6 @@ export default function SourcesPage() {
 
       <h1
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontSize: 'clamp(2rem, 5vw, 2.75rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
@@ -68,7 +67,6 @@ export default function SourcesPage() {
             >
               <h2
                 style={{
-                  fontFamily: 'Instrument Serif, serif',
                   fontSize: '1.25rem',
                   lineHeight: 1.2,
                   color: '#1A1A1A',

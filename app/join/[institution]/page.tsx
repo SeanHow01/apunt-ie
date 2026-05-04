@@ -77,7 +77,6 @@ export default async function JoinPage({ params }: Props) {
       >
         <span
           style={{
-            fontFamily: 'Instrument Serif, serif',
             fontSize: '1.375rem',
             color: 'var(--accent)',
             letterSpacing: '-0.02em',
@@ -143,7 +142,6 @@ export default async function JoinPage({ params }: Props) {
 
         <h1
           style={{
-            fontFamily: 'Instrument Serif, serif',
             fontSize: 'clamp(2rem, 6vw, 3.25rem)',
             letterSpacing: '-0.02em',
             lineHeight: 1.08,
@@ -281,7 +279,6 @@ export default async function JoinPage({ params }: Props) {
         >
           <p
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.5rem',
               color: 'var(--ink)',
               letterSpacing: '-0.01em',

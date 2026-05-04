@@ -138,7 +138,6 @@ export default function AccessibilityPage() {
         <h1
           className="font-display"
           style={{
-            fontFamily: 'Instrument Serif, serif',
             fontSize: 'clamp(1.75rem, 5vw, 2.5rem)',
             letterSpacing: '-0.02em',
             lineHeight: 1.1,
@@ -152,7 +151,6 @@ export default function AccessibilityPage() {
         <p
           className="font-display italic"
           style={{
-            fontFamily: 'Instrument Serif, serif',
             fontSize: '1.125rem',
             color: 'var(--ink-2)',
             margin: '0 0 1.5rem',
@@ -176,7 +174,6 @@ export default function AccessibilityPage() {
               <h2
                 className="font-display"
                 style={{
-                  fontFamily: 'Instrument Serif, serif',
                   fontSize: '1.25rem',
                   color: 'var(--ink)',
                   letterSpacing: '-0.01em',

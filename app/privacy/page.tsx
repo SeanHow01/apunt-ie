@@ -13,7 +13,6 @@ export default function PrivacyPage() {
 
       <h1
         style={{
-          fontFamily: 'Instrument Serif, serif',
           fontSize: 'clamp(2rem, 5vw, 2.75rem)',
           letterSpacing: '-0.02em',
           lineHeight: 1.1,
@@ -47,7 +46,6 @@ export default function PrivacyPage() {
         <div>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.375rem',
               letterSpacing: '-0.01em',
               lineHeight: 1.2,
@@ -83,7 +81,6 @@ export default function PrivacyPage() {
         <div>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.375rem',
               letterSpacing: '-0.01em',
               lineHeight: 1.2,
@@ -104,7 +101,6 @@ export default function PrivacyPage() {
         <div>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.375rem',
               letterSpacing: '-0.01em',
               lineHeight: 1.2,
@@ -143,7 +139,6 @@ export default function PrivacyPage() {
         <div>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.375rem',
               letterSpacing: '-0.01em',
               lineHeight: 1.2,
@@ -168,7 +163,6 @@ export default function PrivacyPage() {
         <div>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.375rem',
               letterSpacing: '-0.01em',
               lineHeight: 1.2,
@@ -203,7 +197,6 @@ export default function PrivacyPage() {
         <div>
           <h2
             style={{
-              fontFamily: 'Instrument Serif, serif',
               fontSize: '1.375rem',
               letterSpacing: '-0.01em',
               lineHeight: 1.2,

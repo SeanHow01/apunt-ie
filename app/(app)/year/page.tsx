@@ -17,7 +17,6 @@ export default function YearIndexPage() {
             style={{
               color: 'var(--ink)',
               letterSpacing: '-0.02em',
-              fontFamily: 'Instrument Serif, serif',
             }}
           >
             Every year brings new money questions.
@@ -50,7 +49,6 @@ export default function YearIndexPage() {
               <h2
                 className="font-display text-xl leading-snug mb-2 group-hover:opacity-80 transition-opacity"
                 style={{
-                  fontFamily: 'Instrument Serif, serif',
                   color: 'var(--ink)',
                 }}
               >

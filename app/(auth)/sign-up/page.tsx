@@ -153,7 +153,6 @@ function SignUpForm() {
           style={{
             color: 'var(--ink)',
             letterSpacing: '-0.02em',
-            fontFamily: 'Instrument Serif, serif',
           }}
         >
           Create an account

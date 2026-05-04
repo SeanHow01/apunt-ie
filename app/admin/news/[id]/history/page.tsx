@@ -55,7 +55,6 @@ export default async function ArticleHistoryPage({ params }: PageProps) {
         <Eyebrow>Version history</Eyebrow>
         <h1
           style={{
-            fontFamily: 'Instrument Serif, serif',
             fontSize: '2rem',
             fontWeight: 400,
             color: 'var(--ink)',

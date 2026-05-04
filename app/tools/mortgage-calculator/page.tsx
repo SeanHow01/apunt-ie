@@ -357,7 +357,7 @@ export default function MortgageCalculatorPage() {
                   </p>
                   <p
                     className="font-display leading-none"
-                    style={{ fontFamily: 'Instrument Serif, serif', fontSize: 'clamp(2.5rem, 6vw, 4rem)', color: 'var(--ink)', letterSpacing: '-0.02em' }}
+                    style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', color: 'var(--ink)', letterSpacing: '-0.02em' }}
                   >
                     {formatEuro(result.monthly)}
                   </p>

@@ -49,7 +49,6 @@ export function YearPageContent({ year }: Props) {
             style={{
               color: 'var(--ink)',
               letterSpacing: '-0.02em',
-              fontFamily: 'Instrument Serif, serif',
             }}
           >
             {year.headline}
@@ -69,7 +68,6 @@ export function YearPageContent({ year }: Props) {
             <h2
               className="font-display text-2xl leading-tight mb-1"
               style={{
-                fontFamily: 'Instrument Serif, serif',
                 color: 'var(--ink)',
                 letterSpacing: '-0.01em',
               }}
@@ -108,7 +106,6 @@ export function YearPageContent({ year }: Props) {
                   <span
                     className="font-display italic flex-shrink-0 mt-0.5"
                     style={{
-                      fontFamily: 'Instrument Serif, serif',
                       fontSize: '1.125rem',
                       color: 'var(--accent)',
                       opacity: 0.6,
@@ -122,7 +119,6 @@ export function YearPageContent({ year }: Props) {
                     <p
                       className="font-display text-base leading-snug mb-0.5 group-hover:opacity-80 transition-opacity"
                       style={{
-                        fontFamily: 'Instrument Serif, serif',
                         color: 'var(--ink)',
                       }}
                     >
@@ -152,7 +148,6 @@ export function YearPageContent({ year }: Props) {
             <h2
               className="font-display text-2xl leading-tight mb-1"
               style={{
-                fontFamily: 'Instrument Serif, serif',
                 color: 'var(--ink)',
                 letterSpacing: '-0.01em',
               }}
@@ -182,7 +177,6 @@ export function YearPageContent({ year }: Props) {
                   <p
                     className="font-display text-base leading-snug mb-1 group-hover:opacity-80 transition-opacity"
                     style={{
-                      fontFamily: 'Instrument Serif, serif',
                       color: 'var(--ink)',
                     }}
                   >
@@ -215,7 +209,6 @@ export function YearPageContent({ year }: Props) {
               <h2
                 className="font-display text-2xl leading-tight mb-5"
                 style={{
-                  fontFamily: 'Instrument Serif, serif',
                   color: 'var(--ink)',
                   letterSpacing: '-0.01em',
                 }}

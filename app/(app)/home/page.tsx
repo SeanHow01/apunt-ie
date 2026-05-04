@@ -148,7 +148,6 @@ export default async function HomePage() {
                 style={{
                   color: 'var(--ink)',
                   letterSpacing: '-0.01em',
-                  fontFamily: 'Instrument Serif, serif',
                 }}
               >
                 What&rsquo;s happening
@@ -197,7 +196,6 @@ export default async function HomePage() {
                     <span
                       className="font-display"
                       style={{
-                        fontFamily: 'Instrument Serif, serif',
                         fontSize: '1rem',
                         lineHeight: 1.3,
                         color: 'var(--ink)',
@@ -239,7 +237,6 @@ export default async function HomePage() {
             <h2
               className="font-display text-2xl sm:text-3xl lg:text-4xl leading-tight mb-4"
               style={{
-                fontFamily: 'Instrument Serif, serif',
                 color: 'var(--ink)',
                 letterSpacing: '-0.02em',
               }}
