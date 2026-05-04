@@ -666,38 +666,68 @@ export default async function LandingPage() {
             Financial education that respects your intelligence. Always free. Always Irish. Always independent.
           </p>
 
-          {/* Service links */}
+          {/* Row 1 — free-advice signpost (louder, paper bg) */}
+          <div
+            style={{
+              background: 'var(--paper)',
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--rule)',
+              padding: '1rem 1.25rem',
+              display: 'flex',
+              alignItems: 'baseline',
+              gap: '0.75rem 1.25rem',
+              flexWrap: 'wrap',
+              marginBottom: '0',
+            }}
+          >
+            <span
+              className="font-sans"
+              style={{ fontSize: '0.875rem', color: 'var(--ink-2)', fontWeight: 500 }}
+            >
+              Need help right now?
+            </span>
+            <a
+              href="https://www.mabs.ie"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-sans"
+              style={{ fontSize: '0.875rem', color: 'var(--ink)', textDecoration: 'underline' }}
+            >
+              MABS
+            </a>
+            <span style={{ display: 'flex', alignItems: 'baseline', gap: '0.375rem' }}>
+              <span className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)' }}>—</span>
+              <a
+                href="tel:+35318072000"
+                className="font-mono"
+                style={{ fontSize: '0.8125rem', color: 'var(--ink)', textDecoration: 'none', letterSpacing: '0.04em' }}
+              >
+                0818 07 2000
+              </a>
+            </span>
+            <a
+              href="https://www.ccpc.ie"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-sans"
+              style={{ fontSize: '0.875rem', color: 'var(--ink)', textDecoration: 'underline' }}
+            >
+              CCPC
+            </a>
+          </div>
+
+          {/* Row 2 — site links (quieter) */}
           <div
             style={{
               display: 'flex',
-              gap: '1rem 1.5rem',
+              gap: '0.75rem 1.25rem',
               flexWrap: 'wrap',
               alignItems: 'baseline',
               borderTop: '1px solid var(--rule)',
-              paddingTop: '1.25rem',
+              paddingTop: '1rem',
+              marginTop: '1rem',
             }}
           >
-            <span className="font-mono uppercase" style={{ fontSize: '0.6875rem', color: 'var(--ink-3)', letterSpacing: '0.1em' }}>
-              Free advice:
-            </span>
-            {[
-              { label: 'MABS', href: 'https://www.mabs.ie' },
-              { label: 'CCPC', href: 'https://www.ccpc.ie' },
-            ].map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-sans"
-                style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', textDecoration: 'underline' }}
-              >
-                {label}
-              </a>
-            ))}
-            <span className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-3)' }}>
-              0818 07 2000
-            </span>
             {[
               { label: 'Sources', href: '/sources' },
               { label: 'Methodology', href: '/methodology' },
