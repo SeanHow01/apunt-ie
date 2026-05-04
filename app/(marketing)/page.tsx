@@ -369,41 +369,25 @@ export default async function LandingPage() {
               </div>
             </div>
 
-            {/* What you get */}
+            {/* Editorial aside */}
             <div>
               <p
-                className="font-mono uppercase"
-                style={{ fontSize: '0.6875rem', color: 'var(--ink-3)', letterSpacing: '0.15em', marginBottom: '1rem', fontWeight: 600 }}
+                className="font-display"
+                style={{
+                  fontSize: 'var(--step-lead)',
+                  fontStyle: 'italic',
+                  lineHeight: 'var(--lh-lead)',
+                  color: 'var(--ink-2)',
+                  maxWidth: '38ch',
+                  margin: '0 0 2rem',
+                }}
               >
-                What you get
+                We don&rsquo;t sell anything. We&rsquo;re not paid by banks. This is a free, plain-English explainer for the Irish system — pensions, payslips, rent credits, mortgages, the lot. You read it; you decide.
               </p>
-              {[
-                'Bite-sized steps — 3–5 min per module',
-                'Plain English — no jargon, no assumed knowledge',
-                'Irish-specific — Revenue, SUSI, RTB, Central Bank',
-                'Free — no subscription, no paywalls',
-                'No advice — we explain; you decide',
-              ].map((item) => (
-                <div
-                  key={item}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.625rem',
-                    padding: '0.625rem 0',
-                    borderBottom: '1px solid var(--rule)',
-                  }}
-                >
-                  <span className="font-mono" style={{ fontSize: '0.625rem', color: 'var(--accent)', flexShrink: 0, marginTop: '0.25rem' }}>✓</span>
-                  <span className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink-2)', lineHeight: 1.5 }}>{item}</span>
-                </div>
-              ))}
 
-              <div style={{ marginTop: '2rem' }}>
-                <Link href="/sign-up">
-                  <Button variant="primary">Start learning &rarr;</Button>
-                </Link>
-              </div>
+              <Link href="/sign-up">
+                <Button variant="primary">Start learning &rarr;</Button>
+              </Link>
             </div>
           </div>
         </div>
