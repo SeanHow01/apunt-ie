@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, BookOpen, Calculator, TrendingUp, Settings } from 'lucide-react';
+import { Home, BookOpen, TrendingUp, Newspaper, Settings } from 'lucide-react';
 
 const tabs = [
-  { href: '/home',                 label: 'Home',       icon: Home },
-  { href: '/lessons',              label: 'Lessons',    icon: BookOpen },
-  { href: '/calculator',           label: 'Calculator', icon: Calculator },
-  { href: '/tools/loan-calculator', label: 'Tools',     icon: TrendingUp, activePrefix: '/tools' },
-  { href: '/settings',             label: 'Settings',   icon: Settings },
+  { href: '/home',                  label: 'Home',     icon: Home },
+  { href: '/lessons',               label: 'Learn',    icon: BookOpen },
+  { href: '/tools/loan-calculator', label: 'Tools',    icon: TrendingUp, activePrefix: '/tools' },
+  { href: '/news',                  label: 'Read',     icon: Newspaper,  activePrefix: '/news' },
+  { href: '/settings',              label: 'Settings', icon: Settings },
 ] as const;
 
 export function MobileTabBar() {

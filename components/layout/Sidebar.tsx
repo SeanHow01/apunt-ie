@@ -2,55 +2,62 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, BookOpen, Calculator, TrendingUp, Settings, CalendarDays, Calendar } from 'lucide-react';
+import { BookOpen, Library, Newspaper, Settings, Calculator } from 'lucide-react';
 
-const topNavItems = [
-  { href: '/home', label: 'Home', icon: Home },
-  { href: '/lessons', label: 'Lessons', icon: BookOpen },
-  { href: '/year', label: 'Your year', icon: CalendarDays },
-  { href: '/calendar', label: 'Calendar', icon: Calendar },
-  { href: '/calculator', label: 'Calculator', icon: Calculator },
-] as const;
-
-type ToolGroup = {
-  groupLabel: string;
-  items: readonly { href: string; label: string }[];
+type NavItem = {
+  href: string;
+  label: string;
+  icon?: React.ElementType;
 };
 
-const toolGroups: ToolGroup[] = [
+type NavSection = {
+  label: string;
+  items: NavItem[];
+};
+
+const navSections: NavSection[] = [
   {
-    groupLabel: 'Calculators',
+    label: 'LEARN',
     items: [
-      { href: '/calculator', label: 'Take-home pay' },
-      { href: '/tools/loan-calculator', label: 'Loan calculator' },
-      { href: '/tools/loan-comparison', label: 'Loan comparison' },
-      { href: '/tools/mortgage-calculator', label: 'Mortgage calculator' },
-      { href: '/tools/etf-calculator', label: 'ETF calculator' },
-      { href: '/tools/buy-vs-rent', label: 'Buy vs rent' },
-      { href: '/tools/susi-estimator', label: 'SUSI estimator' },
-      { href: '/tools/pay-rise', label: 'Pay rise' },
-      { href: '/tools/salary-sacrifice', label: 'Salary sacrifice' },
+      { href: '/lessons', label: 'Lessons', icon: BookOpen },
+      { href: '/glossary', label: 'Glossary', icon: Library },
+      { href: '/methodology', label: 'Methodology' },
     ],
   },
   {
-    groupLabel: 'Diagnostics',
+    label: 'TOOLS',
     items: [
-      { href: '/tools/emergency-tax', label: 'Emergency tax' },
-      { href: '/tools/rpz-checker', label: 'RPZ checker' },
-      { href: '/tools/payslip-checker', label: 'Payslip checker' },
-      { href: '/tools/side-hustle', label: 'Side hustle tax' },
-      { href: '/tools/refund-checker', label: 'Refund checker' },
+      { href: '/calculator', label: 'Take-home pay', icon: Calculator },
+      { href: '/tools/loan-calculator', label: 'Loan calculator' },
+      { href: '/tools/mortgage-calculator', label: 'Mortgage' },
+      { href: '/tools/buy-vs-rent', label: 'Buy vs rent' },
+      { href: '/tools/etf-calculator', label: 'ETF calculator' },
+      { href: '/tools/susi-estimator', label: 'SUSI estimator' },
+    ],
+  },
+  {
+    label: 'READ',
+    items: [
+      { href: '/news', label: 'News', icon: Newspaper },
+      { href: '/sources', label: 'Sources' },
+    ],
+  },
+  {
+    label: 'ACCOUNT',
+    items: [
+      { href: '/settings', label: 'Settings', icon: Settings },
+      { href: '/fireup', label: 'FiRe Up' },
     ],
   },
 ];
 
-const bottomNavItems = [
-  { href: '/settings', label: 'Settings', icon: Settings },
-] as const;
+function isActive(href: string, pathname: string): boolean {
+  if (href === '/home') return pathname === '/home';
+  return pathname === href || pathname.startsWith(href + '/');
+}
 
 export function Sidebar() {
   const pathname = usePathname();
-  const toolsActive = pathname.startsWith('/tools') || pathname === '/calculator';
 
   return (
     <aside
@@ -75,126 +82,75 @@ export function Sidebar() {
         </Link>
       </div>
 
-      {/* Nav links */}
-      <nav className="flex-1 px-3 py-4 flex flex-col gap-1 overflow-y-auto" aria-label="Main navigation">
-        {/* Top items */}
-        {topNavItems.map(({ href, label, icon: Icon }) => {
-          const active =
-            href === '/home'
-              ? pathname === '/home'
-              : pathname === href || pathname.startsWith(href + '/');
-          return (
-            <Link
-              key={href}
-              href={href}
-              className="flex items-center gap-3 px-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 transition-colors"
+      {/* Nav sections */}
+      <nav className="flex-1 py-3 overflow-y-auto" aria-label="Main navigation">
+        {navSections.map((section) => (
+          <div key={section.label} className="mb-2">
+            {/* Section eyebrow */}
+            <p
+              className="font-mono uppercase"
               style={{
-                backgroundColor: active ? 'var(--surface)' : 'transparent',
-                color: active ? 'var(--ink)' : 'var(--ink-2)',
-                borderRadius: '2px',
-                textDecoration: 'none',
+                fontSize: '0.5625rem',
+                letterSpacing: '0.18em',
+                color: 'var(--ink-3)',
+                padding: '0.75rem 0.75rem 0.25rem',
+                margin: 0,
               }}
             >
-              <Icon size={15} strokeWidth={1.5} aria-hidden="true" />
-              <span className="font-sans text-sm font-medium">{label}</span>
-            </Link>
-          );
-        })}
+              {section.label}
+            </p>
 
-        {/* Tools group */}
-        <div>
-          <Link
-            href="/tools/loan-calculator"
-            className="flex items-center gap-3 px-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 transition-colors"
-            style={{
-              color: toolsActive ? 'var(--ink)' : 'var(--ink-2)',
-              backgroundColor: toolsActive ? 'var(--surface)' : 'transparent',
-              borderRadius: '2px',
-              textDecoration: 'none',
-            }}
-          >
-            <TrendingUp size={15} strokeWidth={1.5} aria-hidden="true" />
-            <span className="font-sans text-sm font-medium">Tools</span>
-          </Link>
-
-          {/* Sub-items — grouped, expand when under /tools */}
-          {toolsActive && (
-            <div className="mt-0.5 pl-6">
-              {toolGroups.map((group) => (
-                <div key={group.groupLabel} className="mb-2">
-                  {/* Group label */}
-                  <p
-                    className="font-sans px-3 pt-2 pb-1"
+            {/* Section items */}
+            <div className="flex flex-col gap-0.5 px-2">
+              {section.items.map(({ href, label, icon: Icon }) => {
+                const active = isActive(href, pathname);
+                return (
+                  <Link
+                    key={href}
+                    href={href}
                     style={{
-                      fontSize: '0.625rem',
-                      fontWeight: 600,
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      color: 'var(--ink-2)',
-                      opacity: 0.6,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      padding: '0.4375rem 0.75rem',
+                      borderRadius: 'var(--radius-sm)',
+                      textDecoration: 'none',
+                      fontSize: '0.875rem',
+                      fontFamily: 'var(--font-sans)',
+                      backgroundColor: active ? 'var(--paper)' : 'transparent',
+                      color: active ? 'var(--ink)' : 'var(--ink-2)',
+                      borderLeft: `2px solid ${active ? 'var(--accent)' : 'transparent'}`,
                     }}
                   >
-                    {group.groupLabel}
-                  </p>
-                  {/* Group items */}
-                  <div className="flex flex-col gap-0.5">
-                    {group.items.map(({ href, label }) => {
-                      const active = pathname === href || pathname.startsWith(href + '/');
-                      return (
-                        <Link
-                          key={href}
-                          href={href}
-                          className="flex items-center px-3 py-2 focus-visible:outline-none focus-visible:ring-2 transition-colors"
-                          style={{
-                            backgroundColor: active ? 'var(--surface)' : 'transparent',
-                            color: active ? 'var(--ink)' : 'var(--ink-2)',
-                            borderRadius: '2px',
-                            textDecoration: 'none',
-                          }}
-                        >
-                          <span className="font-sans text-sm">{label}</span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
+                    {Icon && <Icon size={14} strokeWidth={1.5} aria-hidden="true" />}
+                    <span>{label}</span>
+                  </Link>
+                );
+              })}
+
+              {/* See all tools link — only shown under TOOLS section */}
+              {section.label === 'TOOLS' && (
+                <Link
+                  href="/tools"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.4375rem 0.75rem',
+                    borderRadius: 'var(--radius-sm)',
+                    textDecoration: 'none',
+                    fontSize: '0.75rem',
+                    fontFamily: 'var(--font-sans)',
+                    color: 'var(--accent)',
+                    borderLeft: '2px solid transparent',
+                  }}
+                >
+                  See all tools →
+                </Link>
+              )}
             </div>
-          )}
-        </div>
-
-        {/* Settings */}
-        {bottomNavItems.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href || pathname.startsWith(href + '/');
-          return (
-            <Link
-              key={href}
-              href={href}
-              className="flex items-center gap-3 px-3 py-2.5 focus-visible:outline-none focus-visible:ring-2 transition-colors"
-              style={{
-                backgroundColor: active ? 'var(--surface)' : 'transparent',
-                color: active ? 'var(--ink)' : 'var(--ink-2)',
-                borderRadius: '2px',
-                textDecoration: 'none',
-              }}
-            >
-              <Icon size={15} strokeWidth={1.5} aria-hidden="true" />
-              <span className="font-sans text-sm font-medium">{label}</span>
-            </Link>
-          );
-        })}
+          </div>
+        ))}
       </nav>
-
-      {/* FiRe Up footer link */}
-      <div className="px-4 py-4" style={{ borderTop: '1px solid var(--rule)' }}>
-        <Link
-          href="/fireup"
-          className="font-sans block text-xs leading-snug focus-visible:outline-none"
-          style={{ color: 'var(--ink-2)', textDecoration: 'none' }}
-        >
-          FiRe Up — free financial wellbeing course
-        </Link>
-      </div>
     </aside>
   );
 }
