@@ -247,7 +247,7 @@ export default async function LandingPage() {
                   margin: '0 0 2.5rem',
                 }}
               >
-                Payslips, pensions, rent credits, mortgages — explained for the Irish system. Free, independent, and unaffiliated with any bank or insurer.
+                Payslips, pensions, rent credits, mortgages — explained for the Irish system.
               </p>
 
               {/* CTAs */}
@@ -259,8 +259,8 @@ export default async function LandingPage() {
                 </Link>
                 <a
                   href="#curriculum"
-                  className="font-sans"
-                  style={{ fontSize: '0.9375rem', color: 'var(--ink-2)', textDecoration: 'none' }}
+                  className="font-sans hero-text-link"
+                  style={{ fontSize: '0.9375rem' }}
                 >
                   See the modules →
                 </a>
@@ -271,7 +271,7 @@ export default async function LandingPage() {
                 className="font-mono uppercase"
                 style={{ fontSize: '0.625rem', letterSpacing: '0.12em', color: 'var(--ink-3)', marginTop: '2rem' }}
               >
-                Independent · No bank affiliation · Irish system
+                Independent · Irish system
               </p>
             </div>
 

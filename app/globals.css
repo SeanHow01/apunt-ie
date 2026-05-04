@@ -199,6 +199,21 @@ body {
   left: 0.5rem;
 }
 
+/* ── Hero text link ────────────────────────────────────────────────────── */
+/*
+ * Used on the "See the modules →" secondary CTA in the marketing hero.
+ * Text-only; underline on hover with generous offset.
+ */
+.hero-text-link {
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.hero-text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 /* ── Display font italic emphasis ──────────────────────────────────────── */
 .font-display em,
 em.font-display {
