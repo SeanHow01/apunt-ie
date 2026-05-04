@@ -1,6 +1,6 @@
 export type StepHighlight = 'gross' | 'paye' | 'usc' | 'prsi' | 'net' | null;
 
-export type CalloutKind = 'tip' | 'warning' | 'context';
+export type CalloutKind = 'tip' | 'warning' | 'context' | 'info';
 
 export type LessonStep = {
   id: string;

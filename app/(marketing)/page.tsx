@@ -111,7 +111,7 @@ export default async function LandingPage() {
                 className="font-sans text-xs font-semibold uppercase tracking-widest mb-4"
                 style={{ color: 'var(--ink-2)' }}
               >
-                Seven modules
+                Eight modules
               </p>
               <div className="flex flex-col">
                 {modules.map((mod, idx) => (

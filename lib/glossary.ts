@@ -277,6 +277,19 @@ export const glossaryTerms: GlossaryTerm[] = [
   },
   // R
   {
+    term: 'Real-time credit',
+    definition:
+      'The option to claim certain credits (like medical expenses) during the current tax year rather than waiting until year-end. Revenue updates your Tax Credit Certificate and your employer applies the relief through reduced PAYE on your next payslip.',
+    seeAlso: ['Tax Credit Certificate', 'Medical expenses'],
+  },
+  {
+    term: 'Receipts Tracker',
+    definition:
+      'A feature in Revenue MyAccount where you upload photos of medical, prescription, and other qualifying receipts. Revenue keeps these for six years. Used when claiming health expenses tax relief.',
+    seeAlso: ['Medical expenses', 'Health expenses'],
+    learnMore: { label: 'Tax you might be owed', href: '/lessons/tax-back' },
+  },
+  {
     term: 'Reckonable income (SUSI)',
     definition:
       "The income figure SUSI uses to assess grant eligibility. It includes most income from the previous tax year — employment, self-employment, rental, and some social welfare payments. Some income types (such as certain disability payments) are excluded.",
@@ -303,6 +316,13 @@ export const glossaryTerms: GlossaryTerm[] = [
     learnMore: { label: 'Renting module', href: '/lessons/rent' },
   },
   // S
+  {
+    term: 'Statement of Liability',
+    definition:
+      'The document Revenue produces when you complete Review Your Tax for a previous year. It shows whether you overpaid or underpaid tax in that year, and triggers any refund. Replaced the old P21 Balancing Statement.',
+    seeAlso: ['Tax Credit Certificate', 'MyAccount'],
+    learnMore: { label: 'Tax you might be owed', href: '/lessons/tax-back' },
+  },
   {
     term: 'Standard rate cut-off point',
     definition:

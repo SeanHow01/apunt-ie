@@ -326,12 +326,17 @@ export default function LessonPage({ params }: Props) {
                 </div>
               )}
 
-              <p
-                className="font-sans text-base lg:text-lg leading-relaxed mb-6"
-                style={{ color: 'var(--ink)', maxWidth: '65ch' }}
-              >
-                {step.body}
-              </p>
+              <div className="mb-6 flex flex-col gap-4" style={{ maxWidth: '65ch' }}>
+                {step.body.split('\n\n').filter(Boolean).map((para, i) => (
+                  <p
+                    key={i}
+                    className="font-sans text-base lg:text-lg leading-relaxed"
+                    style={{ color: 'var(--ink)' }}
+                  >
+                    {para.trim()}
+                  </p>
+                ))}
+              </div>
 
               {step.callout && (
                 <div className="mb-6 max-w-[65ch]">

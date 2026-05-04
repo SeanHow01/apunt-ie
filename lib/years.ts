@@ -62,7 +62,7 @@ export const years: YearData[] = [
     headline: 'Building better money habits.',
     description:
       "You have a better sense of what things cost now. Time to understand your payslip and how credit actually works.",
-    moduleIds: ['payslip', 'loans', 'rent'],
+    moduleIds: ['payslip', 'loans', 'rent', 'tax-back'],
     tools: [
       {
         title: 'Take-home pay calculator',
@@ -130,7 +130,7 @@ export const years: YearData[] = [
     headline: 'Your first real payslip.',
     description:
       'The graduate year is where everything on Punt becomes concrete. First payslip, first pension contribution, first rental contract on your own.',
-    moduleIds: ['payslip', 'auto-enrolment', 'rent'],
+    moduleIds: ['payslip', 'auto-enrolment', 'tax-back', 'rent'],
     tools: [
       {
         title: 'Take-home pay calculator',

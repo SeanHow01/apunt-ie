@@ -66,7 +66,7 @@ export default async function LessonsPage() {
             All lessons
           </h1>
           <p className="font-sans text-base" style={{ color: 'var(--ink-2)' }}>
-            Seven modules on the financial basics every Irish student should know.
+            Eight modules on the financial basics every Irish student should know.
           </p>
         </header>
 
