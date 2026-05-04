@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 
 const INSTITUTIONS = [
   'UCD',
@@ -31,27 +32,6 @@ const signUpSchema = z.object({
 });
 
 type FormErrors = Partial<Record<keyof z.infer<typeof signUpSchema>, string>>;
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  border: '1px solid var(--rule)',
-  padding: '10px 12px',
-  background: 'var(--surface)',
-  color: 'var(--ink)',
-  fontFamily: 'Inter, sans-serif',
-  fontSize: '1rem',
-  outline: 'none',
-  borderRadius: '2px',
-};
-
-const labelStyle: React.CSSProperties = {
-  display: 'block',
-  fontFamily: 'Inter, sans-serif',
-  fontSize: '0.875rem',
-  fontWeight: 500,
-  color: 'var(--ink)',
-  marginBottom: '6px',
-};
 
 function mapAuthError(message: string): string {
   const lower = message.toLowerCase();
@@ -158,77 +138,75 @@ function SignUpForm() {
           Create an account
         </h1>
 
-        <form onSubmit={handleSubmit} noValidate>
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          aria-describedby={serverError ? 'signup-error' : undefined}
+        >
           {/* First name */}
           <div className="mb-5">
-            <label htmlFor="firstName" style={labelStyle}>
-              First name
-            </label>
-            <input
+            <Input
               id="firstName"
               type="text"
+              label="First name"
               autoComplete="given-name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              style={inputStyle}
+              error={fieldErrors.firstName}
             />
-            {fieldErrors.firstName && (
-              <p className="font-sans text-sm mt-1" style={{ color: 'var(--accent)' }}>
-                {fieldErrors.firstName}
-              </p>
-            )}
           </div>
 
           {/* Email */}
           <div className="mb-5">
-            <label htmlFor="email" style={labelStyle}>
-              Email
-            </label>
-            <input
+            <Input
               id="email"
               type="email"
+              label="Email"
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={inputStyle}
+              error={fieldErrors.email}
             />
-            {fieldErrors.email && (
-              <p className="font-sans text-sm mt-1" style={{ color: 'var(--accent)' }}>
-                {fieldErrors.email}
-              </p>
-            )}
           </div>
 
           {/* Password */}
           <div className="mb-5">
-            <label htmlFor="password" style={labelStyle}>
-              Password
-            </label>
-            <input
+            <Input
               id="password"
               type="password"
+              label="Password"
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={inputStyle}
+              error={fieldErrors.password}
             />
-            {fieldErrors.password && (
-              <p className="font-sans text-sm mt-1" style={{ color: 'var(--accent)' }}>
-                {fieldErrors.password}
-              </p>
-            )}
           </div>
 
           {/* Institution */}
           <div className="mb-6">
-            <label htmlFor="institution" style={labelStyle}>
+            <label
+              htmlFor="institution"
+              className="font-sans"
+              style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--ink)', display: 'block', marginBottom: '6px' }}
+            >
               Institution
             </label>
             <select
               id="institution"
               value={institution}
               onChange={(e) => setInstitution(e.target.value)}
-              style={{ ...inputStyle, appearance: 'none' }}
+              className="font-sans"
+              style={{
+                width: '100%',
+                border: `1px solid ${fieldErrors.institution ? 'var(--accent)' : 'var(--rule)'}`,
+                padding: '10px 12px',
+                background: 'var(--surface)',
+                color: 'var(--ink)',
+                fontSize: '1rem',
+                outline: 'none',
+                borderRadius: '2px',
+                appearance: 'none',
+              }}
             >
               <option value="">Select your college or university</option>
               {INSTITUTIONS.map((inst) => (
@@ -247,6 +225,7 @@ function SignUpForm() {
           {/* Server error */}
           {serverError && (
             <p
+              id="signup-error"
               className="font-sans text-sm mb-5"
               role="alert"
               style={{ color: 'var(--accent)' }}

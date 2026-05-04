@@ -22,17 +22,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const base =
       'inline-flex items-center justify-center gap-2 font-sans font-semibold ' +
-      'rounded-[var(--radius-md)] transition-opacity cursor-pointer ' +
+      'rounded-[var(--radius-md)] transition-all duration-150 cursor-pointer ' +
       'focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2 ' +
       'disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants: Record<string, string> = {
       primary:
-        'bg-[var(--accent)] text-[var(--accent-ink)] shadow-sm hover:opacity-90 active:opacity-80',
+        'bg-[var(--accent)] text-[var(--accent-ink)] shadow-sm hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-sm',
       secondary:
-        'border border-[var(--rule)] text-[var(--ink)] bg-transparent hover:opacity-75 active:opacity-60',
+        'border border-[var(--rule)] text-[var(--ink)] bg-transparent hover:bg-[var(--ink)] hover:text-[var(--bg)] hover:border-[var(--ink)]',
       ghost:
-        'text-[var(--ink-2)] bg-transparent hover:text-[var(--ink)] active:opacity-75',
+        'text-[var(--ink-2)] bg-transparent hover:text-[var(--ink)] hover:underline hover:[text-underline-offset:4px]',
     };
 
     const sizes: Record<string, string> = {

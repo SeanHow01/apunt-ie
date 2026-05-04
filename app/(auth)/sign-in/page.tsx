@@ -5,27 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  border: '1px solid var(--rule)',
-  padding: '10px 12px',
-  background: 'var(--surface)',
-  color: 'var(--ink)',
-  fontFamily: 'Inter, sans-serif',
-  fontSize: '1rem',
-  outline: 'none',
-  borderRadius: '2px',
-};
-
-const labelStyle: React.CSSProperties = {
-  display: 'block',
-  fontFamily: 'Inter, sans-serif',
-  fontSize: '0.875rem',
-  fontWeight: 500,
-  color: 'var(--ink)',
-  marginBottom: '6px',
-};
+import { Input } from '@/components/ui/Input';
 
 function mapError(code: string | undefined, message: string): string {
   if (!code && message.toLowerCase().includes('user not found')) {
@@ -91,42 +71,37 @@ export default function SignInPage() {
           Sign in
         </h1>
 
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit} noValidate aria-describedby={error ? 'signin-error' : undefined}>
           {/* Email */}
           <div className="mb-5">
-            <label htmlFor="email" style={labelStyle}>
-              Email
-            </label>
-            <input
+            <Input
               id="email"
               type="email"
+              label="Email"
               autoComplete="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={inputStyle}
             />
           </div>
 
           {/* Password */}
           <div className="mb-6">
-            <label htmlFor="password" style={labelStyle}>
-              Password
-            </label>
-            <input
+            <Input
               id="password"
               type="password"
+              label="Password"
               autoComplete="current-password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={inputStyle}
             />
           </div>
 
           {/* Error */}
           {error && (
             <p
+              id="signin-error"
               className="font-sans text-sm mb-5"
               role="alert"
               style={{ color: 'var(--accent)' }}
