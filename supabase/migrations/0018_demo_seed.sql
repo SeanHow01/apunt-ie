@@ -1,10 +1,10 @@
 -- supabase/migrations/0018_demo_seed.sql
 -- Run AFTER creating both demo auth accounts manually.
--- Replace STAFF_USER_ID and STUDENT_USER_ID with actual auth.users UUIDs.
+-- UUIDs populated: staff=16541e49-ff7c-4d2c-981c-c8b3cdd9238a student=35980928-e485-4e11-a9d0-43edb23a2a8c
 
 -- Staff user record
 insert into public.saf_staff_users (user_id, institution, role, display_name)
-values ('STAFF_USER_ID', 'SETU', 'committee', 'Mary O''Brien — Student Services');
+values ('16541e49-ff7c-4d2c-981c-c8b3cdd9238a', 'SETU', 'committee', 'Mary O''Brien — Student Services');
 
 -- Application 1: Submitted
 insert into public.saf_applications (
@@ -12,7 +12,7 @@ insert into public.saf_applications (
   status, reason_category, circumstances, amount_requested,
   monthly_income, monthly_expenses, bank_name, iban_last_four, submitted_at
 ) values (
-  'SAF-2026-00001', 'STUDENT_USER_ID', 'SETU', 'Waterford — Main', 'BSc Business', '2nd Year', 'full_time',
+  'SAF-2026-00001', '35980928-e485-4e11-a9d0-43edb23a2a8c', 'SETU', 'Waterford — Main', 'BSc Business', '2nd Year', 'full_time',
   'submitted', 'loss_of_employment',
   'I was working 15 hours per week at SuperValu on the Quay but lost my position in early October when the store reduced staff hours. I have been unable to find alternative work and my savings are now fully depleted. I cannot cover my rent of €650 per month and basic living costs on my SUSI grant alone.',
   500.00,
@@ -27,7 +27,7 @@ insert into public.saf_applications (
   status, reason_category, circumstances, amount_requested,
   monthly_income, monthly_expenses, bank_name, iban_last_four, submitted_at
 ) values (
-  'SAF-2026-00002', 'STUDENT_USER_ID', 'SETU', 'Waterford — Main', 'BEng Civil Engineering', '3rd Year', 'full_time',
+  'SAF-2026-00002', '35980928-e485-4e11-a9d0-43edb23a2a8c', 'SETU', 'Waterford — Main', 'BEng Civil Engineering', '3rd Year', 'full_time',
   'under_review', 'accommodation_costs',
   'My landlord issued a rent increase notice in September, increasing my rent from €600 to €780 per month with one month notice. I was unable to find alternative accommodation within that time.',
   800.00,
@@ -43,7 +43,7 @@ insert into public.saf_applications (
   monthly_income, monthly_expenses, bank_name, iban_last_four,
   submitted_at, decided_at
 ) values (
-  'SAF-2026-00003', 'STUDENT_USER_ID', 'SETU', 'Waterford — Main', 'BA Social Care', '2nd Year', 'full_time',
+  'SAF-2026-00003', '35980928-e485-4e11-a9d0-43edb23a2a8c', 'SETU', 'Waterford — Main', 'BA Social Care', '2nd Year', 'full_time',
   'approved', 'bereavement',
   'My father passed away in September. I had to travel home to Kerry for two weeks and missed placement hours. I also incurred unexpected funeral travel costs of approximately €340.',
   350.00, 300.00,
@@ -60,7 +60,7 @@ insert into public.saf_applications (
   monthly_income, monthly_expenses, bank_name, iban_last_four,
   submitted_at, decided_at
 ) values (
-  'SAF-2026-00004', 'STUDENT_USER_ID', 'SETU', 'Waterford — Main', 'BSc Computing', '1st Year', 'full_time',
+  'SAF-2026-00004', '35980928-e485-4e11-a9d0-43edb23a2a8c', 'SETU', 'Waterford — Main', 'BSc Computing', '1st Year', 'full_time',
   'rejected', 'course_costs',
   'I need a new laptop for my course. My current laptop is slow and I am struggling to complete assignments on time.',
   800.00,
@@ -77,7 +77,7 @@ insert into public.saf_applications (
   monthly_income, monthly_expenses, bank_name, iban_last_four,
   submitted_at, info_requested_at, info_requested_note
 ) values (
-  'SAF-2026-00005', 'STUDENT_USER_ID', 'SETU', 'Carlow', 'BA Early Childhood Care', '3rd Year', 'full_time',
+  'SAF-2026-00005', '35980928-e485-4e11-a9d0-43edb23a2a8c', 'SETU', 'Carlow', 'BA Early Childhood Care', '3rd Year', 'full_time',
   'awaiting_info', 'family_income_drop',
   'My parent lost their job in August and we have been managing on one income since. My SUSI was assessed on last year''s income so does not reflect our current situation.',
   1200.00,
