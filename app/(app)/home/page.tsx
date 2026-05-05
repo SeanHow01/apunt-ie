@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { AppShell } from '@/components/layout/AppShell';
 import { Masthead } from '@/components/layout/Masthead';
 import { ContinueCard } from '@/components/home/ContinueCard';
@@ -11,6 +12,21 @@ import { SupportStrip } from '@/components/ui/SupportStrip';
 import { getGreeting } from '@/lib/copy';
 import { modules } from '@/content/modules/index';
 import HomeFireUpAttest from './HomeFireUpAttest';
+
+// Institution hubs — add new entries here as each university goes live.
+// `key` must match the institution_name value stored in profiles (from sign-up dropdown).
+const INSTITUTION_HUBS = [
+  {
+    key: 'SETU',
+    label: 'South East Technological University',
+    shortLabel: 'SETU',
+    href: '/setu',
+    description: 'Your SETU financial supports — Student Assistance Fund, Sports Bursary, HEAR, and key dates.',
+    primaryColor: 'var(--setu-primary)',
+    primaryLight: 'var(--setu-primary-light)',
+    primaryBorder: 'var(--setu-primary-border)',
+  },
+] as const;
 
 export const dynamic = 'force-dynamic';
 
@@ -25,9 +41,11 @@ export default async function HomePage() {
   // Fetch profile
   const { data: profile } = await supabase
     .from('profiles')
-    .select('first_name, theme')
+    .select('first_name, theme, institution_name')
     .eq('id', user.id)
     .single();
+
+  const institutionHub = INSTITUTION_HUBS.find(h => h.key === profile?.institution_name) ?? null;
 
   // Fetch all progress rows for this user
   const { data: progressRows } = await supabase
@@ -126,7 +144,50 @@ export default async function HomePage() {
             />
           </section>
 
-          {/* 2. FiRe Up — full width, horizontal layout on desktop */}
+          {/* 2. Institution hub — full width, only shown when user's institution has a hub */}
+          {institutionHub && (
+            <section className="lg:col-span-3">
+              <Link
+                href={institutionHub.href}
+                style={{ textDecoration: 'none', display: 'block' }}
+              >
+                <div style={{
+                  border: `1px solid ${institutionHub.primaryBorder}`,
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: institutionHub.primaryLight,
+                  padding: '1rem 1.25rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '1rem',
+                  flexWrap: 'wrap',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                    <span className="font-sans" style={{
+                      fontSize: '0.8125rem',
+                      fontWeight: 600,
+                      color: institutionHub.primaryColor,
+                      backgroundColor: 'white',
+                      border: `1px solid ${institutionHub.primaryBorder}`,
+                      borderRadius: '99px',
+                      padding: '2px 10px',
+                      whiteSpace: 'nowrap',
+                    }}>
+                      Punt · in {institutionHub.shortLabel}
+                    </span>
+                    <p className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink-2)', margin: 0 }}>
+                      {institutionHub.description}
+                    </p>
+                  </div>
+                  <span className="font-sans" style={{ fontSize: '0.875rem', fontWeight: 600, color: institutionHub.primaryColor, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                    Go to hub →
+                  </span>
+                </div>
+              </Link>
+            </section>
+          )}
+
+          {/* 3. FiRe Up — full width, horizontal layout on desktop */}
           <section className="lg:col-span-3">
             <HomeFireUpAttest
               userId={user.id}
@@ -135,12 +196,12 @@ export default async function HomePage() {
             />
           </section>
 
-          {/* 3. Monthly actions — full width */}
+          {/* 4. Monthly actions — full width */}
           <section className="lg:col-span-3">
             <MonthlyActionsTile />
           </section>
 
-          {/* 4. This week — full width */}
+          {/* 5. This week — full width */}
           {thisWeekArticles && thisWeekArticles.length > 0 && (
             <section className="lg:col-span-3">
               <h2
@@ -232,7 +293,7 @@ export default async function HomePage() {
             </section>
           )}
 
-          {/* 4. Curriculum — left 2/3 */}
+          {/* 6. Curriculum — left 2/3 */}
           <section className="lg:col-span-2">
             <h2
               className="font-display text-2xl sm:text-3xl lg:text-4xl leading-tight mb-4"
@@ -247,7 +308,7 @@ export default async function HomePage() {
             <ArticleList modules={moduleItems} />
           </section>
 
-          {/* 5. Tool cards — right 1/3 */}
+          {/* 7. Tool cards — right 1/3 */}
           <section className="lg:col-span-1">
             <div className="flex flex-col gap-4">
               <ToolCard
@@ -265,12 +326,12 @@ export default async function HomePage() {
             </div>
           </section>
 
-          {/* 6. Support strip — full width */}
+          {/* 8. Support strip — full width */}
           <section className="lg:col-span-3">
             <SupportStrip />
           </section>
 
-          {/* 7. Footer — full width */}
+          {/* 9. Footer — full width */}
           <footer className="pt-4 lg:col-span-3" style={{ borderTop: '1px solid var(--rule)' }}>
             {/* Nav links */}
             <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
