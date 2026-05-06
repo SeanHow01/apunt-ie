@@ -61,7 +61,7 @@ export default function AboutPage() {
             What Punt is
           </h2>
           <p>
-            Seven modules covering the financial topics most relevant to students and graduates
+            Eight modules covering the financial topics most relevant to students and graduates
             in Ireland. Free calculators for take-home pay, pensions, loans, mortgages, and
             investing. A news feed explaining Irish financial events in plain terms, without
             assumed knowledge.

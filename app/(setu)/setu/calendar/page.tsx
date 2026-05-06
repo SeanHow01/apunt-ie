@@ -120,7 +120,7 @@ export default function SetuCalendarPage() {
                             className="font-sans"
                             style={{ fontSize: '0.8125rem', color: 'var(--accent)', textDecoration: 'none', marginTop: '0.375rem', display: 'inline-block' }}
                           >
-                            {event.href ? 'Open in Punt →' : 'External link →'}
+                            {event.href ? 'Open in Punt →' : `${new URL(event.externalHref!).hostname.replace('www.', '')} →`}
                           </Link>
                         )}
                       </div>
@@ -178,7 +178,7 @@ export default function SetuCalendarPage() {
                             className="font-sans"
                             style={{ fontSize: '0.8125rem', color: 'var(--setu-accent)', textDecoration: 'none', marginTop: '0.375rem', display: 'inline-block' }}
                           >
-                            {event.link.startsWith('/') ? 'Open in Punt →' : 'External link →'}
+                            {event.link.startsWith('/') ? 'Open in Punt →' : `${new URL(event.link).hostname.replace('www.', '')} →`}
                           </Link>
                         )}
                       </div>

@@ -6,7 +6,7 @@ import { Masthead } from '@/components/layout/Masthead';
 import { ContinueCard } from '@/components/home/ContinueCard';
 import { ArticleList } from '@/components/home/ArticleList';
 import { ToolCard } from '@/components/home/ToolCard';
-import { MonthlyActionsTile } from '@/components/home/MonthlyActionsTile';
+import { MonthlyActionsTile, getMonthlyActionsCount } from '@/components/home/MonthlyActionsTile';
 import { ModuleProgressBar } from '@/components/home/ModuleProgressBar';
 import { SupportStrip } from '@/components/ui/SupportStrip';
 import { getGreeting } from '@/lib/copy';
@@ -196,10 +196,12 @@ export default async function HomePage() {
             />
           </section>
 
-          {/* 4. Monthly actions — full width */}
-          <section className="lg:col-span-3">
-            <MonthlyActionsTile />
-          </section>
+          {/* 4. Monthly actions — full width; hidden when no actions for this month */}
+          {getMonthlyActionsCount() > 0 && (
+            <section className="lg:col-span-3">
+              <MonthlyActionsTile />
+            </section>
+          )}
 
           {/* 5. This week — full width */}
           {thisWeekArticles && thisWeekArticles.length > 0 && (

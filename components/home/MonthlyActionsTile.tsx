@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { getCurrentMonthActions, TAG_LABELS, type ActionTag } from '@/lib/monthly-actions';
 
+export function getMonthlyActionsCount(): number {
+  return getCurrentMonthActions().actions.length;
+}
+
 const TAG_COLOURS: Record<ActionTag, string> = {
   tax: 'var(--accent)',
   savings: '#2E7D52',
@@ -12,6 +16,8 @@ const TAG_COLOURS: Record<ActionTag, string> = {
 
 export function MonthlyActionsTile() {
   const { monthName, actions } = getCurrentMonthActions();
+
+  if (actions.length === 0) return null;
 
   return (
     <div
