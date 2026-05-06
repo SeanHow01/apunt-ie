@@ -80,9 +80,14 @@ export default async function SetuLayout({ children }: { children: React.ReactNo
             </span>
             <Link
               href="/settings"
-              className="font-sans"
-              style={{ fontSize: '0.75rem', color: 'var(--ink-2)', textDecoration: 'none' }}
-              title="Settings"
+              aria-label="Settings"
+              style={{
+                color: 'var(--ink-3)',
+                fontSize: 18,
+                lineHeight: 1,
+                textDecoration: 'none',
+                padding: '4px',
+              }}
             >
               ⚙
             </Link>
