@@ -56,6 +56,11 @@ export default function CalculatorPage() {
   const [hourlyRate, setHourlyRate] = useState(15.00);
   const [hoursPerWeek, setHoursPerWeek] = useState(20);
 
+  // ── Shift premium state ───────────────────────────────────────────
+  const [shiftExpanded, setShiftExpanded] = useState(false);
+  const [shiftType, setShiftType] = useState('standard');
+  const [customMultiplier, setCustomMultiplier] = useState(1.0);
+
   // ── Pension state ─────────────────────────────────────────────────
   const [pensionEnabled, setPensionEnabled] = useState(false);
   const [pensionMode, setPensionMode] = useState<'auto-enrolment' | 'custom'>('auto-enrolment');
@@ -95,8 +100,21 @@ export default function CalculatorPage() {
   const clampedHours = Math.min(Math.max(0, hoursPerWeek), MAX_HOURS_LEGAL);
   const hoursExceedLegal = hoursPerWeek > MAX_HOURS_LEGAL;
 
+  // Shift premium multiplier
+  const SHIFT_MULTIPLIERS: Record<string, number> = {
+    standard: 1.0,
+    afternoon: 1.15,
+    night: 1.25,
+    saturday: 1.5,
+    sunday: 2.0,
+    bank_holiday: 2.0,
+    custom: customMultiplier,
+  };
+  const activeMultiplier = shiftExpanded ? (SHIFT_MULTIPLIERS[shiftType] ?? 1.0) : 1.0;
+  const effectiveHourlyRate = hourlyRate * activeMultiplier;
+
   // Annual equivalent for tax purposes (hourly mode)
-  const annualEquiv = Math.round(hourlyRate * clampedHours * 52);
+  const annualEquiv = Math.round(effectiveHourlyRate * clampedHours * 52);
 
   // Effective gross fed into all tax/pension calculations
   // Annual mode: slider gross; Hourly mode: annualised equivalent
@@ -158,7 +176,9 @@ export default function CalculatorPage() {
   const sliderMax = maxReliefPct;
 
   // ── Hourly weekly figures ─────────────────────────────────────────
-  const weeklyGross  = hourlyRate * clampedHours;
+  const weeklyBasePay = hourlyRate * clampedHours;
+  const weeklyPremium = (effectiveHourlyRate - hourlyRate) * clampedHours;
+  const weeklyGross  = effectiveHourlyRate * clampedHours;
   const weeklyPAYE   = displayPaye / 52;
   const weeklyUSC    = baseTax.usc / 52;
   const weeklyPRSI   = baseTax.prsi / 52;
@@ -453,6 +473,161 @@ export default function CalculatorPage() {
                         Maximum working week under Irish law is {MAX_HOURS_LEGAL} hours.
                         Calculation uses {MAX_HOURS_LEGAL} hours.
                       </p>
+                    )}
+                  </div>
+
+                  {/* Shift premium toggle */}
+                  <div>
+                    <button
+                      onClick={() => setShiftExpanded(!shiftExpanded)}
+                      aria-expanded={shiftExpanded}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        background: 'none',
+                        border: 'none',
+                        padding: '10px 0',
+                        cursor: 'pointer',
+                        fontSize: 13,
+                        fontFamily: 'system-ui, sans-serif',
+                        color: 'var(--ink-2)',
+                        fontWeight: 500,
+                      }}
+                    >
+                      <span style={{ fontSize: 16, lineHeight: 1 }}>
+                        {shiftExpanded ? '−' : '+'}
+                      </span>
+                      {shiftExpanded ? 'Remove shift premium' : 'Add shift premium'}
+                    </button>
+
+                    {shiftExpanded && (
+                      <div style={{
+                        padding: '14px 0',
+                        borderTop: '1px solid var(--rule)',
+                        borderBottom: '1px solid var(--rule)',
+                        marginBottom: 4,
+                      }}>
+
+                        {/* Shift type select */}
+                        <div style={{ marginBottom: 14 }}>
+                          <label
+                            htmlFor="shift-type-select"
+                            className="font-sans text-xs font-medium block mb-1.5"
+                            style={{ color: 'var(--ink-2)' }}
+                          >
+                            Shift type
+                          </label>
+                          <select
+                            id="shift-type-select"
+                            value={shiftType}
+                            onChange={(e) => setShiftType(e.target.value)}
+                            className="font-sans text-sm"
+                            style={{
+                              border: '1px solid var(--rule)',
+                              padding: '6px 8px',
+                              background: 'var(--surface)',
+                              color: 'var(--ink)',
+                              borderRadius: '2px',
+                              outline: 'none',
+                              width: '100%',
+                              maxWidth: '280px',
+                            }}
+                          >
+                            <option value="standard">Standard day — ×1.0 (no premium)</option>
+                            <option value="afternoon">Afternoon / evening — ×1.15</option>
+                            <option value="night">Night shift — ×1.25</option>
+                            <option value="saturday">Saturday — ×1.5</option>
+                            <option value="sunday">Sunday — ×2.0</option>
+                            <option value="bank_holiday">Bank / public holiday — ×2.0</option>
+                            <option value="custom">Custom rate — enter your own</option>
+                          </select>
+                          <p className="font-sans" style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 4 }}>
+                            Typical rates — your actual rate may differ. Check your contract.
+                          </p>
+                        </div>
+
+                        {/* Custom multiplier */}
+                        {shiftType === 'custom' && (
+                          <div style={{ marginBottom: 14 }}>
+                            <label
+                              htmlFor="custom-multiplier-input"
+                              className="font-sans text-xs font-medium block mb-1.5"
+                              style={{ color: 'var(--ink-2)' }}
+                            >
+                              Your shift multiplier
+                            </label>
+                            <input
+                              id="custom-multiplier-input"
+                              type="number"
+                              min={1.0}
+                              max={4.0}
+                              step={0.01}
+                              value={customMultiplier}
+                              onChange={(e) => {
+                                const v = parseFloat(e.target.value);
+                                setCustomMultiplier(isNaN(v) ? 1.0 : v);
+                              }}
+                              placeholder="e.g. 1.33 for time and a third"
+                              style={{
+                                width: '160px',
+                                border: '1px solid var(--rule)',
+                                padding: '8px 12px',
+                                background: 'var(--surface)',
+                                color: 'var(--ink)',
+                                fontFamily: 'var(--font-mono, monospace)',
+                                fontSize: '0.9375rem',
+                                outline: 'none',
+                                borderRadius: '2px',
+                              }}
+                            />
+                            <p className="font-sans" style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 4 }}>
+                              Enter 1.5 for time and a half, 2.0 for double time, etc.
+                            </p>
+                            {customMultiplier < 1.0 && (
+                              <p className="font-sans" style={{ fontSize: 12, color: 'var(--accent)', marginTop: 4 }}>
+                                A multiplier below 1.0 means earning less than your base rate — check the value entered.
+                              </p>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Effective rate display */}
+                        <div style={{
+                          padding: '10px 12px',
+                          background: 'var(--bg)',
+                          borderRadius: 6,
+                          border: '1px solid var(--rule)',
+                          fontSize: 13,
+                          fontFamily: 'system-ui, sans-serif',
+                          color: 'var(--ink-2)',
+                        }}>
+                          Effective hourly rate:{' '}
+                          <strong style={{ fontFamily: 'var(--font-mono, monospace)', color: 'var(--ink)' }}>
+                            €{effectiveHourlyRate.toFixed(2)}/hr
+                          </strong>
+                          {activeMultiplier > 1.0 && (
+                            <span style={{ color: 'var(--ink-3)', marginLeft: 8 }}>
+                              (€{hourlyRate.toFixed(2)} base + €{(hourlyRate * (activeMultiplier - 1)).toFixed(2)} premium)
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Sunday legal note */}
+                        {shiftType === 'sunday' && (
+                          <p className="font-sans" style={{
+                            marginTop: 10,
+                            fontSize: 12,
+                            color: 'var(--ink-3)',
+                            lineHeight: 1.5,
+                          }}>
+                            Sunday work is protected under the Organisation of Working Time Act 1997.
+                            Employers must provide additional compensation but the exact amount is set
+                            in your contract — ×2.0 (double time) is common but not the only option.
+                          </p>
+                        )}
+
+                      </div>
                     )}
                   </div>
 
@@ -896,18 +1071,52 @@ export default function CalculatorPage() {
                 <>
                   {/* Weekly gross */}
                   <div className="mb-4">
-                    <p
-                      className="font-sans text-xs font-medium tracking-wide mb-1"
-                      style={{ color: 'var(--ink-2)' }}
-                    >
-                      Weekly gross
-                    </p>
-                    <p
-                      className="font-display text-2xl leading-none tabular-nums"
-                      style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
-                    >
-                      {fmt2(weeklyGross)}
-                    </p>
+                    {shiftExpanded && activeMultiplier > 1.0 ? (
+                      <div
+                        className="font-sans text-sm"
+                        style={{
+                          display: 'grid',
+                          gridTemplateColumns: '1fr auto',
+                          gap: '0.35rem 1rem',
+                          alignItems: 'baseline',
+                          marginBottom: '0.25rem',
+                        }}
+                      >
+                        <span style={{ color: 'var(--ink-2)' }}>
+                          Base pay ({clampedHours} hrs × {fmt2(hourlyRate)}/hr)
+                        </span>
+                        <span className="tabular-nums text-right" style={{ color: 'var(--ink)' }}>
+                          {fmt2(weeklyBasePay)}
+                        </span>
+                        <span style={{ color: 'var(--ink-2)' }}>Shift premium</span>
+                        <span className="tabular-nums text-right" style={{ color: 'var(--ink)' }}>
+                          +{fmt2(weeklyPremium)}
+                        </span>
+                        <div style={{ gridColumn: '1 / -1', borderTop: '1px solid var(--rule)', margin: '0.15rem 0' }} />
+                        <span className="font-medium" style={{ color: 'var(--ink)' }}>Weekly gross</span>
+                        <span
+                          className="tabular-nums text-right font-medium font-display"
+                          style={{ color: 'var(--ink)', fontSize: '1.5rem', letterSpacing: '-0.02em' }}
+                        >
+                          {fmt2(weeklyGross)}
+                        </span>
+                      </div>
+                    ) : (
+                      <>
+                        <p
+                          className="font-sans text-xs font-medium tracking-wide mb-1"
+                          style={{ color: 'var(--ink-2)' }}
+                        >
+                          Weekly gross
+                        </p>
+                        <p
+                          className="font-display text-2xl leading-none tabular-nums"
+                          style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
+                        >
+                          {fmt2(weeklyGross)}
+                        </p>
+                      </>
+                    )}
                   </div>
 
                   <Rule className="my-4" />
@@ -976,7 +1185,9 @@ export default function CalculatorPage() {
                       className="font-sans text-xs font-medium tracking-wide mb-1"
                       style={{ color: 'var(--ink-2)' }}
                     >
-                      Hourly net (approx.)
+                      {shiftExpanded && activeMultiplier > 1.0
+                        ? 'Take-home per hour (after tax)'
+                        : 'Hourly net (approx.)'}
                     </p>
                     <p
                       className="font-display text-2xl leading-none tabular-nums"
@@ -1034,10 +1245,16 @@ export default function CalculatorPage() {
                   {/* Contextual note */}
                   <p className="font-sans italic text-xs mt-5" style={{ color: 'var(--ink-2)', lineHeight: 1.6 }}>
                     Based on Budget 2026 rates for a single PAYE worker with standard credits
-                    working {clampedHours} hours per week at {fmt2(hourlyRate)}/hr
-                    ({formatEuro(annualEquiv)} annual equivalent).
+                    working {clampedHours} hours per week at{' '}
+                    {shiftExpanded && activeMultiplier > 1.0
+                      ? `${fmt2(effectiveHourlyRate)}/hr effective rate`
+                      : `${fmt2(hourlyRate)}/hr`}
+                    {' '}({formatEuro(annualEquiv)} annual equivalent).
                     Pension contributions not included{pensionEnabled ? ' in the base figure' : ''}.
                     For irregular hours, use your average weekly hours.
+                    {shiftExpanded && activeMultiplier > 1.0 && (
+                      <>{' '}Shift premium (×{activeMultiplier}) is fully taxable — PAYE, USC and PRSI apply to the premium at the same rate as base pay.</>
+                    )}
                   </p>
 
                   {/* Cross-link */}
