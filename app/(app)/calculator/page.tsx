@@ -20,6 +20,8 @@ import {
 const MIN_SALARY = 15000;
 const MAX_SALARY = 120000;
 const DEFAULT_SALARY = 35000;
+const MIN_WAGE_2026 = 13.50;
+const MAX_HOURS_LEGAL = 48;
 
 type SavedCalc = {
   gross_annual_cents: number;
@@ -27,14 +29,34 @@ type SavedCalc = {
   created_at: string | null;
 };
 
+type Mode = 'annual' | 'hourly';
+
+/** Two decimal place euro formatter for weekly/hourly figures */
+function fmt2(n: number): string {
+  return new Intl.NumberFormat('en-IE', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(n);
+}
+
 function formatMonth(iso: string): string {
   return new Date(iso).toLocaleDateString('en-IE', { month: 'long', year: 'numeric' });
 }
 
 export default function CalculatorPage() {
+  // ── Mode ─────────────────────────────────────────────────────────
+  const [mode, setMode] = useState<Mode>('annual');
+
+  // ── Annual state ─────────────────────────────────────────────────
   const [gross, setGross] = useState(DEFAULT_SALARY);
 
-  // Pension state
+  // ── Hourly state ─────────────────────────────────────────────────
+  const [hourlyRate, setHourlyRate] = useState(15.00);
+  const [hoursPerWeek, setHoursPerWeek] = useState(20);
+
+  // ── Pension state ─────────────────────────────────────────────────
   const [pensionEnabled, setPensionEnabled] = useState(false);
   const [pensionMode, setPensionMode] = useState<'auto-enrolment' | 'custom'>('auto-enrolment');
   const [autoEnrolPhase, setAutoEnrolPhase] = useState<AutoEnrolPhase>(1);
@@ -67,10 +89,23 @@ export default function CalculatorPage() {
     });
   }, []);
 
+  // ── Derived values ───────────────────────────────────────────────
+
+  // Clamp hours to legal max
+  const clampedHours = Math.min(Math.max(0, hoursPerWeek), MAX_HOURS_LEGAL);
+  const hoursExceedLegal = hoursPerWeek > MAX_HOURS_LEGAL;
+
+  // Annual equivalent for tax purposes (hourly mode)
+  const annualEquiv = Math.round(hourlyRate * clampedHours * 52);
+
+  // Effective gross fed into all tax/pension calculations
+  // Annual mode: slider gross; Hourly mode: annualised equivalent
+  const displayGross = mode === 'hourly' ? (hourlyRate > 0 && clampedHours > 0 ? annualEquiv : 0) : gross;
+
   // ── Tax calculations ─────────────────────────────────────────────
 
-  // Base tax always computed on full gross (no pension)
-  const baseTax = calcNet(gross);
+  // Base tax always computed on full displayGross (no pension)
+  const baseTax = calcNet(displayGross);
 
   // Determine contribution percentages
   const phaseRates = AUTO_ENROL_RATES[autoEnrolPhase];
@@ -87,21 +122,21 @@ export default function CalculatorPage() {
 
   // Effective employee contribution, capped by age band
   const maxReliefPct = AGE_BAND_RELIEF_PCT[ageBand];
-  const maxEmployeeContrib = (Math.min(gross, PENSION_EARNINGS_CAP) * maxReliefPct) / 100;
-  const uncappedEmployeeContrib = (gross * employeePct) / 100;
+  const maxEmployeeContrib = (Math.min(displayGross, PENSION_EARNINGS_CAP) * maxReliefPct) / 100;
+  const uncappedEmployeeContrib = (displayGross * employeePct) / 100;
   const employeeContrib = pensionEnabled
     ? Math.min(uncappedEmployeeContrib, maxEmployeeContrib)
     : 0;
 
   // PAYE on reduced taxable income (pension contributions are PAYE-deductible)
-  // USC and PRSI remain on full gross
-  const taxableIncome = gross - employeeContrib;
+  // USC and PRSI remain on full displayGross
+  const taxableIncome = displayGross - employeeContrib;
   const taxAdjusted = pensionEnabled ? calcNet(taxableIncome) : baseTax;
   const displayPaye = taxAdjusted.paye;
 
-  // Net take-home: subtract deductions from gross, then subtract employee pension contribution
+  // Net take-home (annual): subtract deductions from gross, then subtract pension contribution
   const displayNet = pensionEnabled
-    ? Math.round(gross - displayPaye - baseTax.usc - baseTax.prsi - employeeContrib)
+    ? Math.round(displayGross - displayPaye - baseTax.usc - baseTax.prsi - employeeContrib)
     : baseTax.net;
 
   const totalDeductions = displayPaye + baseTax.usc + baseTax.prsi;
@@ -109,7 +144,7 @@ export default function CalculatorPage() {
   // Pension breakdown object (null when disabled)
   const pensionBreakdown = pensionEnabled
     ? calcPension({
-        gross,
+        gross: displayGross,
         employeePct,
         employerPct,
         statePct,
@@ -121,6 +156,18 @@ export default function CalculatorPage() {
 
   // Slider max clamped to age band limit (own pension mode only)
   const sliderMax = maxReliefPct;
+
+  // ── Hourly weekly figures ─────────────────────────────────────────
+  const weeklyGross  = hourlyRate * clampedHours;
+  const weeklyPAYE   = displayPaye / 52;
+  const weeklyUSC    = baseTax.usc / 52;
+  const weeklyPRSI   = baseTax.prsi / 52;
+  const weeklyNet    = displayNet / 52;
+  const hourlyNet    = clampedHours > 0 ? weeklyNet / clampedHours : 0;
+  const weeklyTotalDeductions = weeklyPAYE + weeklyUSC + weeklyPRSI;
+
+  // Edge case flags (hourly mode)
+  const showMinWageNote = mode === 'hourly' && hourlyRate > 0 && hourlyRate < MIN_WAGE_2026;
 
   // ── Banner ───────────────────────────────────────────────────────
 
@@ -154,14 +201,14 @@ export default function CalculatorPage() {
       const supabase = createClient();
       await supabase.from('saved_calculations').insert({
         user_id: userId,
-        gross_annual_cents: Math.round(gross * 100),
+        gross_annual_cents: Math.round(displayGross * 100),
         net_annual_cents: Math.round(displayNet * 100),
         tax_year: '2026',
         calculation_type: 'take_home',
       });
       setSaveSuccess(true);
       setSavedCalc({
-        gross_annual_cents: Math.round(gross * 100),
+        gross_annual_cents: Math.round(displayGross * 100),
         net_annual_cents: Math.round(displayNet * 100),
         created_at: new Date().toISOString(),
       });
@@ -180,10 +227,7 @@ export default function CalculatorPage() {
         <header className="mb-8 lg:mb-10">
           <h1
             className="font-display text-4xl sm:text-5xl leading-tight mb-2"
-            style={{
-              color: 'var(--ink)',
-              letterSpacing: '-0.02em',
-            }}
+            style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
           >
             Take-home pay calculator
           </h1>
@@ -206,79 +250,214 @@ export default function CalculatorPage() {
             {/* ── Left column: inputs ──────────────────────────────── */}
             <div className="lg:col-span-5 p-6 lg:p-10 flex flex-col gap-6">
 
-              {/* Salary input */}
+              {/* Mode toggle */}
               <div>
-                <label
-                  htmlFor="salary-input"
-                  className="font-sans text-sm font-medium block mb-3"
-                  style={{ color: 'var(--ink)' }}
-                >
-                  Annual gross salary
-                </label>
-
                 <p
-                  className="font-display text-3xl mb-3 tabular-nums"
-                  style={{
-                    color: 'var(--ink)',
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  {formatEuro(gross)}
-                </p>
-
-                <input
-                  type="range"
-                  id="salary-input"
-                  min={MIN_SALARY}
-                  max={MAX_SALARY}
-                  step={1}
-                  value={gross}
-                  onChange={(e) => setGross(parseInt(e.target.value, 10))}
-                  className="w-full max-w-sm mb-1"
-                  style={{ accentColor: 'var(--accent)' }}
-                />
-
-                <div
-                  className="flex justify-between font-sans text-xs max-w-sm mb-4"
+                  className="font-sans text-xs font-medium mb-2"
                   style={{ color: 'var(--ink-2)' }}
                 >
-                  <span>{formatEuro(MIN_SALARY)}</span>
-                  <span>{formatEuro(MAX_SALARY)}</span>
+                  Input mode
+                </p>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  {(['annual', 'hourly'] as const).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setMode(m)}
+                      className="font-sans text-sm"
+                      style={{
+                        padding: '0.375rem 0.875rem',
+                        border: '1px solid',
+                        borderColor: mode === m ? 'var(--accent)' : 'var(--rule)',
+                        backgroundColor:
+                          mode === m
+                            ? 'color-mix(in srgb, var(--accent) 10%, transparent)'
+                            : 'transparent',
+                        color: mode === m ? 'var(--accent)' : 'var(--ink-2)',
+                        cursor: 'pointer',
+                        borderRadius: '2px',
+                        fontWeight: mode === m ? 600 : 400,
+                      }}
+                    >
+                      {m === 'annual' ? 'Annual salary' : 'Hourly rate'}
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                {/* Direct type-in */}
-                <div className="relative inline-block">
-                  <span
-                    className="absolute left-3 top-1/2 -translate-y-1/2 font-sans text-base pointer-events-none"
-                    style={{ color: 'var(--ink-2)' }}
+              {/* ── Annual salary input ──────────────────────────────── */}
+              {mode === 'annual' && (
+                <div>
+                  <label
+                    htmlFor="salary-input"
+                    className="font-sans text-sm font-medium block mb-3"
+                    style={{ color: 'var(--ink)' }}
                   >
-                    &euro;
-                  </span>
+                    Annual gross salary
+                  </label>
+
+                  <p
+                    className="font-display text-3xl mb-3 tabular-nums"
+                    style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
+                  >
+                    {formatEuro(gross)}
+                  </p>
+
                   <input
-                    type="number"
+                    type="range"
+                    id="salary-input"
                     min={MIN_SALARY}
                     max={MAX_SALARY}
                     step={1}
                     value={gross}
-                    onChange={(e) => {
-                      const v = parseInt(e.target.value, 10);
-                      if (!isNaN(v)) setGross(Math.max(MIN_SALARY, Math.min(MAX_SALARY, v)));
-                    }}
-                    aria-label="Or type a salary amount"
-                    style={{
-                      width: '160px',
-                      border: '1px solid var(--rule)',
-                      padding: '8px 12px 8px 28px',
-                      background: 'var(--surface)',
-                      color: 'var(--ink)',
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '0.9375rem',
-                      outline: 'none',
-                      borderRadius: '2px',
-                    }}
+                    onChange={(e) => setGross(parseInt(e.target.value, 10))}
+                    className="w-full max-w-sm mb-1"
+                    style={{ accentColor: 'var(--accent)' }}
                   />
+
+                  <div
+                    className="flex justify-between font-sans text-xs max-w-sm mb-4"
+                    style={{ color: 'var(--ink-2)' }}
+                  >
+                    <span>{formatEuro(MIN_SALARY)}</span>
+                    <span>{formatEuro(MAX_SALARY)}</span>
+                  </div>
+
+                  {/* Direct type-in */}
+                  <div className="relative inline-block">
+                    <span
+                      className="absolute left-3 top-1/2 -translate-y-1/2 font-sans text-base pointer-events-none"
+                      style={{ color: 'var(--ink-2)' }}
+                    >
+                      &euro;
+                    </span>
+                    <input
+                      type="number"
+                      min={MIN_SALARY}
+                      max={MAX_SALARY}
+                      step={1}
+                      value={gross}
+                      onChange={(e) => {
+                        const v = parseInt(e.target.value, 10);
+                        if (!isNaN(v)) setGross(Math.max(MIN_SALARY, Math.min(MAX_SALARY, v)));
+                      }}
+                      aria-label="Or type a salary amount"
+                      style={{
+                        width: '160px',
+                        border: '1px solid var(--rule)',
+                        padding: '8px 12px 8px 28px',
+                        background: 'var(--surface)',
+                        color: 'var(--ink)',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '0.9375rem',
+                        outline: 'none',
+                        borderRadius: '2px',
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* ── Hourly rate inputs ───────────────────────────────── */}
+              {mode === 'hourly' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+
+                  {/* Hourly rate */}
+                  <div>
+                    <label
+                      htmlFor="hourly-rate-input"
+                      className="font-sans text-sm font-medium block mb-2"
+                      style={{ color: 'var(--ink)' }}
+                    >
+                      Hourly rate
+                    </label>
+                    <div className="relative inline-block">
+                      <span
+                        className="absolute left-3 top-1/2 -translate-y-1/2 font-sans text-base pointer-events-none"
+                        style={{ color: 'var(--ink-2)' }}
+                      >
+                        &euro;
+                      </span>
+                      <input
+                        id="hourly-rate-input"
+                        type="number"
+                        min={0}
+                        max={200}
+                        step={0.01}
+                        value={hourlyRate}
+                        onChange={(e) => {
+                          const v = parseFloat(e.target.value);
+                          setHourlyRate(isNaN(v) ? 0 : Math.max(0, Math.min(200, v)));
+                        }}
+                        style={{
+                          width: '160px',
+                          border: '1px solid var(--rule)',
+                          padding: '8px 12px 8px 28px',
+                          background: 'var(--surface)',
+                          color: 'var(--ink)',
+                          fontFamily: 'var(--font-mono, monospace)',
+                          fontSize: '0.9375rem',
+                          outline: 'none',
+                          borderRadius: '2px',
+                        }}
+                      />
+                    </div>
+                    {showMinWageNote && (
+                      <p
+                        className="font-sans text-xs mt-1.5"
+                        style={{ color: 'var(--ink-3)' }}
+                      >
+                        Note: The national minimum wage for workers aged 20+ is €{MIN_WAGE_2026.toFixed(2)}/hr.
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Hours per week */}
+                  <div>
+                    <label
+                      htmlFor="hours-input"
+                      className="font-sans text-sm font-medium block mb-2"
+                      style={{ color: 'var(--ink)' }}
+                    >
+                      Hours per week
+                    </label>
+                    <div className="relative inline-block">
+                      <input
+                        id="hours-input"
+                        type="number"
+                        min={0}
+                        max={MAX_HOURS_LEGAL}
+                        step={0.5}
+                        value={hoursPerWeek}
+                        onChange={(e) => {
+                          const v = parseFloat(e.target.value);
+                          setHoursPerWeek(isNaN(v) ? 0 : Math.max(0, v));
+                        }}
+                        style={{
+                          width: '120px',
+                          border: '1px solid var(--rule)',
+                          padding: '8px 12px',
+                          background: 'var(--surface)',
+                          color: 'var(--ink)',
+                          fontFamily: 'var(--font-mono, monospace)',
+                          fontSize: '0.9375rem',
+                          outline: 'none',
+                          borderRadius: '2px',
+                        }}
+                      />
+                    </div>
+                    {hoursExceedLegal && (
+                      <p
+                        className="font-sans text-xs mt-1.5"
+                        style={{ color: 'var(--ink-3)' }}
+                      >
+                        Maximum working week under Irish law is {MAX_HOURS_LEGAL} hours.
+                        Calculation uses {MAX_HOURS_LEGAL} hours.
+                      </p>
+                    )}
+                  </div>
+
+                </div>
+              )}
 
               {/* ── Pension section ─────────────────────────────────── */}
               <div style={{ borderTop: '1px solid var(--rule)', paddingTop: '1.25rem' }}>
@@ -410,7 +589,6 @@ export default function CalculatorPage() {
                             onChange={(e) => {
                               const next = e.target.value as AgeBand;
                               setAgeBand(next);
-                              // Clamp slider to new age band max
                               const nextMax = AGE_BAND_RELIEF_PCT[next];
                               if (customPct > nextMax) setCustomPct(nextMax);
                             }}
@@ -544,229 +722,333 @@ export default function CalculatorPage() {
             {/* ── Right column: results ────────────────────────────── */}
             <div className="lg:col-span-7 p-6 lg:p-10">
 
-              {/* Annual net */}
-              <div className="mb-1">
-                <p
-                  className="font-sans text-xs font-medium tracking-wide mb-1"
-                  style={{ color: 'var(--ink-2)' }}
-                >
-                  {pensionEnabled ? 'Annual take-home (after pension)' : 'Annual net'}
-                </p>
-                <p
-                  className="font-display text-5xl lg:text-7xl leading-none"
-                  style={{
-                    color: 'var(--ink)',
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  {formatEuro(displayNet)}
-                </p>
-                {pensionEnabled && (
-                  <p className="font-sans text-xs mt-1" style={{ color: 'var(--ink-2)' }}>
-                    Without pension: {formatEuro(baseTax.net)}
-                  </p>
-                )}
-              </div>
-
-              {/* Monthly net */}
-              <div className="mb-6 mt-3">
-                <p
-                  className="font-sans text-xs font-medium tracking-wide mb-1"
-                  style={{ color: 'var(--ink-2)' }}
-                >
-                  Monthly
-                </p>
-                <p
-                  className="font-display text-2xl leading-none"
-                  style={{
-                    color: 'var(--ink)',
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  {formatEuro(Math.round(displayNet / 12))}
-                </p>
-              </div>
-
-              <Rule className="my-6" />
-
-              {/* Deductions breakdown — bars proportional to total deductions */}
-              <div>
-                {[
-                  { label: 'PAYE', amount: displayPaye },
-                  { label: 'USC', amount: baseTax.usc },
-                  { label: 'PRSI', amount: baseTax.prsi },
-                ].map(({ label, amount }) => (
-                  <div className="mb-4" key={label}>
-                    <div className="flex justify-between items-baseline mb-1.5">
-                      <span className="font-sans text-sm" style={{ color: 'var(--ink-2)' }}>
-                        {label}
-                      </span>
-                      <span
-                        className="font-sans text-sm font-medium tabular-nums"
-                        style={{ color: 'var(--ink)' }}
-                      >
-                        {formatEuro(amount)}
-                      </span>
-                    </div>
-                    <div
-                      style={{
-                        height: '8px',
-                        borderRadius: '4px',
-                        backgroundColor: 'var(--rule)',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: `${
-                            totalDeductions > 0
-                              ? Math.min(100, (amount / totalDeductions) * 100)
-                              : 0
-                          }%`,
-                          height: '100%',
-                          borderRadius: '4px',
-                          backgroundColor: 'var(--accent)',
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Pension breakdown */}
-              {pensionBreakdown && (
+              {/* ═══ ANNUAL MODE OUTPUT ════════════════════════════ */}
+              {mode === 'annual' && (
                 <>
-                  <Rule className="my-6" />
-                  <div>
+                  {/* Annual net */}
+                  <div className="mb-1">
                     <p
-                      className="font-sans text-xs font-medium tracking-wide mb-3"
+                      className="font-sans text-xs font-medium tracking-wide mb-1"
                       style={{ color: 'var(--ink-2)' }}
                     >
-                      {pensionMode === 'auto-enrolment'
-                        ? `Pension — ${PHASE_LABELS[autoEnrolPhase]}`
-                        : 'Pension contribution'}
+                      {pensionEnabled ? 'Annual take-home (after pension)' : 'Annual net'}
                     </p>
-
-                    <div
-                      className="font-sans text-sm"
-                      style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr auto',
-                        gap: '0.5rem 1rem',
-                        alignItems: 'baseline',
-                      }}
-                    >
-                      <span style={{ color: 'var(--ink-2)' }}>Your contribution</span>
-                      <span
-                        className="tabular-nums text-right"
-                        style={{ color: 'var(--ink)' }}
-                      >
-                        {formatEuro(pensionBreakdown.employeeContribution)}/yr
-                      </span>
-
-                      <span style={{ color: 'var(--ink-2)' }}>Tax relief (PAYE saving)</span>
-                      <span
-                        className="tabular-nums text-right"
-                        style={{ color: 'var(--accent)' }}
-                      >
-                        &minus;{formatEuro(pensionBreakdown.payeSaving)}/yr
-                      </span>
-
-                      <span className="font-medium" style={{ color: 'var(--ink)' }}>
-                        True cost to you
-                      </span>
-                      <span
-                        className="tabular-nums text-right font-medium"
-                        style={{ color: 'var(--ink)' }}
-                      >
-                        {formatEuro(pensionBreakdown.trueCost)}/yr
-                        <span
-                          className="font-normal"
-                          style={{ color: 'var(--ink-2)', fontSize: '0.75rem' }}
-                        >
-                          {' '}
-                          ({formatEuro(Math.round(pensionBreakdown.trueCost / 12))}/mo)
-                        </span>
-                      </span>
-
-                      {pensionMode === 'auto-enrolment' && (
-                        <>
-                          <div
-                            style={{
-                              gridColumn: '1 / -1',
-                              borderTop: '1px solid var(--rule)',
-                              margin: '0.25rem 0',
-                            }}
-                          />
-
-                          <span style={{ color: 'var(--ink-2)' }}>Your employer adds</span>
-                          <span
-                            className="tabular-nums text-right"
-                            style={{ color: 'var(--ink)' }}
-                          >
-                            {formatEuro(pensionBreakdown.employerContribution)}/yr
-                          </span>
-
-                          <span style={{ color: 'var(--ink-2)' }}>State top-up</span>
-                          <span
-                            className="tabular-nums text-right"
-                            style={{ color: 'var(--ink)' }}
-                          >
-                            {formatEuro(pensionBreakdown.stateContribution)}/yr
-                          </span>
-
-                          <div
-                            style={{
-                              gridColumn: '1 / -1',
-                              borderTop: '1px solid var(--rule)',
-                              margin: '0.25rem 0',
-                            }}
-                          />
-
-                          <span className="font-medium" style={{ color: 'var(--ink)' }}>
-                            Total into your pot
-                          </span>
-                          <span
-                            className="tabular-nums text-right font-medium"
-                            style={{ color: 'var(--ink)' }}
-                          >
-                            {formatEuro(pensionBreakdown.totalPotContribution)}/yr
-                          </span>
-                        </>
-                      )}
-                    </div>
-
                     <p
-                      className="font-sans text-xs mt-3 leading-relaxed"
-                      style={{ color: 'var(--ink-2)', fontStyle: 'italic' }}
+                      className="font-display text-5xl lg:text-7xl leading-none"
+                      style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
                     >
-                      USC and PRSI apply to your full gross salary — pension contributions
-                      don&rsquo;t reduce these.
+                      {formatEuro(displayNet)}
                     </p>
-
-                    {pensionBreakdown.cappedByAge && (
-                      <p
-                        className="font-sans text-xs mt-2 leading-relaxed"
-                        style={{ color: 'var(--ink-2)' }}
-                      >
-                        Your contribution has been capped at{' '}
-                        {pensionBreakdown.maxEmployeeContribPct}% of salary (the Revenue
-                        limit for your age group).
+                    {pensionEnabled && (
+                      <p className="font-sans text-xs mt-1" style={{ color: 'var(--ink-2)' }}>
+                        Without pension: {formatEuro(baseTax.net)}
                       </p>
                     )}
                   </div>
+
+                  {/* Monthly net */}
+                  <div className="mb-6 mt-3">
+                    <p
+                      className="font-sans text-xs font-medium tracking-wide mb-1"
+                      style={{ color: 'var(--ink-2)' }}
+                    >
+                      Monthly
+                    </p>
+                    <p
+                      className="font-display text-2xl leading-none"
+                      style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
+                    >
+                      {formatEuro(Math.round(displayNet / 12))}
+                    </p>
+                  </div>
+
+                  <Rule className="my-6" />
+
+                  {/* Deductions breakdown */}
+                  <div>
+                    {[
+                      { label: 'PAYE', amount: displayPaye },
+                      { label: 'USC', amount: baseTax.usc },
+                      { label: 'PRSI', amount: baseTax.prsi },
+                    ].map(({ label, amount }) => (
+                      <div className="mb-4" key={label}>
+                        <div className="flex justify-between items-baseline mb-1.5">
+                          <span className="font-sans text-sm" style={{ color: 'var(--ink-2)' }}>
+                            {label}
+                          </span>
+                          <span
+                            className="font-sans text-sm font-medium tabular-nums"
+                            style={{ color: 'var(--ink)' }}
+                          >
+                            {formatEuro(amount)}
+                          </span>
+                        </div>
+                        <div
+                          style={{ height: '8px', borderRadius: '4px', backgroundColor: 'var(--rule)' }}
+                        >
+                          <div
+                            style={{
+                              width: `${totalDeductions > 0 ? Math.min(100, (amount / totalDeductions) * 100) : 0}%`,
+                              height: '100%',
+                              borderRadius: '4px',
+                              backgroundColor: 'var(--accent)',
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Pension breakdown */}
+                  {pensionBreakdown && (
+                    <>
+                      <Rule className="my-6" />
+                      <div>
+                        <p
+                          className="font-sans text-xs font-medium tracking-wide mb-3"
+                          style={{ color: 'var(--ink-2)' }}
+                        >
+                          {pensionMode === 'auto-enrolment'
+                            ? `Pension — ${PHASE_LABELS[autoEnrolPhase]}`
+                            : 'Pension contribution'}
+                        </p>
+
+                        <div
+                          className="font-sans text-sm"
+                          style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr auto',
+                            gap: '0.5rem 1rem',
+                            alignItems: 'baseline',
+                          }}
+                        >
+                          <span style={{ color: 'var(--ink-2)' }}>Your contribution</span>
+                          <span className="tabular-nums text-right" style={{ color: 'var(--ink)' }}>
+                            {formatEuro(pensionBreakdown.employeeContribution)}/yr
+                          </span>
+
+                          <span style={{ color: 'var(--ink-2)' }}>Tax relief (PAYE saving)</span>
+                          <span className="tabular-nums text-right" style={{ color: 'var(--accent)' }}>
+                            &minus;{formatEuro(pensionBreakdown.payeSaving)}/yr
+                          </span>
+
+                          <span className="font-medium" style={{ color: 'var(--ink)' }}>
+                            True cost to you
+                          </span>
+                          <span className="tabular-nums text-right font-medium" style={{ color: 'var(--ink)' }}>
+                            {formatEuro(pensionBreakdown.trueCost)}/yr
+                            <span className="font-normal" style={{ color: 'var(--ink-2)', fontSize: '0.75rem' }}>
+                              {' '}({formatEuro(Math.round(pensionBreakdown.trueCost / 12))}/mo)
+                            </span>
+                          </span>
+
+                          {pensionMode === 'auto-enrolment' && (
+                            <>
+                              <div style={{ gridColumn: '1 / -1', borderTop: '1px solid var(--rule)', margin: '0.25rem 0' }} />
+                              <span style={{ color: 'var(--ink-2)' }}>Your employer adds</span>
+                              <span className="tabular-nums text-right" style={{ color: 'var(--ink)' }}>
+                                {formatEuro(pensionBreakdown.employerContribution)}/yr
+                              </span>
+                              <span style={{ color: 'var(--ink-2)' }}>State top-up</span>
+                              <span className="tabular-nums text-right" style={{ color: 'var(--ink)' }}>
+                                {formatEuro(pensionBreakdown.stateContribution)}/yr
+                              </span>
+                              <div style={{ gridColumn: '1 / -1', borderTop: '1px solid var(--rule)', margin: '0.25rem 0' }} />
+                              <span className="font-medium" style={{ color: 'var(--ink)' }}>Total into your pot</span>
+                              <span className="tabular-nums text-right font-medium" style={{ color: 'var(--ink)' }}>
+                                {formatEuro(pensionBreakdown.totalPotContribution)}/yr
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        <p
+                          className="font-sans text-xs mt-3 leading-relaxed"
+                          style={{ color: 'var(--ink-2)', fontStyle: 'italic' }}
+                        >
+                          USC and PRSI apply to your full gross salary — pension contributions
+                          don&rsquo;t reduce these.
+                        </p>
+
+                        {pensionBreakdown.cappedByAge && (
+                          <p className="font-sans text-xs mt-2 leading-relaxed" style={{ color: 'var(--ink-2)' }}>
+                            Your contribution has been capped at{' '}
+                            {pensionBreakdown.maxEmployeeContribPct}% of salary (the Revenue
+                            limit for your age group).
+                          </p>
+                        )}
+                      </div>
+                    </>
+                  )}
+
+                  {/* Cross-link */}
+                  <p className="font-sans text-xs mt-6" style={{ color: 'var(--ink-2)' }}>
+                    Want to understand these numbers?{' '}
+                    <a href="/lessons/payslip" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+                      Read the payslip lesson &rarr;
+                    </a>
+                  </p>
                 </>
               )}
 
-              {/* Cross-link to payslip lesson */}
-              <p className="font-sans text-xs mt-6" style={{ color: 'var(--ink-2)' }}>
-                Want to understand these numbers?{' '}
-                <a
-                  href="/lessons/payslip"
-                  style={{ color: 'var(--accent)', textDecoration: 'none' }}
-                >
-                  Read the payslip lesson &rarr;
-                </a>
-              </p>
+              {/* ═══ HOURLY MODE OUTPUT ════════════════════════════ */}
+              {mode === 'hourly' && (
+                <>
+                  {/* Weekly gross */}
+                  <div className="mb-4">
+                    <p
+                      className="font-sans text-xs font-medium tracking-wide mb-1"
+                      style={{ color: 'var(--ink-2)' }}
+                    >
+                      Weekly gross
+                    </p>
+                    <p
+                      className="font-display text-2xl leading-none tabular-nums"
+                      style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
+                    >
+                      {fmt2(weeklyGross)}
+                    </p>
+                  </div>
+
+                  <Rule className="my-4" />
+
+                  {/* Weekly deductions */}
+                  <div className="mb-2">
+                    {[
+                      { label: 'Income tax (PAYE)', amount: weeklyPAYE },
+                      { label: 'Universal Social Charge (USC)', amount: weeklyUSC },
+                      { label: 'Pay Related Social Insurance (PRSI)', amount: weeklyPRSI },
+                    ].map(({ label, amount }) => (
+                      <div className="mb-4" key={label}>
+                        <div className="flex justify-between items-baseline mb-1.5">
+                          <span className="font-sans text-sm" style={{ color: 'var(--ink-2)' }}>
+                            − {label}
+                          </span>
+                          <span
+                            className="font-sans text-sm font-medium tabular-nums"
+                            style={{ color: 'var(--ink)' }}
+                          >
+                            {fmt2(amount)}
+                          </span>
+                        </div>
+                        <div
+                          style={{ height: '8px', borderRadius: '4px', backgroundColor: 'var(--rule)' }}
+                        >
+                          <div
+                            style={{
+                              width: `${weeklyTotalDeductions > 0 ? Math.min(100, (amount / weeklyTotalDeductions) * 100) : 0}%`,
+                              height: '100%',
+                              borderRadius: '4px',
+                              backgroundColor: 'var(--accent)',
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Rule className="my-4" />
+
+                  {/* Weekly take-home — large display number */}
+                  <div className="mb-1">
+                    <p
+                      className="font-sans text-xs font-medium tracking-wide mb-1"
+                      style={{ color: 'var(--ink-2)' }}
+                    >
+                      {pensionEnabled ? 'Weekly take-home (after pension)' : 'Weekly take-home'}
+                    </p>
+                    <p
+                      className="font-display text-5xl lg:text-7xl leading-none tabular-nums"
+                      style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
+                    >
+                      {fmt2(weeklyNet)}
+                    </p>
+                    {pensionEnabled && (
+                      <p className="font-sans text-xs mt-1" style={{ color: 'var(--ink-2)' }}>
+                        Without pension: {fmt2(baseTax.net / 52)}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Hourly net */}
+                  <div className="mb-6 mt-3">
+                    <p
+                      className="font-sans text-xs font-medium tracking-wide mb-1"
+                      style={{ color: 'var(--ink-2)' }}
+                    >
+                      Hourly net (approx.)
+                    </p>
+                    <p
+                      className="font-display text-2xl leading-none tabular-nums"
+                      style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
+                    >
+                      {fmt2(hourlyNet)}
+                    </p>
+                  </div>
+
+                  {/* Pension breakdown (weekly) */}
+                  {pensionBreakdown && (
+                    <>
+                      <Rule className="my-6" />
+                      <div>
+                        <p
+                          className="font-sans text-xs font-medium tracking-wide mb-3"
+                          style={{ color: 'var(--ink-2)' }}
+                        >
+                          {pensionMode === 'auto-enrolment'
+                            ? `Pension — ${PHASE_LABELS[autoEnrolPhase]}`
+                            : 'Pension contribution'}
+                        </p>
+                        <div
+                          className="font-sans text-sm"
+                          style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr auto',
+                            gap: '0.5rem 1rem',
+                            alignItems: 'baseline',
+                          }}
+                        >
+                          <span style={{ color: 'var(--ink-2)' }}>Your contribution</span>
+                          <span className="tabular-nums text-right" style={{ color: 'var(--ink)' }}>
+                            {fmt2(pensionBreakdown.employeeContribution / 52)}/wk
+                          </span>
+                          <span style={{ color: 'var(--ink-2)' }}>Tax relief (PAYE saving)</span>
+                          <span className="tabular-nums text-right" style={{ color: 'var(--accent)' }}>
+                            &minus;{fmt2(pensionBreakdown.payeSaving / 52)}/wk
+                          </span>
+                          <span className="font-medium" style={{ color: 'var(--ink)' }}>True cost to you</span>
+                          <span className="tabular-nums text-right font-medium" style={{ color: 'var(--ink)' }}>
+                            {fmt2(pensionBreakdown.trueCost / 52)}/wk
+                          </span>
+                        </div>
+                        <p
+                          className="font-sans text-xs mt-3 leading-relaxed"
+                          style={{ color: 'var(--ink-2)', fontStyle: 'italic' }}
+                        >
+                          USC and PRSI apply to your full earnings — pension contributions don&rsquo;t reduce these.
+                        </p>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Contextual note */}
+                  <p className="font-sans italic text-xs mt-5" style={{ color: 'var(--ink-2)', lineHeight: 1.6 }}>
+                    Based on Budget 2026 rates for a single PAYE worker with standard credits
+                    working {clampedHours} hours per week at {fmt2(hourlyRate)}/hr
+                    ({formatEuro(annualEquiv)} annual equivalent).
+                    Pension contributions not included{pensionEnabled ? ' in the base figure' : ''}.
+                    For irregular hours, use your average weekly hours.
+                  </p>
+
+                  {/* Cross-link */}
+                  <p className="font-sans text-xs mt-4" style={{ color: 'var(--ink-2)' }}>
+                    Want to understand what these deductions mean?{' '}
+                    <a href="/lessons/payslip" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+                      Read the payslip module &rarr;
+                    </a>
+                  </p>
+                </>
+              )}
 
             </div>
 
@@ -778,9 +1060,9 @@ export default function CalculatorPage() {
           className="font-sans italic text-xs mt-4"
           style={{ color: 'var(--ink-2)', maxWidth: '65ch' }}
         >
-          Based on Budget 2026 rates for a single PAYE worker with standard credits. Pension
-          relief calculations are illustrative — consult Revenue.ie or a financial adviser for
-          your specific situation.
+          {mode === 'annual'
+            ? 'Based on Budget 2026 rates for a single PAYE worker with standard credits. Pension relief calculations are illustrative — consult Revenue.ie or a financial adviser for your specific situation.'
+            : 'PRSI is applied to all earnings in this calculator. In practice, workers earning below €352/week may be exempt or on a reduced rate — check Revenue.ie for your exact class.'}
         </p>
 
       </div>
