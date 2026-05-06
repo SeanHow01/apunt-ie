@@ -59,7 +59,7 @@ export default function CalculatorPage() {
   // ── Shift premium state ───────────────────────────────────────────
   const [shiftExpanded, setShiftExpanded] = useState(false);
   const [shiftType, setShiftType] = useState('standard');
-  const [customMultiplier, setCustomMultiplier] = useState(1.0);
+  const [customPremiumPct, setCustomPremiumPct] = useState(0);
 
   // ── Pension state ─────────────────────────────────────────────────
   const [pensionEnabled, setPensionEnabled] = useState(false);
@@ -108,7 +108,7 @@ export default function CalculatorPage() {
     saturday: 1.5,
     sunday: 2.0,
     bank_holiday: 2.0,
-    custom: customMultiplier,
+    custom: 1 + customPremiumPct / 100,
   };
   const activeMultiplier = shiftExpanded ? (SHIFT_MULTIPLIERS[shiftType] ?? 1.0) : 1.0;
   const effectiveHourlyRate = hourlyRate * activeMultiplier;
@@ -547,46 +547,54 @@ export default function CalculatorPage() {
                           </p>
                         </div>
 
-                        {/* Custom multiplier */}
+                        {/* Custom premium % */}
                         {shiftType === 'custom' && (
                           <div style={{ marginBottom: 14 }}>
                             <label
-                              htmlFor="custom-multiplier-input"
+                              htmlFor="custom-premium-input"
                               className="font-sans text-xs font-medium block mb-1.5"
                               style={{ color: 'var(--ink-2)' }}
                             >
-                              Your shift multiplier
+                              Shift premium %
                             </label>
-                            <input
-                              id="custom-multiplier-input"
-                              type="number"
-                              min={1.0}
-                              max={4.0}
-                              step={0.01}
-                              value={customMultiplier}
-                              onChange={(e) => {
-                                const v = parseFloat(e.target.value);
-                                setCustomMultiplier(isNaN(v) ? 1.0 : v);
-                              }}
-                              placeholder="e.g. 1.33 for time and a third"
-                              style={{
-                                width: '160px',
-                                border: '1px solid var(--rule)',
-                                padding: '8px 12px',
-                                background: 'var(--surface)',
-                                color: 'var(--ink)',
-                                fontFamily: 'var(--font-mono, monospace)',
-                                fontSize: '0.9375rem',
-                                outline: 'none',
-                                borderRadius: '2px',
-                              }}
-                            />
+                            <div className="relative inline-block">
+                              <input
+                                id="custom-premium-input"
+                                type="number"
+                                min={0}
+                                max={300}
+                                step={1}
+                                value={customPremiumPct}
+                                onChange={(e) => {
+                                  const v = parseFloat(e.target.value);
+                                  setCustomPremiumPct(isNaN(v) ? 0 : v);
+                                }}
+                                placeholder="e.g. 33"
+                                style={{
+                                  width: '120px',
+                                  border: '1px solid var(--rule)',
+                                  padding: '8px 28px 8px 12px',
+                                  background: 'var(--surface)',
+                                  color: 'var(--ink)',
+                                  fontFamily: 'var(--font-mono, monospace)',
+                                  fontSize: '0.9375rem',
+                                  outline: 'none',
+                                  borderRadius: '2px',
+                                }}
+                              />
+                              <span
+                                className="absolute right-3 top-1/2 -translate-y-1/2 font-sans text-base pointer-events-none"
+                                style={{ color: 'var(--ink-2)' }}
+                              >
+                                %
+                              </span>
+                            </div>
                             <p className="font-sans" style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 4 }}>
-                              Enter 1.5 for time and a half, 2.0 for double time, etc.
+                              Enter 50 for time and a half, 100 for double time, 33 for time and a third, etc.
                             </p>
-                            {customMultiplier < 1.0 && (
+                            {customPremiumPct < 0 && (
                               <p className="font-sans" style={{ fontSize: 12, color: 'var(--accent)', marginTop: 4 }}>
-                                A multiplier below 1.0 means earning less than your base rate — check the value entered.
+                                A negative premium means earning less than your base rate — check the value entered.
                               </p>
                             )}
                           </div>
