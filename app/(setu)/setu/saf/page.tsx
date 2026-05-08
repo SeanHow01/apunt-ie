@@ -137,7 +137,7 @@ export default async function SafOverviewPage() {
         <p className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink-2)', margin: '0 0 0.5rem' }}>
           MABS provides free, confidential money advice — no appointment needed.
         </p>
-        <a href="tel:+35318072000" className="font-mono font-semibold" style={{ fontSize: '1rem', color: 'var(--setu-primary)', textDecoration: 'none' }}>
+        <a href="tel:0818072050" className="font-mono font-semibold" style={{ fontSize: '1rem', color: 'var(--setu-primary)', textDecoration: 'none' }}>
           0818 07 2050
         </a>
         <span className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-3)', marginLeft: '0.5rem' }}>· mabs.ie</span>

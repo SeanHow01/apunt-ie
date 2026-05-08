@@ -698,7 +698,7 @@ export default async function LandingPage() {
             <span style={{ display: 'flex', alignItems: 'baseline', gap: '0.375rem' }}>
               <span className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)' }}>—</span>
               <a
-                href="tel:+35318072000"
+                href="tel:0818072000"
                 className="font-mono"
                 style={{ fontSize: '0.8125rem', color: 'var(--ink)', textDecoration: 'none', letterSpacing: '0.04em' }}
               >
@@ -733,6 +733,7 @@ export default async function LandingPage() {
               { label: 'Methodology', href: '/methodology' },
               { label: 'Accessibility', href: '/accessibility' },
               { label: 'Privacy', href: '/privacy' },
+              { label: 'Terms', href: '/terms' },
             ].map(({ label, href }) => (
               <Link
                 key={label}

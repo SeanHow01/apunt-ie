@@ -108,7 +108,7 @@ function Step1({ onNext }: { onNext: () => void }) {
       <div style={{ border: '1px solid var(--setu-primary-border)', borderRadius: 'var(--radius-sm)', padding: '0.875rem 1rem', backgroundColor: 'var(--setu-primary-light)', marginBottom: '1.5rem' }}>
         <p className="font-sans" style={{ margin: 0, fontSize: '0.8125rem', color: 'var(--ink-2)', lineHeight: 1.5 }}>
           Need help before applying? MABS offers free, confidential money advice:{' '}
-          <a href="tel:+35318072000" className="font-mono font-semibold" style={{ color: 'var(--setu-primary)', textDecoration: 'none' }}>0818 07 2050</a>
+          <a href="tel:0818072050" className="font-mono font-semibold" style={{ color: 'var(--setu-primary)', textDecoration: 'none' }}>0818 07 2050</a>
         </p>
       </div>
 

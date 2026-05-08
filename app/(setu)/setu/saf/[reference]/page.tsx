@@ -124,7 +124,7 @@ export default async function SafTrackingPage({ params }: { params: Promise<{ re
             You may submit a new application with additional information, or contact Student Services to discuss an appeal.
           </p>
           <p className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink-2)', lineHeight: 1.5, margin: 0 }}>
-            MABS can also help you understand your options: <a href="tel:+35318072000" className="font-mono" style={{ color: 'var(--ink)', textDecoration: 'none' }}>0818 07 2050</a> or{' '}
+            MABS can also help you understand your options: <a href="tel:0818072050" className="font-mono" style={{ color: 'var(--ink)', textDecoration: 'none' }}>0818 07 2050</a> or{' '}
             <a href="https://www.mabs.ie" style={{ color: 'var(--setu-accent)' }}>mabs.ie</a>
           </p>
         </div>
@@ -190,7 +190,7 @@ export default async function SafTrackingPage({ params }: { params: Promise<{ re
       <div style={{ border: '1px solid var(--setu-primary-border)', borderRadius: 'var(--radius-sm)', padding: '0.875rem 1rem', backgroundColor: 'var(--setu-primary-light)' }}>
         <p className="font-mono uppercase" style={{ fontSize: '0.5625rem', letterSpacing: '0.15em', color: 'var(--setu-primary)', margin: '0 0 0.375rem' }}>NEED HELP?</p>
         <p className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', margin: 0, lineHeight: 1.5 }}>
-          MABS: <a href="tel:+35318072000" className="font-mono" style={{ color: 'var(--setu-primary)', textDecoration: 'none' }}>0818 07 2050</a> · mabs.ie
+          MABS: <a href="tel:0818072050" className="font-mono" style={{ color: 'var(--setu-primary)', textDecoration: 'none' }}>0818 07 2050</a> · mabs.ie
           {' · '}Student Services: <a href="mailto:studentservices@setu.ie" style={{ color: 'var(--setu-accent)' }}>studentservices@setu.ie</a>
         </p>
       </div>
