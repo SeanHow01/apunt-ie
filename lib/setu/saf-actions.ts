@@ -56,6 +56,7 @@ export async function submitApplication(formData: FormData): Promise<{ reference
   const amountStr = formData.get('amount_requested') as string
   const iban = formData.get('iban') as string
   const bankName = formData.get('bank_name') as string
+  const gdprConsentAt = formData.get('gdpr_consent_at') as string | null
 
   if (!reasonCategory || !circumstances || !amountStr) return { error: 'Missing required fields' }
 
@@ -117,6 +118,7 @@ export async function submitApplication(formData: FormData): Promise<{ reference
       iban_last_four: ibanLastFour,
       bank_name: bankName || null,
       submitted_at: new Date().toISOString(),
+      gdpr_consent_at: gdprConsentAt ?? new Date().toISOString(),
     })
     .select('id')
     .single()
@@ -126,11 +128,9 @@ export async function submitApplication(formData: FormData): Promise<{ reference
   await appendAudit(app.id, user.id, 'student', 'application_submitted', 'draft', 'submitted')
 
   // Send confirmation email (best-effort)
-  const { data: profile } = await supabase.from('profiles').select('first_name').eq('id', user.id).single()
   void sendApplicationConfirmed(user.email!, { reference_number: reference, amount_requested: amount })
-    .catch((e: unknown) => console.error('[email] sendApplicationConfirmed failed', e))
+    .catch(() => { /* email failure is non-fatal — do not log PII */ })
 
-  console.log('[SAF] submitted', reference, 'for', profile?.first_name ?? user.email)
   return { reference }
 }
 
@@ -206,7 +206,7 @@ export async function uploadDocument(
   if (insertErr || !doc) return { error: insertErr?.message ?? 'Failed to record document' }
 
   // Kick off simulated scan (non-blocking)
-  void simulateVirusScan(doc.id).catch((e: unknown) => console.error('[scan]', e))
+  void simulateVirusScan(doc.id).catch(() => { /* scan failure is non-fatal */ })
 
   return { docId: doc.id }
 }
@@ -218,7 +218,6 @@ export async function simulateVirusScan(docId: string): Promise<void> {
     .from('saf_documents')
     .update({ scan_status: 'clean', scan_completed_at: new Date().toISOString() })
     .eq('id', docId)
-  console.log('[scan] document', docId, 'marked clean')
 }
 
 // ── Staff actions ─────────────────────────────────────────────────────────────

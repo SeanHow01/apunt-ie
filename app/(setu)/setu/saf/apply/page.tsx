@@ -323,6 +323,23 @@ function Step4({ applicationId, uploads, onUploaded, onBack, onNext, iban, onIba
     <div>
       <h2 className="font-display italic" style={{ fontSize: '1.5rem', color: 'var(--ink)', letterSpacing: '-0.02em', margin: '0 0 1.5rem' }}>Documents</h2>
 
+      {/* Document retention notice */}
+      <div style={{
+        padding: '12px 14px',
+        background: 'oklch(97% 0.01 245)',
+        border: '1px solid var(--setu-primary-border)',
+        borderRadius: 8,
+        marginBottom: 20,
+        fontSize: 13,
+        fontFamily: 'var(--font-sans)',
+        color: 'var(--ink-2)',
+        lineHeight: 1.6,
+      }}>
+        <strong style={{ color: 'var(--setu-primary)' }}>How your documents are stored</strong>
+        <br />
+        Documents are encrypted and stored on EU servers. Access is restricted to SETU Student Services staff only. All documents are permanently deleted 18 months after your application is decided, regardless of outcome.
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.75rem' }}>
         {REQUIRED_DOCS.map(({ type, label, required }) => {
           const state = uploads[type] ?? { status: 'idle' }
@@ -390,7 +407,7 @@ export default function SafApplyPage() {
   const [step, setStep] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
-  const [consents, setConsents] = useState([false, false, false])
+  const [consents, setConsents] = useState([false, false, false, false])
   const [applicationId] = useState<string | null>(null)
   const [uploads, setUploads] = useState<Record<DocumentType, UploadState>>({} as Record<DocumentType, UploadState>)
   const [iban, setIban] = useState('')
@@ -415,6 +432,7 @@ export default function SafApplyPage() {
     setSubmitError('')
 
     const fd = new FormData()
+    fd.append('gdpr_consent_at', new Date().toISOString())
     fd.append('campus', form2.campus)
     fd.append('course', form2.course)
     fd.append('year_of_study', form2.yearOfStudy)
@@ -513,7 +531,7 @@ export default function SafApplyPage() {
             </div>
           </div>
 
-          {/* Consents */}
+          {/* Declaration checkboxes */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
             {[
               'I declare that the information provided in this application is true and accurate to the best of my knowledge.',
@@ -530,6 +548,36 @@ export default function SafApplyPage() {
                 <span className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink)', lineHeight: 1.5 }}>{text}</span>
               </label>
             ))}
+
+            {/* GDPR consent checkbox */}
+            <label style={{
+              display: 'flex', gap: 10, alignItems: 'flex-start',
+              padding: '12px 14px',
+              background: 'var(--paper)',
+              border: '1.5px solid var(--setu-primary-border)',
+              borderRadius: 8,
+              marginTop: 4,
+              cursor: 'pointer',
+            }}>
+              <input
+                type="checkbox"
+                required
+                checked={consents[3]}
+                onChange={e => setConsents(p => { const n = [...p]; n[3] = e.target.checked; return n })}
+                style={{ marginTop: 2, accentColor: 'var(--setu-primary)', flexShrink: 0 }}
+              />
+              <span style={{ fontSize: 14, fontFamily: 'var(--font-sans)', color: 'var(--ink)', lineHeight: 1.5 }}>
+                I consent to South East Technological University and its authorised
+                service provider (Punt, apunt.ie) processing the personal data
+                submitted in this application for the purpose of assessing my
+                Student Assistance Fund application. I understand this data will
+                be retained for 18 months after a decision is made, then
+                permanently deleted. I have read the{' '}
+                <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--setu-primary)' }}>
+                  Punt Privacy Policy
+                </a>.
+              </span>
+            </label>
           </div>
 
           {submitError && (
