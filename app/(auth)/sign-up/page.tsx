@@ -7,6 +7,11 @@ import { z } from 'zod';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import {
+  validatePassword,
+  getPasswordStrength,
+  PASSWORD_REQUIREMENTS,
+} from '@/lib/auth/password-validation';
 
 const INSTITUTIONS = [
   'UCD',
@@ -27,7 +32,8 @@ const INSTITUTIONS = [
 const signUpSchema = z.object({
   firstName: z.string().min(1, 'Name is required.'),
   email: z.string().email('Enter a valid email address.'),
-  password: z.string().min(8, 'Password must be at least 8 characters.'),
+  // password length/complexity validated separately via validatePassword
+  password: z.string().min(1, 'Password is required.'),
   institution: z.string().min(1, 'Select your institution.'),
 });
 
@@ -38,11 +44,14 @@ function mapAuthError(message: string): string {
   if (lower.includes('user already registered') || lower.includes('already registered')) {
     return 'That email is already registered. Try signing in.';
   }
-  if (lower.includes('password should be at least')) {
-    return 'Password must be at least 8 characters.';
-  }
   return 'Something went wrong. Please try again.';
 }
+
+const STRENGTH_COLORS = {
+  weak: 'oklch(55% 0.20 25)',
+  fair: 'oklch(70% 0.18 85)',
+  strong: 'oklch(55% 0.18 145)',
+} as const;
 
 const cardStyle: React.CSSProperties = {
   backgroundColor: 'var(--surface)',
@@ -50,6 +59,87 @@ const cardStyle: React.CSSProperties = {
   padding: '32px',
   borderRadius: '2px',
 };
+
+// ── Password input with show/hide toggle ──────────────────────────────────────
+
+function PasswordField({
+  id,
+  label,
+  value,
+  onChange,
+  onFocus,
+  onBlur,
+  autoComplete,
+  error,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  autoComplete?: string;
+  error?: string;
+}) {
+  const [show, setShow] = useState(false);
+  const errorId = `${id}-error`;
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      <label
+        htmlFor={id}
+        className="font-sans"
+        style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--ink)' }}
+      >
+        {label}
+      </label>
+      <div style={{ position: 'relative' }}>
+        <input
+          id={id}
+          type={show ? 'text' : 'password'}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          autoComplete={autoComplete}
+          aria-invalid={error ? 'true' : undefined}
+          aria-describedby={error ? errorId : undefined}
+          className="font-sans focus-ring"
+          style={{
+            width: '100%',
+            border: `1px solid ${error ? 'var(--accent)' : 'var(--rule)'}`,
+            padding: '10px 44px 10px 12px',
+            background: 'var(--paper)',
+            color: 'var(--ink)',
+            fontSize: '1rem',
+            outline: 'none',
+            borderRadius: 'var(--radius-sm)',
+          }}
+        />
+        <button
+          type="button"
+          onClick={() => setShow((s) => !s)}
+          aria-label={show ? 'Hide password' : 'Show password'}
+          className="font-sans"
+          style={{
+            position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+            background: 'none', border: 'none', cursor: 'pointer',
+            color: 'var(--ink-3)', fontSize: '0.8125rem', padding: 0, lineHeight: 1,
+          }}
+        >
+          {show ? 'Hide' : 'Show'}
+        </button>
+      </div>
+      {error && (
+        <p id={errorId} role="alert" className="font-sans" style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: 500, margin: 0 }}>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ── Verification pending screen ───────────────────────────────────────────────
 
 function VerificationPending({ email, onResend, resendStatus }: {
   email: string;
@@ -129,6 +219,8 @@ function VerificationPending({ email, onResend, resendStatus }: {
   );
 }
 
+// ── Main form ─────────────────────────────────────────────────────────────────
+
 function SignUpForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -142,6 +234,9 @@ function SignUpForm() {
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const [institution, setInstitution] = useState(
     INSTITUTIONS.includes(institutionParam as (typeof INSTITUTIONS)[number])
       ? institutionParam
@@ -150,6 +245,9 @@ function SignUpForm() {
   const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
   const [serverError, setServerError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const validation = validatePassword(password);
+  const strength = getPasswordStrength(validation);
 
   async function handleResend() {
     if (resendStatus === 'sending' || !submittedEmail) return;
@@ -167,6 +265,7 @@ function SignUpForm() {
     e.preventDefault();
     setServerError(null);
     setFieldErrors({});
+    setConfirmPasswordError(null);
 
     const parsed = signUpSchema.safeParse({ firstName, email, password, institution });
     if (!parsed.success) {
@@ -176,6 +275,18 @@ function SignUpForm() {
         if (!errors[key]) errors[key] = issue.message;
       }
       setFieldErrors(errors);
+      return;
+    }
+
+    // Password complexity
+    if (!validation.isValid) {
+      setFieldErrors((prev) => ({ ...prev, password: 'Password does not meet the security requirements.' }));
+      return;
+    }
+
+    // Confirm password match
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords don't match.");
       return;
     }
 
@@ -205,7 +316,7 @@ function SignUpForm() {
         });
       }
 
-      // If no session was returned, email verification is required
+      // No session → email verification required
       if (!data.session) {
         setSubmittedEmail(parsed.data.email);
         setScreen('pending');
@@ -228,6 +339,8 @@ function SignUpForm() {
       />
     );
   }
+
+  const canSubmit = !loading && validation.isValid && confirmPassword.length > 0 && password === confirmPassword;
 
   return (
     <main
@@ -273,16 +386,62 @@ function SignUpForm() {
             />
           </div>
 
-          {/* Password */}
+          {/* Password with strength indicator */}
           <div className="mb-5">
-            <Input
+            <PasswordField
               id="password"
-              type="password"
               label="Password"
-              autoComplete="new-password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={setPassword}
+              onFocus={() => setPasswordFocused(true)}
+              onBlur={() => setPasswordFocused(false)}
+              autoComplete="new-password"
               error={fieldErrors.password}
+            />
+
+            {/* Strength bar */}
+            {password.length > 0 && (
+              <div style={{ marginTop: 8 }}>
+                <div style={{ height: 4, background: 'var(--rule)', borderRadius: 2 }}>
+                  <div style={{
+                    height: '100%', borderRadius: 2,
+                    width: strength === 'weak' ? '33%' : strength === 'fair' ? '66%' : '100%',
+                    background: STRENGTH_COLORS[strength],
+                    transition: 'width 0.2s ease, background 0.2s ease',
+                  }} />
+                </div>
+              </div>
+            )}
+
+            {/* Requirements checklist — shown when focused or partially filled */}
+            {(passwordFocused || password.length > 0) && (
+              <ul style={{ listStyle: 'none', padding: 0, margin: '8px 0 0' }}>
+                {PASSWORD_REQUIREMENTS.map(({ key, label }) => (
+                  <li
+                    key={key}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2,
+                      color: validation[key] ? 'oklch(55% 0.18 145)' : 'var(--ink-3)',
+                      fontSize: '0.75rem', fontFamily: 'var(--font-sans)',
+                    }}
+                  >
+                    <span style={{ width: '1ch', flexShrink: 0 }}>{validation[key] ? '✓' : '○'}</span>
+                    {label}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Confirm password */}
+          <div className="mb-5">
+            <PasswordField
+              id="confirmPassword"
+              label="Confirm password"
+              value={confirmPassword}
+              onChange={(v) => { setConfirmPassword(v); setConfirmPasswordError(null); }}
+              autoComplete="new-password"
+              error={confirmPasswordError ?? undefined}
             />
           </div>
 
@@ -336,7 +495,7 @@ function SignUpForm() {
             </p>
           )}
 
-          <Button variant="primary" type="submit" disabled={loading} className="w-full mb-6">
+          <Button variant="primary" type="submit" disabled={!canSubmit} className="w-full mb-6">
             {loading ? 'Creating account…' : 'Create an account'}
           </Button>
         </form>

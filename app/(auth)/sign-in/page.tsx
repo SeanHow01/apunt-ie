@@ -26,6 +26,7 @@ function SignInForm() {
   const [unverified, setUnverified] = useState(false);
   const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleResend() {
     if (resendStatus === 'sending' || !email) return;
@@ -113,17 +114,45 @@ function SignInForm() {
             />
           </div>
 
-          {/* Password */}
-          <div className="mb-6">
-            <Input
-              id="password"
-              type="password"
-              label="Password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          {/* Password with show/hide */}
+          <div className="mb-6" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <label htmlFor="password" className="font-sans" style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--ink)' }}>
+              Password
+            </label>
+            <div style={{ position: 'relative' }}>
+              <input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="font-sans focus-ring"
+                style={{
+                  width: '100%',
+                  border: '1px solid var(--rule)',
+                  padding: '10px 44px 10px 12px',
+                  background: 'var(--paper)',
+                  color: 'var(--ink)',
+                  fontSize: '1rem',
+                  outline: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((s) => !s)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                className="font-sans"
+                style={{
+                  position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  color: 'var(--ink-3)', fontSize: '0.8125rem', padding: 0, lineHeight: 1,
+                }}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
           </div>
 
           {/* Unverified email error */}
