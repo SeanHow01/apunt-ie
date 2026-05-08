@@ -216,8 +216,9 @@ function SignInForm() {
           href="/forgot-password"
           className="font-sans"
           style={{
-            fontSize: '0.8125rem', color: 'var(--ink-3)',
-            textDecoration: 'none', display: 'block',
+            fontSize: '0.8125rem', color: 'var(--ink-2)',
+            textDecoration: 'underline', textDecorationColor: 'var(--rule)',
+            textUnderlineOffset: '2px', display: 'block',
             textAlign: 'center', marginBottom: '1.25rem',
           }}
         >
