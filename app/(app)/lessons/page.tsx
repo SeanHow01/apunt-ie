@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { AppShell } from '@/components/layout/AppShell';
 import { Masthead } from '@/components/layout/Masthead';
@@ -7,6 +8,12 @@ import { getGreeting } from '@/lib/copy';
 import { modules } from '@/content/modules/index';
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Lessons — Punt',
+  description:
+    'Step-by-step financial literacy lessons for Irish students — payslips, pensions, rent, SUSI grants, investing, and tax back.',
+};
 
 export default async function LessonsPage() {
   const supabase = await createClient();

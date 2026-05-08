@@ -1,4 +1,11 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Financial Tools — Punt',
+  description:
+    'Free financial calculators and tools for workers in Ireland — take-home pay, mortgage, loan comparison, ETF, payslip checker, salary sacrifice, and more.',
+};
 
 type Tool = {
   href: string;

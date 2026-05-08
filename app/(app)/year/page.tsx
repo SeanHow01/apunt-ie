@@ -1,7 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AppShell } from '@/components/layout/AppShell';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { years } from '@/lib/years';
+
+export const metadata: Metadata = {
+  title: 'Your Financial Year — Punt',
+  description:
+    'A stage-by-stage guide to the money decisions that matter most — from first year to graduation.',
+};
 
 export default function YearIndexPage() {
   return (

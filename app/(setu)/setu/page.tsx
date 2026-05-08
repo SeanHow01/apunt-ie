@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { redirect } from 'next/navigation'
@@ -5,6 +6,12 @@ import Link from 'next/link'
 import { modules } from '@/content/modules/index'
 import { STATUS_CONFIG, COLOR_VARS } from '@/lib/setu/saf-types'
 import type { SafApplication } from '@/lib/setu/saf-types'
+
+export const metadata: Metadata = {
+  title: 'SETU Hub — Punt',
+  description:
+    'Your financial companion for SETU students — Student Assistance Fund applications, campus calendar, and student financial support.',
+}
 
 const RECOMMENDED_MODULE_IDS = ['payslip', 'loans', 'rent']
 

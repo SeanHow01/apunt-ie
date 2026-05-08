@@ -1,7 +1,14 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getCalendar, getCurrentMonthIndex, CATEGORY_LABELS, type CalendarCategory } from '@/lib/calendar'
 import { getSetuEventsForMonth } from '@/lib/setu/calendar-setu'
 import SetuCalendarPrintButton from './SetuCalendarPrintButton'
+
+export const metadata: Metadata = {
+  title: 'SETU Academic Calendar — Punt',
+  description:
+    'Key financial dates for SETU students — SAF deadlines, SUSI windows, and academic calendar events.',
+}
 
 const CATEGORY_COLOURS: Record<CalendarCategory, string> = {
   tax:      'var(--accent)',

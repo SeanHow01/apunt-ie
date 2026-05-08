@@ -1,6 +1,13 @@
+import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Home — Punt',
+  description:
+    'Your Punt dashboard — lessons, tools, and the monthly financial actions that matter most right now.',
+};
 import { AppShell } from '@/components/layout/AppShell';
 import { Masthead } from '@/components/layout/Masthead';
 import { ContinueCard } from '@/components/home/ContinueCard';

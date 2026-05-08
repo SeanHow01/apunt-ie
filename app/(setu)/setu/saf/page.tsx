@@ -1,9 +1,16 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STATUS_CONFIG, COLOR_VARS } from '@/lib/setu/saf-types'
 import type { SafApplication } from '@/lib/setu/saf-types'
+
+export const metadata: Metadata = {
+  title: 'Student Assistance Fund — Punt',
+  description:
+    'Apply for emergency financial support through SETU\'s Student Assistance Fund. For unexpected hardship costs — rent, transport, childcare, medical, and more.',
+}
 
 function StatusBadge({ status }: { status: SafApplication['status'] }) {
   const cfg = STATUS_CONFIG[status]

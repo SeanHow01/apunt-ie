@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Eyebrow } from '@/components/ui/Eyebrow';
@@ -6,6 +7,12 @@ import { ARTICLE_CATEGORIES } from '@/lib/constants';
 import { NewsCategoryFilter } from './NewsCategoryFilter';
 
 export const revalidate = 300;
+
+export const metadata: Metadata = {
+  title: 'News — Punt',
+  description:
+    'Irish financial news and explainers for students — Budget updates, grants, housing, tax changes, and money in plain English.',
+};
 
 export default async function NewsPage() {
   const supabase = await createClient();
