@@ -44,12 +44,100 @@ function mapAuthError(message: string): string {
   return 'Something went wrong. Please try again.';
 }
 
+const cardStyle: React.CSSProperties = {
+  backgroundColor: 'var(--surface)',
+  border: '1px solid var(--rule)',
+  padding: '32px',
+  borderRadius: '2px',
+};
+
+function VerificationPending({ email, onResend, resendStatus }: {
+  email: string;
+  onResend: () => void;
+  resendStatus: 'idle' | 'sending' | 'sent';
+}) {
+  return (
+    <main
+      className="min-h-screen flex items-center justify-center px-6 py-16"
+      style={{ backgroundColor: 'var(--bg)' }}
+    >
+      <div className="w-full max-w-sm" style={cardStyle}>
+        <div
+          style={{
+            width: 48, height: 48, borderRadius: '50%',
+            backgroundColor: 'var(--setu-primary-light)',
+            border: '1px solid var(--setu-primary-border)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '1.5rem', marginBottom: '1.25rem',
+          }}
+        >
+          ✉
+        </div>
+
+        <h1
+          className="font-display"
+          style={{ fontSize: '1.75rem', lineHeight: 1.15, letterSpacing: '-0.02em', color: 'var(--ink)', margin: '0 0 0.75rem' }}
+        >
+          Check your email
+        </h1>
+
+        <p className="font-sans" style={{ fontSize: '0.9375rem', color: 'var(--ink-2)', lineHeight: 1.55, margin: '0 0 0.5rem' }}>
+          We&rsquo;ve sent a verification link to{' '}
+          <strong style={{ color: 'var(--ink)', fontWeight: 600 }}>{email}</strong>.
+          Click the link in the email to activate your account.
+        </p>
+
+        <p className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-3)', lineHeight: 1.5, margin: '0 0 1.5rem' }}>
+          The link expires in 24 hours. Check your spam folder if you don&rsquo;t see it within a few minutes.
+        </p>
+
+        {resendStatus === 'sent' ? (
+          <p
+            className="font-sans"
+            role="status"
+            style={{ fontSize: '0.875rem', color: 'oklch(0.40 0.12 145)', marginBottom: '1.5rem', fontWeight: 500 }}
+          >
+            ✓ Email resent. Check your inbox again.
+          </p>
+        ) : (
+          <button
+            onClick={onResend}
+            disabled={resendStatus === 'sending'}
+            className="font-sans"
+            style={{
+              display: 'block', width: '100%',
+              padding: '10px 16px', marginBottom: '1.5rem',
+              fontSize: '0.9375rem', fontWeight: 500,
+              border: '1px solid var(--rule)', borderRadius: '2px',
+              backgroundColor: 'var(--paper)', color: 'var(--ink)',
+              cursor: resendStatus === 'sending' ? 'wait' : 'pointer',
+              opacity: resendStatus === 'sending' ? 0.6 : 1,
+            }}
+          >
+            {resendStatus === 'sending' ? 'Sending…' : 'Resend verification email'}
+          </button>
+        )}
+
+        <p className="font-sans text-sm text-center" style={{ color: 'var(--ink-2)' }}>
+          Already verified?{' '}
+          <Link href="/sign-in" className="underline underline-offset-2" style={{ color: 'var(--ink)' }}>
+            Sign in.
+          </Link>
+        </p>
+      </div>
+    </main>
+  );
+}
+
 function SignUpForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // Pre-fill institution and cohort from /join/[institution] referral
   const cohortId = searchParams.get('cohort') ?? null;
   const institutionParam = searchParams.get('institution') ?? '';
+
+  const [screen, setScreen] = useState<'form' | 'pending'>('form');
+  const [submittedEmail, setSubmittedEmail] = useState('');
+  const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
 
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
@@ -62,6 +150,18 @@ function SignUpForm() {
   const [fieldErrors, setFieldErrors] = useState<FormErrors>({});
   const [serverError, setServerError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  async function handleResend() {
+    if (resendStatus === 'sending' || !submittedEmail) return;
+    setResendStatus('sending');
+    try {
+      const supabase = createClient();
+      await supabase.auth.resend({ type: 'signup', email: submittedEmail });
+      setResendStatus('sent');
+    } catch {
+      setResendStatus('idle');
+    }
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -99,13 +199,19 @@ function SignUpForm() {
           id: userId,
           first_name: parsed.data.firstName,
           institution_name: parsed.data.institution,
-          institution_id: null, // reserved for future SSO/lookup integration
+          institution_id: null,
           cohort_id: cohortId ?? null,
           theme: 'punt',
         });
       }
 
-      router.push('/home');
+      // If no session was returned, email verification is required
+      if (!data.session) {
+        setSubmittedEmail(parsed.data.email);
+        setScreen('pending');
+      } else {
+        router.push('/home');
+      }
     } catch {
       setServerError('Something went wrong. Please try again.');
     } finally {
@@ -113,27 +219,25 @@ function SignUpForm() {
     }
   }
 
+  if (screen === 'pending') {
+    return (
+      <VerificationPending
+        email={submittedEmail}
+        onResend={handleResend}
+        resendStatus={resendStatus}
+      />
+    );
+  }
+
   return (
     <main
       className="min-h-screen flex items-center justify-center px-6 py-16"
       style={{ backgroundColor: 'var(--bg)' }}
     >
-      <div
-        className="w-full max-w-sm"
-        style={{
-          backgroundColor: 'var(--surface)',
-          border: '1px solid var(--rule)',
-          padding: '32px',
-          borderRadius: '2px',
-        }}
-      >
-        {/* Heading */}
+      <div className="w-full max-w-sm" style={cardStyle}>
         <h1
           className="font-display text-3xl leading-tight mb-8"
-          style={{
-            color: 'var(--ink)',
-            letterSpacing: '-0.02em',
-          }}
+          style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
         >
           Create an account
         </h1>
@@ -210,9 +314,7 @@ function SignUpForm() {
             >
               <option value="">Select your college or university</option>
               {INSTITUTIONS.map((inst) => (
-                <option key={inst} value={inst}>
-                  {inst}
-                </option>
+                <option key={inst} value={inst}>{inst}</option>
               ))}
             </select>
             {fieldErrors.institution && (
@@ -234,28 +336,14 @@ function SignUpForm() {
             </p>
           )}
 
-          {/* Submit */}
-          <Button
-            variant="primary"
-            type="submit"
-            disabled={loading}
-            className="w-full mb-6"
-          >
-            {loading ? 'Creating account...' : 'Create an account'}
+          <Button variant="primary" type="submit" disabled={loading} className="w-full mb-6">
+            {loading ? 'Creating account…' : 'Create an account'}
           </Button>
         </form>
 
-        {/* Sign in link */}
-        <p
-          className="font-sans text-sm text-center"
-          style={{ color: 'var(--ink-2)' }}
-        >
+        <p className="font-sans text-sm text-center" style={{ color: 'var(--ink-2)' }}>
           Already have an account?{' '}
-          <Link
-            href="/sign-in"
-            className="underline underline-offset-2"
-            style={{ color: 'var(--ink)' }}
-          >
+          <Link href="/sign-in" className="underline underline-offset-2" style={{ color: 'var(--ink)' }}>
             Sign in.
           </Link>
         </p>

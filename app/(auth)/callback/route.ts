@@ -31,5 +31,8 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(`${origin}/sign-in?error=callback`);
+  // Error case — expired or invalid link
+  return NextResponse.redirect(
+    `${origin}/sign-in?message=${encodeURIComponent('Your verification link has expired or is invalid. Please sign in to request a new one.')}`
+  );
 }
