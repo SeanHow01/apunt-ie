@@ -206,10 +206,23 @@ function SignInForm() {
             </p>
           )}
 
-          <Button variant="primary" type="submit" disabled={loading} className="w-full mb-4">
+          <Button variant="primary" type="submit" disabled={loading} className="w-full mb-3">
             {loading ? 'Signing in…' : 'Sign in'}
           </Button>
         </form>
+
+        {/* Forgot password */}
+        <a
+          href="/forgot-password"
+          className="font-sans"
+          style={{
+            fontSize: '0.8125rem', color: 'var(--ink-3)',
+            textDecoration: 'none', display: 'block',
+            textAlign: 'center', marginBottom: '1.25rem',
+          }}
+        >
+          Forgot your password?
+        </a>
 
         {/* Sign up link */}
         <p className="font-sans text-sm text-center" style={{ color: 'var(--ink-2)' }}>
