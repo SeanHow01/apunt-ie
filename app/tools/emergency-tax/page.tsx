@@ -41,8 +41,8 @@ const QUESTIONS: Question[] = [
   },
   {
     id: 'q3',
-    text: 'Is this your first job in Ireland (no previous PAYE employment or P45)?',
-    hint: 'If you have worked in Ireland before, your previous employer should have issued a P45 (now replaced by the Revenue Payroll system). If this is your first Irish job ever, Revenue has no record of you yet.',
+    text: 'Is this your first job in Ireland (no previous PAYE employment)?',
+    hint: 'If you have worked in Ireland before, your previous employer\'s details should be visible in Revenue myAccount. If this is your first Irish job ever, Revenue has no record of you as an employee yet.',
     yesNext: 'outcome-first-job',
     noNext: 'outcome-previous-employer',
   },
@@ -84,7 +84,7 @@ const OUTCOMES: Record<string, Outcome> = {
       'Step 2: Once logged in, go to "Manage your tax 2026" → "Add a job or pension" → enter your employer\'s name and your start date.',
       'Step 3: Tell your employer you have registered. Their payroll software will fetch your RPN in the next payroll run.',
       'Step 4: Once your tax basis shows "Cumulative" on your payslip, any emergency tax overpaid will be refunded automatically through your subsequent payslips in the same tax year.',
-      'If you are near the end of the tax year, request a P21 / Income Tax Statement in January to get any remaining refund.',
+      'If you are near the end of the tax year, request an Income Tax Statement via myAccount in January to get any remaining refund.',
     ],
     externalLinks: [
       { label: 'Register for myAccount (Revenue)', href: 'https://www.ros.ie/myaccount-web/register.html' },
@@ -99,8 +99,8 @@ const OUTCOMES: Record<string, Outcome> = {
       'Step 1: Log into myAccount → "Manage your tax 2026" → check if your current employer appears. If not, add it: "Add a job or pension".',
       'Step 2: If your old employer still shows as active, remove it or update the end date so your credits transfer.',
       'Step 3: Tell your payroll/HR department you have updated Revenue — they will fetch the new RPN.',
-      'Step 4: Emergency tax overpaid in the same tax year is refunded automatically through cumulative basis payslips. Cross-year overpayments require a Form 12 or P21 request.',
-      'If you received a P45 from your previous employer, check you entered the details correctly on myAccount.',
+      'Step 4: Emergency tax overpaid in the same tax year is refunded automatically through cumulative basis payslips. Cross-year overpayments require a Form 12 or PAYE review via myAccount.',
+      'If your previous employment details don\'t appear correctly in myAccount, contact Revenue to update your employment record.',
     ],
     externalLinks: [
       { label: 'Revenue myAccount', href: 'https://www.ros.ie/myaccount-web/sign_in.html' },

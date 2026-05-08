@@ -282,7 +282,7 @@ export default async function SetuHubPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
           {[
             { label: 'Irish Financial Calendar — SETU dates', href: '/setu/calendar' },
-            { label: 'MABS: 0818 07 2050', href: 'tel:+35318072000' },
+            { label: 'MABS: 0818 07 2050', href: 'tel:0818072050' },
             { label: 'SETU Student Services: studentservices@setu.ie', href: 'mailto:studentservices@setu.ie' },
           ].map(({ label, href }) => (
             <Link key={href} href={href} className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--setu-accent)', textDecoration: 'none' }}>

@@ -71,9 +71,9 @@ const MONTHLY_ACTIONS: Record<number, MonthlyAction[]> = {
   1: [
     {
       id: 'feb-p60',
-      title: 'Request your P21 / Income Tax Statement',
+      title: 'Request your Income Tax Statement',
       description:
-        'If you think you overpaid tax last year, log in to myAccount on Revenue.ie and request a P21 review — refunds are usually processed within days.',
+        'If you think you overpaid tax last year, log in to myAccount on Revenue.ie and request a PAYE review — refunds are usually processed within days.',
       tag: 'tax',
       externalHref: 'https://www.revenue.ie/en/personal-tax-credits-reliefs-and-exemptions/income-and-employment/p21-balancing-statement/index.aspx',
     },

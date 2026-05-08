@@ -951,10 +951,10 @@ export default function BuyVsRentPage() {
       <p className="font-sans text-sm mt-6" style={{ color: 'var(--ink-2)' }}>
         Want to understand mortgages and renting in Ireland?{' '}
         <Link
-          href="/lessons/rent-or-buy"
+          href="/lessons/rent"
           style={{ color: 'var(--accent)', textDecoration: 'none' }}
         >
-          Read the rent or buy lesson &rarr;
+          Read the renting in Ireland lesson &rarr;
         </Link>
       </p>
 

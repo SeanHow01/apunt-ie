@@ -28,7 +28,7 @@ const susi: Module = {
     {
       id: 'how-to-apply',
       label: 'How to apply',
-      body: 'Applications open each spring — usually in April — on SUSI.ie. Apply as early as possible: late applications are processed later, and grant payments can be delayed if documentation is missing. You will need proof of income (P21 or Revenue notice of assessment), proof of enrolment, and PPS numbers for all household members. Processing typically takes several weeks.',
+      body: 'Applications open each spring — usually in April — on SUSI.ie. Apply as early as possible: late applications are processed later, and grant payments can be delayed if documentation is missing. You will need proof of income (Employment Detail Summary or Revenue notice of assessment), proof of enrolment, and PPS numbers for all household members. Processing typically takes several weeks.',
     },
     {
       id: 'if-refused',

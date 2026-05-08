@@ -130,9 +130,13 @@ export default function PrivacyPage() {
             <li>
               <strong>Vercel</strong> (website hosting) — EU data centres available
             </li>
+            <li>
+              <strong>Resend</strong> (transactional email) — used to send application status
+              notifications for the Student Assistance Fund; EU data hosting available
+            </li>
           </ul>
           <p style={{ marginTop: '0.875rem' }}>
-            Both processors operate under GDPR-compliant data processing agreements.
+            All processors operate under GDPR-compliant data processing agreements.
           </p>
         </div>
 
