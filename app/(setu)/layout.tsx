@@ -19,6 +19,9 @@ export default async function SetuLayout({ children }: { children: React.ReactNo
 
   const isStaff = !!staffRow
 
+  // Detect demo accounts via email pattern (student.demo@apunt.ie, staff.demo@apunt.ie, etc.)
+  const isDemo = (user.email ?? '').toLowerCase().includes('demo@apunt')
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg)' }}>
       {/* Top bar */}
@@ -67,6 +70,23 @@ export default async function SetuLayout({ children }: { children: React.ReactNo
             >
               ·in SETU·
             </span>
+            {isDemo && (
+              <span
+                className="font-mono font-bold"
+                style={{
+                  fontSize: '10px',
+                  letterSpacing: '0.1em',
+                  padding: '2px 8px',
+                  border: '1px solid oklch(0.65 0.18 50 / 0.4)',
+                  background: 'oklch(0.65 0.18 50 / 0.12)',
+                  color: 'oklch(0.50 0.18 50)',
+                  borderRadius: '99px',
+                }}
+                aria-label="Demo account"
+              >
+                DEMO
+              </span>
+            )}
           </div>
 
           {/* Right: email + settings */}

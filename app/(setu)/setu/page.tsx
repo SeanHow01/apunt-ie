@@ -15,6 +15,51 @@ export const metadata: Metadata = {
 
 const RECOMMENDED_MODULE_IDS = ['payslip', 'loans', 'rent']
 
+function isExternal(href: string): boolean {
+  return href.startsWith('http://') || href.startsWith('https://')
+}
+
+function CardLink({
+  href, children, variant,
+}: {
+  href: string
+  children: React.ReactNode
+  variant: 'primary' | 'secondary'
+}) {
+  const style = variant === 'primary'
+    ? {
+        fontSize: '0.8125rem',
+        color: 'var(--setu-accent)',
+        textDecoration: 'none',
+        border: '1px solid var(--setu-primary-border)',
+        borderRadius: 'var(--radius-sm)',
+        padding: '0.375rem 0.75rem',
+        fontWeight: 600,
+      }
+    : {
+        fontSize: '0.8125rem',
+        color: 'var(--ink-2)',
+        textDecoration: 'none',
+        border: '1px solid var(--rule)',
+        borderRadius: 'var(--radius-sm)',
+        padding: '0.375rem 0.75rem',
+      }
+  const cls = variant === 'primary' ? 'font-sans font-semibold' : 'font-sans'
+
+  if (isExternal(href)) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={cls} style={style}>
+        {children}
+      </a>
+    )
+  }
+  return (
+    <Link href={href} className={cls} style={style}>
+      {children}
+    </Link>
+  )
+}
+
 function FundCard({
   title, description, badge, primaryHref, primaryLabel, secondaryHref, secondaryLabel, tag,
 }: {
@@ -55,35 +100,9 @@ function FundCard({
         {description}
       </p>
       <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.25rem' }}>
-        <Link
-          href={primaryHref}
-          className="font-sans font-semibold"
-          style={{
-            fontSize: '0.8125rem',
-            color: 'var(--setu-accent)',
-            textDecoration: 'none',
-            border: '1px solid var(--setu-primary-border)',
-            borderRadius: 'var(--radius-sm)',
-            padding: '0.375rem 0.75rem',
-          }}
-        >
-          {primaryLabel}
-        </Link>
+        <CardLink href={primaryHref} variant="primary">{primaryLabel}</CardLink>
         {secondaryHref && secondaryLabel && (
-          <Link
-            href={secondaryHref}
-            className="font-sans"
-            style={{
-              fontSize: '0.8125rem',
-              color: 'var(--ink-2)',
-              textDecoration: 'none',
-              border: '1px solid var(--rule)',
-              borderRadius: 'var(--radius-sm)',
-              padding: '0.375rem 0.75rem',
-            }}
-          >
-            {secondaryLabel}
-          </Link>
+          <CardLink href={secondaryHref} variant="secondary">{secondaryLabel}</CardLink>
         )}
       </div>
     </div>
@@ -136,7 +155,12 @@ export default async function SetuHubPage() {
   const activeApp = safApps?.[0] ?? null
   const safIsActive = activeApp && activeApp.status !== 'draft'
 
-  const name = profile?.first_name?.toUpperCase() ?? 'STUDENT'
+  // Demo accounts get a visibly-demo greeting; real users get a first-name greeting.
+  // Demo detected by email pattern student.demo@apunt.ie / staff.demo@apunt.ie etc.
+  const isDemo = (user.email ?? '').toLowerCase().includes('demo@apunt')
+  const displayName = isDemo
+    ? `${profile?.first_name ?? 'Demo'} Demo`
+    : (profile?.first_name ?? 'there')
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
@@ -146,7 +170,7 @@ export default async function SetuHubPage() {
           SETU STUDENT HUB
         </p>
         <h1 className="font-display italic" style={{ fontSize: 'clamp(1.75rem, 5vw, 2.5rem)', lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--ink)', margin: 0 }}>
-          Welcome back, {profile?.first_name ?? 'there'}.
+          Welcome back, {displayName}.
         </h1>
         {profile?.institution_name && (
           <p className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink-2)', marginTop: '0.375rem' }}>
@@ -210,9 +234,15 @@ export default async function SetuHubPage() {
             <p className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', lineHeight: 1.5, margin: '0 0 0.75rem' }}>
               For socioeconomically disadvantaged students. Applications open each September. Worth €1,500–€5,000 per year.
             </p>
-            <Link href="https://www.1916bursary.ie" className="font-sans font-semibold" style={{ fontSize: '0.8125rem', color: 'var(--setu-accent)', textDecoration: 'none' }}>
+            <a
+              href="https://www.1916bursary.ie"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-sans font-semibold"
+              style={{ fontSize: '0.8125rem', color: 'var(--setu-accent)', textDecoration: 'none' }}
+            >
               1916bursary.ie →
-            </Link>
+            </a>
           </div>
         </div>
       </section>

@@ -14,7 +14,7 @@ export default function SourcesPage() {
 
       <nav style={{ marginBottom: '2rem' }}>
         <Link
-          href="/"
+          href="/home"
           style={{ fontSize: '0.8125rem', color: '#666', textDecoration: 'none' }}
         >
           &larr; Punt

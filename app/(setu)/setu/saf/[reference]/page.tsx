@@ -125,7 +125,7 @@ export default async function SafTrackingPage({ params }: { params: Promise<{ re
           </p>
           <p className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink-2)', lineHeight: 1.5, margin: 0 }}>
             MABS can also help you understand your options: <a href="tel:0818072050" className="font-mono" style={{ color: 'var(--ink)', textDecoration: 'none' }}>0818 07 2050</a> or{' '}
-            <a href="https://www.mabs.ie" style={{ color: 'var(--setu-accent)' }}>mabs.ie</a>
+            <a href="https://www.mabs.ie" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--setu-accent)' }}>mabs.ie</a>
           </p>
         </div>
       )}

@@ -27,7 +27,7 @@ export default function GlossaryPage() {
 
       <nav style={{ marginBottom: '2rem' }}>
         <Link
-          href="/"
+          href="/home"
           className="font-sans"
           style={{ fontSize: '0.8125rem', color: 'var(--ink-3)', textDecoration: 'none' }}
         >

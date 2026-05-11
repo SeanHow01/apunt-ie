@@ -123,7 +123,7 @@ export default function AccessibilityPage() {
         {/* Back */}
         <div style={{ marginBottom: '1.5rem' }}>
           <Link
-            href="/"
+            href="/home"
             className="font-sans"
             style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', textDecoration: 'none' }}
           >

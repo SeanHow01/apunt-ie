@@ -6,7 +6,7 @@ export default function AboutPage() {
   return (
     <main style={{ maxWidth: '42rem', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
       <nav style={{ marginBottom: '2rem' }}>
-        <Link href="/" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', textDecoration: 'none' }}>
+        <Link href="/home" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', textDecoration: 'none' }}>
           ← Punt
         </Link>
       </nav>
