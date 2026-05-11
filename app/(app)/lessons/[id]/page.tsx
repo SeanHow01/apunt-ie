@@ -194,6 +194,15 @@ export default function LessonPage({ params }: Props) {
               </Link>
             </div>
 
+            {module.lastReviewed && (
+              <p
+                className="font-sans text-xs"
+                style={{ color: 'var(--ink-3)', lineHeight: 1.5, marginTop: '0.5rem' }}
+              >
+                Content last reviewed against Revenue.ie and gov.ie sources: {module.lastReviewed}
+              </p>
+            )}
+
             <ShareButton
               title={module.title}
               text={`I just completed "${module.title}" on Punt — Ireland's personal finance app.`}

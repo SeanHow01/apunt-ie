@@ -202,17 +202,20 @@ export default function LoanComparisonPage() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 md:px-8 lg:px-12 pt-10 md:pt-14 pb-8">
-      {/* Back link */}
-      <div className="mb-5">
+      {/* Back links */}
+      <div className="mb-5 flex items-center gap-4">
+        <Link
+          href="/tools/loan-calculator"
+          style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', textDecoration: 'none' }}
+        >
+          &larr; Back to loan calculator
+        </Link>
+        <span style={{ color: 'var(--rule)', fontSize: '0.8125rem' }}>·</span>
         <Link
           href="/home"
-          style={{
-            fontSize: '0.8125rem',
-            color: 'var(--ink-2)',
-            textDecoration: 'none',
-          }}
+          style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', textDecoration: 'none' }}
         >
-          ← Back to home
+          Home
         </Link>
       </div>
 

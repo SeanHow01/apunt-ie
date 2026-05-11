@@ -31,6 +31,17 @@ export default async function NewsPage() {
     <main style={{ minHeight: '100vh', backgroundColor: 'var(--bg)' }}>
       <div style={{ maxWidth: '48rem', margin: '0 auto', padding: '3rem 1.5rem' }}>
 
+        {/* Back link */}
+        <div style={{ marginBottom: '1.25rem' }}>
+          <Link
+            href="/home"
+            className="font-sans"
+            style={{ fontSize: '0.8125rem', color: 'var(--ink-3)', textDecoration: 'none' }}
+          >
+            &larr; Home
+          </Link>
+        </div>
+
         {/* Masthead */}
         <div style={{ marginBottom: '2rem' }}>
           <Eyebrow>Punt — Financial News</Eyebrow>

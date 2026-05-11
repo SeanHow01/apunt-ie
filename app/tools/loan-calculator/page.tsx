@@ -329,6 +329,38 @@ export default function LoanCalculatorPage() {
         </div>
       </div>
 
+      {/* Compare CTA */}
+      <div
+        style={{
+          marginTop: '1.5rem',
+          paddingTop: '1.25rem',
+          borderTop: '1px solid var(--rule)',
+        }}
+      >
+        <p
+          className="font-sans"
+          style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', marginBottom: '0.625rem' }}
+        >
+          Comparing two loan offers? See them side by side.
+        </p>
+        <Link
+          href="/tools/loan-comparison"
+          style={{
+            display: 'inline-block',
+            padding: '0.5rem 1rem',
+            background: 'var(--ink)',
+            color: '#fff',
+            borderRadius: '4px',
+            fontSize: '0.8125rem',
+            fontFamily: 'var(--font-sans)',
+            fontWeight: 600,
+            textDecoration: 'none',
+          }}
+        >
+          Compare two loans &rarr;
+        </Link>
+      </div>
+
       {/* Footer disclaimer */}
       <p
         style={{
@@ -336,7 +368,7 @@ export default function LoanCalculatorPage() {
           fontStyle: 'italic',
           fontSize: '0.8125rem',
           color: 'var(--ink-2)',
-          marginTop: '2rem',
+          marginTop: '1.5rem',
           lineHeight: 1.6,
         }}
       >

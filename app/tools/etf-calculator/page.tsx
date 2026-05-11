@@ -21,7 +21,7 @@ const MIN_INITIAL = 500;
 const MAX_INITIAL = 100000;
 const MIN_GROWTH = 1;
 const MAX_GROWTH = 15;
-const MIN_YEARS = 5;
+const MIN_YEARS = 1;
 const MAX_YEARS = 35;
 
 function pctLabel(rate: number) {
@@ -214,6 +214,10 @@ export default function ETFCalculatorPage() {
                 <span>{MIN_YEARS} yr</span>
                 <span>{MAX_YEARS} yr</span>
               </div>
+              <p className="font-sans text-xs mt-1" style={{ color: 'var(--ink-2)', lineHeight: 1.5 }}>
+                Irish Revenue requires a minimum 8-year holding period for exit tax purposes,
+                but you can model shorter periods to compare growth.
+              </p>
               {etf.deemedDisposals.length > 0 && (
                 <p className="font-sans text-xs mt-1" style={{ color: 'var(--ink-2)' }}>
                   {etf.deemedDisposals.length} deemed disposal

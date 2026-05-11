@@ -15,6 +15,7 @@ type ModuleItem = {
   subtitle: string | null;
   durationMinutes: number;
   tag: string | null;
+  lastReviewed?: string | null;
   progress?: { currentStep: number; completed: boolean } | null;
 };
 
@@ -83,6 +84,20 @@ export function ArticleList({ modules }: Props) {
                       style={{ color: 'var(--ink-2)' }}
                     >
                       {mod.subtitle}
+                    </p>
+                  )}
+
+                  {mod.lastReviewed && (
+                    <p
+                      className="font-mono"
+                      style={{
+                        fontSize: '0.6875rem',
+                        letterSpacing: '0.06em',
+                        color: 'var(--ink-3)',
+                        marginTop: '2px',
+                      }}
+                    >
+                      Reviewed {mod.lastReviewed}
                     </p>
                   )}
                 </div>

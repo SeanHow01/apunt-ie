@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, Library, Newspaper, Settings, Calculator } from 'lucide-react';
+import { BookOpen, Calendar, Library, Newspaper, Settings, Calculator } from 'lucide-react';
 
 type NavItem = {
   href: string;
@@ -39,6 +39,7 @@ const navSections: NavSection[] = [
     label: 'READ',
     items: [
       { href: '/news', label: 'News', icon: Newspaper },
+      { href: '/calendar', label: 'Calendar', icon: Calendar },
       { href: '/sources', label: 'Sources' },
     ],
   },

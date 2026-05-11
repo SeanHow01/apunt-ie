@@ -51,6 +51,7 @@ export default async function LessonsPage() {
       subtitle: mod.subtitle,
       durationMinutes: mod.durationMinutes,
       tag: null as string | null,
+      lastReviewed: mod.lastReviewed ?? null,
       progress: prog,
     };
   });
