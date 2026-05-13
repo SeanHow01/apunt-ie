@@ -45,9 +45,15 @@ async function appendAudit(
   })
 }
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+function isUuid(value: unknown): value is string {
+  return typeof value === 'string' && UUID_REGEX.test(value)
+}
+
 // ── Student actions ───────────────────────────────────────────────────────────
 
-export async function submitApplication(formData: FormData): Promise<{ reference: string } | { error: string }> {
+export async function submitApplication(formData: FormData): Promise<{ reference: string; id: string } | { error: string }> {
   const { supabase, user } = await getCurrentUser()
   if (!user) return { error: 'Not authenticated' }
 
@@ -131,7 +137,7 @@ export async function submitApplication(formData: FormData): Promise<{ reference
   void sendApplicationConfirmed(user.email!, { reference_number: reference, amount_requested: amount })
     .catch(() => { /* email failure is non-fatal — do not log PII */ })
 
-  return { reference }
+  return { reference, id: app.id }
 }
 
 export async function saveDraft(
@@ -167,6 +173,13 @@ export async function uploadDocument(
   applicationId: string,
   formData: FormData
 ): Promise<{ docId: string } | { error: string }> {
+  // Guard — refuse anything that isn't a real UUID so we never try to insert
+  // garbage (e.g. the literal string "pending") into a uuid column.
+  if (!isUuid(applicationId)) {
+    console.error('[uploadDocument] invalid applicationId:', JSON.stringify(applicationId))
+    return { error: 'Application not yet created. Please complete the form and submit first.' }
+  }
+
   const { supabase, user } = await getCurrentUser()
   if (!user) return { error: 'Not authenticated' }
 

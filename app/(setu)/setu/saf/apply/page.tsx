@@ -280,12 +280,14 @@ function Step3({ data, onChange, onNext, onBack }: { data: FormData3; onChange: 
   )
 }
 
-type UploadState = { status: 'idle' | 'uploading' | 'scanning' | 'done' | 'error'; fileName?: string; error?: string }
+type UploadState = { status: 'idle' | 'ready' | 'uploading' | 'scanning' | 'done' | 'error'; fileName?: string; error?: string }
 
-function Step4({ applicationId, uploads, onUploaded, onBack, onNext, iban, onIbanChange, bankName, onBankNameChange }: {
-  applicationId: string | null
+const ALLOWED_DOC_MIME = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp']
+const MAX_DOC_BYTES = 10 * 1024 * 1024
+
+function Step4({ uploads, onSelectFile, onBack, onNext, iban, onIbanChange, bankName, onBankNameChange }: {
   uploads: Record<DocumentType, UploadState>
-  onUploaded: (type: DocumentType, state: UploadState) => void
+  onSelectFile: (type: DocumentType, file: File | null, state: UploadState) => void
   onBack: () => void
   onNext: () => void
   iban: string
@@ -295,28 +297,25 @@ function Step4({ applicationId, uploads, onUploaded, onBack, onNext, iban, onIba
 }) {
   const ibanValid = !iban || /^IE\d{2}[A-Z0-9]{18}$/.test(iban.replace(/\s/g, ''))
 
-  async function handleFile(type: DocumentType, file: File) {
-    onUploaded(type, { status: 'uploading', fileName: file.name })
-    const fd = new FormData()
-    fd.append('file', file)
-    fd.append('document_type', type)
-    // Use a placeholder app id if we don't have one yet
-    const appId = applicationId ?? 'pending'
-    fd.append('application_id', appId)
-    try {
-      const result = await uploadDocument(appId, fd)
-      if ('error' in result) {
-        onUploaded(type, { status: 'error', fileName: file.name, error: result.error })
-      } else {
-        onUploaded(type, { status: 'scanning', fileName: file.name })
-        setTimeout(() => onUploaded(type, { status: 'done', fileName: file.name }), 1600)
-      }
-    } catch {
-      onUploaded(type, { status: 'error', fileName: file.name, error: 'Upload failed' })
+  function handleFile(type: DocumentType, file: File) {
+    // Mirror server-side validation so the user gets immediate feedback. The
+    // application record doesn't exist yet at this point — we just stash the
+    // File object in state and upload it after submitApplication() runs.
+    if (!ALLOWED_DOC_MIME.includes(file.type)) {
+      onSelectFile(type, null, { status: 'error', fileName: file.name, error: 'File type not allowed. PDF, JPG, PNG or WebP only.' })
+      return
     }
+    if (file.size > MAX_DOC_BYTES) {
+      onSelectFile(type, null, { status: 'error', fileName: file.name, error: 'File too large. Maximum 10 MB.' })
+      return
+    }
+    onSelectFile(type, file, { status: 'ready', fileName: file.name })
   }
 
-  const requiredDone = REQUIRED_DOCS.filter(d => d.required).every(d => uploads[d.type]?.status === 'done')
+  const requiredDone = REQUIRED_DOCS.filter(d => d.required).every(d => {
+    const s = uploads[d.type]?.status
+    return s === 'ready' || s === 'done'
+  })
   const canContinue = requiredDone && !!iban && ibanValid && !!bankName
 
   return (
@@ -361,6 +360,15 @@ function Step4({ applicationId, uploads, onUploaded, onBack, onNext, iban, onIba
                   {state.status === 'done' && <span style={{ fontSize: '0.8125rem', color: 'oklch(0.40 0.12 145)' }}>✓ Verified</span>}
                   {state.status === 'scanning' && <span className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-3)' }}>Scanning…</span>}
                   {state.status === 'uploading' && <span className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-3)' }}>Uploading…</span>}
+                  {state.status === 'ready' && (
+                    <>
+                      <span style={{ fontSize: '0.8125rem', color: 'oklch(0.40 0.12 145)' }}>✓ Selected</span>
+                      <label className="font-sans" style={{ fontSize: '0.75rem', color: 'var(--ink-3)', cursor: 'pointer', textDecoration: 'underline' }}>
+                        Change
+                        <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(type, f) }} />
+                      </label>
+                    </>
+                  )}
                   {(state.status === 'idle' || state.status === 'error') && (
                     <label className="font-sans font-semibold" style={{ fontSize: '0.8125rem', color: 'var(--setu-accent)', cursor: 'pointer', border: '1px solid var(--setu-primary-border)', borderRadius: 'var(--radius-sm)', padding: '0.25rem 0.625rem' }}>
                       Browse
@@ -408,7 +416,9 @@ export default function SafApplyPage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
   const [consents, setConsents] = useState([false, false, false, false])
-  const [applicationId] = useState<string | null>(null)
+  // Pending files are held in browser memory until the application record is
+  // created on submit — only then do we have a UUID to associate them with.
+  const [pendingFiles, setPendingFiles] = useState<Partial<Record<DocumentType, File>>>({})
   const [uploads, setUploads] = useState<Record<DocumentType, UploadState>>({} as Record<DocumentType, UploadState>)
   const [iban, setIban] = useState('')
   const [bankName, setBankName] = useState('')
@@ -422,7 +432,16 @@ export default function SafApplyPage() {
     rent: '', food: '', transport: '', childcare: '', expenseOther: '',
   })
 
-  const updateUploads = useCallback((type: DocumentType, state: UploadState) => {
+  const handleSelectFile = useCallback((type: DocumentType, file: File | null, state: UploadState) => {
+    setPendingFiles(prev => {
+      const next = { ...prev }
+      if (file) {
+        next[type] = file
+      } else {
+        delete next[type]
+      }
+      return next
+    })
     setUploads(prev => ({ ...prev, [type]: state }))
   }, [])
 
@@ -457,12 +476,33 @@ export default function SafApplyPage() {
     if ('error' in result) {
       setSubmitError(result.error)
       setSubmitting(false)
-    } else {
-      router.push(`/setu/saf/${result.reference}`)
+      return
     }
+
+    // Application is now created — we finally have a UUID to attach docs to.
+    const appId = result.id
+    const filesToUpload = Object.entries(pendingFiles) as [DocumentType, File][]
+
+    for (const [type, file] of filesToUpload) {
+      setUploads(prev => ({ ...prev, [type]: { status: 'uploading', fileName: file.name } }))
+      const docFd = new FormData()
+      docFd.append('file', file)
+      docFd.append('document_type', type)
+      const upload = await uploadDocument(appId, docFd)
+      if ('error' in upload) {
+        setUploads(prev => ({ ...prev, [type]: { status: 'error', fileName: file.name, error: upload.error } }))
+        setSubmitError(`Failed to upload ${file.name}: ${upload.error}. Your application was submitted — please contact Student Services to attach this document.`)
+        // Don't block navigation — the application record exists. Surface
+        // the issue and continue so the student isn't stuck.
+      } else {
+        setUploads(prev => ({ ...prev, [type]: { status: 'done', fileName: file.name } }))
+      }
+    }
+
+    router.push(`/setu/saf/${result.reference}`)
   }
 
-  const docCount = Object.values(uploads).filter(u => u?.status === 'done').length
+  const docCount = Object.values(uploads).filter(u => u?.status === 'done' || u?.status === 'ready').length
 
   return (
     <div style={{ maxWidth: '640px' }}>
@@ -497,9 +537,8 @@ export default function SafApplyPage() {
 
       {step === 3 && (
         <Step4
-          applicationId={applicationId}
           uploads={uploads}
-          onUploaded={updateUploads}
+          onSelectFile={handleSelectFile}
           onBack={() => setStep(2)}
           onNext={() => setStep(4)}
           iban={iban}
@@ -520,7 +559,7 @@ export default function SafApplyPage() {
               {[
                 ['Amount requested', `€${parseFloat(form2.amountRequested || '0').toFixed(2)}`],
                 ['Reason', form2.reasonCategory ? REASON_LABELS[form2.reasonCategory as SafReason] : '—'],
-                ['Documents uploaded', `${docCount} file${docCount !== 1 ? 's' : ''}`],
+                ['Documents attached', `${docCount} file${docCount !== 1 ? 's' : ''}`],
                 ['Bank', bankName || '—'],
               ].map(([k, v]) => (
                 <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
