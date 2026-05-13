@@ -74,6 +74,7 @@ function FundCard({
 }) {
   return (
     <div
+      className="h-full"
       style={{
         border: '1px solid var(--rule)',
         borderRadius: 'var(--radius-md)',
@@ -163,7 +164,7 @@ export default async function SetuHubPage() {
     : (profile?.first_name ?? 'there')
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+    <div className="flex flex-col gap-6">
       {/* Greeting */}
       <div>
         <p className="font-mono uppercase" style={{ fontSize: '0.625rem', letterSpacing: '0.18em', color: 'var(--ink-3)', margin: '0 0 0.25rem' }}>
@@ -173,7 +174,7 @@ export default async function SetuHubPage() {
           Welcome back, {displayName}.
         </h1>
         {profile?.institution_name && (
-          <p className="font-sans" style={{ fontSize: '0.875rem', color: 'var(--ink-2)', marginTop: '0.375rem' }}>
+          <p className="font-sans mt-1" style={{ fontSize: '0.875rem', color: 'var(--ink-2)' }}>
             {profile.institution_name}
           </p>
         )}
@@ -217,6 +218,7 @@ export default async function SetuHubPage() {
             tag="ACCOMMODATION"
           />
           <div
+            className="h-full flex flex-col"
             style={{
               border: '1px solid var(--rule)',
               borderRadius: 'var(--radius-md)',
@@ -231,14 +233,14 @@ export default async function SetuHubPage() {
             <p className="font-display" style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--ink)', margin: '0.375rem 0 0.375rem' }}>
               1916 Bursary
             </p>
-            <p className="font-sans" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', lineHeight: 1.5, margin: '0 0 0.75rem' }}>
+            <p className="font-sans flex-grow" style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', lineHeight: 1.5, margin: '0 0 0.75rem' }}>
               For socioeconomically disadvantaged students. Applications open each September. Worth €1,500–€5,000 per year.
             </p>
             <a
               href="https://www.1916bursary.ie"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-sans font-semibold"
+              className="font-sans font-semibold self-start"
               style={{ fontSize: '0.8125rem', color: 'var(--setu-accent)', textDecoration: 'none' }}
             >
               1916bursary.ie →

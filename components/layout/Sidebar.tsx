@@ -22,18 +22,18 @@ const navSections: NavSection[] = [
       { href: '/lessons', label: 'Lessons', icon: BookOpen },
       { href: '/year', label: 'Your year', icon: GraduationCap },
       { href: '/glossary', label: 'Glossary', icon: Library },
-      { href: '/methodology', label: 'Methodology' },
+      { href: '/methodology', label: '📐 Methodology' },
     ],
   },
   {
     label: 'TOOLS',
     items: [
       { href: '/calculator', label: 'Take-home pay', icon: Calculator },
-      { href: '/tools/loan-calculator', label: 'Loan calculator' },
-      { href: '/tools/mortgage-calculator', label: 'Mortgage' },
-      { href: '/tools/buy-vs-rent', label: 'Buy vs rent' },
-      { href: '/tools/etf-calculator', label: 'ETF calculator' },
-      { href: '/tools/susi-estimator', label: 'SUSI estimator' },
+      { href: '/tools/loan-calculator', label: '💳 Loan calculator' },
+      { href: '/tools/mortgage-calculator', label: '🏠 Mortgage' },
+      { href: '/tools/buy-vs-rent', label: '⚖️ Buy vs rent' },
+      { href: '/tools/etf-calculator', label: '📈 ETF calculator' },
+      { href: '/tools/susi-estimator', label: '🎓 SUSI estimator' },
     ],
   },
   {
@@ -41,14 +41,14 @@ const navSections: NavSection[] = [
     items: [
       { href: '/news', label: 'News', icon: Newspaper },
       { href: '/calendar', label: 'Calendar', icon: Calendar },
-      { href: '/sources', label: 'Sources' },
+      { href: '/sources', label: '📚 Sources' },
     ],
   },
   {
     label: 'ACCOUNT',
     items: [
       { href: '/settings', label: 'Settings', icon: Settings },
-      { href: '/fireup', label: 'FiRe Up' },
+      { href: '/fireup', label: '🔥 FiRe Up' },
     ],
   },
 ];
