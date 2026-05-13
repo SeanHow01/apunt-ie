@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/client';
+import { createUserProfile } from '@/lib/auth/signup-profile';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import {
@@ -203,6 +204,13 @@ function SignUpForm() {
         password: parsed.data.password,
         options: {
           emailRedirectTo: `${window.location.origin}/auth/callback`,
+          // Stash profile data in auth.users.raw_user_meta_data as a safety net
+          // in case the profile insert below ever fails — supports manual recovery.
+          data: {
+            first_name: parsed.data.firstName,
+            institution_name: parsed.data.institution,
+            cohort_id: cohortId ?? null,
+          },
         },
       });
 
@@ -213,14 +221,20 @@ function SignUpForm() {
 
       const userId = data.user?.id;
       if (userId) {
-        await supabase.from('profiles').insert({
-          id: userId,
-          first_name: parsed.data.firstName,
-          institution_name: parsed.data.institution,
-          institution_id: null,
-          cohort_id: cohortId ?? null,
-          theme: 'punt',
+        // Use the admin client via server action — when "Confirm email" is on,
+        // signUp() returns the user but no session, so an RLS-protected insert
+        // from the browser would fail (auth.uid() is null).
+        const result = await createUserProfile({
+          userId,
+          firstName: parsed.data.firstName,
+          institutionName: parsed.data.institution,
+          cohortId: cohortId ?? null,
         });
+        if ('error' in result) {
+          // Don't block the sign-up — auth row exists, profile can be recovered
+          // from raw_user_meta_data. Log so it's visible in browser console.
+          console.error('Failed to create profile:', result.error);
+        }
       }
 
       // No session → email verification required → send to dedicated confirm page
