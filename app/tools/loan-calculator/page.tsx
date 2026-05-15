@@ -142,7 +142,7 @@ export default function LoanCalculatorPage() {
         style={{
           border: '1px solid var(--rule)',
           borderRadius: '8px',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           overflow: 'hidden',
           marginTop: '2rem',
         }}
@@ -180,7 +180,7 @@ export default function LoanCalculatorPage() {
                   ) : (
                     <div
                       style={{
-                        background: 'var(--surface)',
+                        background: 'var(--paper)',
                         border: '1px solid var(--rule)',
                         borderRadius: '0.5rem',
                         padding: '1.25rem',
@@ -349,7 +349,7 @@ export default function LoanCalculatorPage() {
             display: 'inline-block',
             padding: '0.5rem 1rem',
             background: 'var(--ink)',
-            color: '#fff',
+            color: 'var(--paper)',
             borderRadius: '4px',
             fontSize: '0.8125rem',
             fontFamily: 'var(--font-sans)',

@@ -113,7 +113,7 @@ export default function ETFCalculatorPage() {
         style={{
           border: '1px solid var(--rule)',
           borderRadius: '8px',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           overflow: 'hidden',
           marginTop: '2rem',
         }}
@@ -424,7 +424,7 @@ export default function ETFCalculatorPage() {
                 borderRadius: '4px',
                 padding: '0.875rem 1rem',
                 marginBottom: '1.5rem',
-                backgroundColor: 'var(--surface)',
+                backgroundColor: 'var(--paper)',
                 border: '1px solid var(--rule)',
               }}
             >

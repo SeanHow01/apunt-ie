@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 
 const CATEGORY_COLOURS: Record<CalendarCategory, string> = {
   tax: 'var(--accent)',
-  savings: '#2E7D52',
-  deadline: '#B71C1C',
-  benefits: '#6A1B9A',
-  planning: '#1565C0',
-  budget: '#E65100',
+  savings: 'var(--good)',
+  deadline: 'var(--bad)',
+  benefits: 'var(--note)',
+  planning: 'var(--info)',
+  budget: 'var(--warn)',
 };
 
 export default function CalendarPage() {
@@ -72,7 +72,7 @@ export default function CalendarPage() {
                 borderRadius: '2px',
                 textDecoration: 'none',
                 backgroundColor:
-                  month === currentMonthIdx + 1 ? 'var(--accent)' : 'var(--surface)',
+                  month === currentMonthIdx + 1 ? 'var(--accent)' : 'var(--paper)',
                 color:
                   month === currentMonthIdx + 1 ? 'var(--accent-ink)' : 'var(--ink-2)',
               }}

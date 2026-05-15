@@ -11,8 +11,8 @@ type TaxBasis = 'cumulative' | 'week1' | 'emergency';
 type LineStatus = 'ok' | 'warn' | 'alert';
 
 const STATUS_COLOUR: Record<LineStatus, string> = {
-  ok: '#2E7D52',
-  warn: '#E65100',
+  ok: 'var(--good)',
+  warn: 'var(--warn)',
   alert: 'var(--accent)',
 };
 
@@ -144,7 +144,7 @@ export default function PayslipCheckerPage() {
         style={{
           border: '1px solid var(--rule)',
           borderRadius: '8px',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           padding: '1.75rem',
           marginTop: '2rem',
         }}
@@ -302,7 +302,7 @@ export default function PayslipCheckerPage() {
       {hasPayslipData && (
         <div
           style={{
-            border: `2px solid ${overallStatus === 'ok' ? '#2E7D52' : overallStatus === 'warn' ? '#E65100' : 'var(--accent)'}`,
+            border: `2px solid ${overallStatus === 'ok' ? 'var(--good)' : overallStatus === 'warn' ? 'var(--warn)' : 'var(--accent)'}`,
             borderRadius: '8px',
             padding: '1.75rem',
             marginTop: '1.5rem',

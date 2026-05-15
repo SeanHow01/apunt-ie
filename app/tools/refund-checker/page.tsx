@@ -45,7 +45,7 @@ function RadioGroup<T extends string>({
             border: `1px solid ${value === opt.value ? 'var(--accent)' : 'var(--rule)'}`,
             borderRadius: '2px',
             cursor: 'pointer',
-            backgroundColor: value === opt.value ? 'var(--surface)' : 'transparent',
+            backgroundColor: value === opt.value ? 'var(--paper)' : 'transparent',
           }}
         >
           <input
@@ -100,7 +100,7 @@ function CheckboxGroup({
             border: `1px solid ${value.includes(opt.value) ? 'var(--accent)' : 'var(--rule)'}`,
             borderRadius: '2px',
             cursor: 'pointer',
-            backgroundColor: value.includes(opt.value) ? 'var(--surface)' : 'transparent',
+            backgroundColor: value.includes(opt.value) ? 'var(--paper)' : 'transparent',
           }}
         >
           <input
@@ -144,7 +144,7 @@ function ResultCard({ item }: { item: ResultItem }) {
         border: '1px solid var(--rule)',
         borderRadius: '4px',
         padding: '1.125rem 1.25rem',
-        backgroundColor: 'var(--surface)',
+        backgroundColor: 'var(--paper)',
       }}
     >
       <h3
@@ -542,7 +542,7 @@ export default function RefundCheckerPage() {
               borderRadius: '4px',
               padding: '1.25rem',
               marginBottom: '1.5rem',
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--paper)',
             }}
           >
             <p className="font-sans text-sm mb-4" style={{ color: 'var(--ink-2)', lineHeight: 1.65 }}>

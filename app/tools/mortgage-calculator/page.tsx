@@ -67,14 +67,14 @@ type ApplicantType = 'ftb' | 'stb' | 'switcher';
 // ── Colour helpers ──────────────────────────────────────────────────────────
 
 function ltvColor(ltv: number): string {
-  if (ltv <= 80) return '#2EAF6F';
-  if (ltv <= 90) return '#F59E0B';
-  return '#E94F37';
+  if (ltv <= 80) return 'var(--good)';
+  if (ltv <= 90) return 'var(--warn)';
+  return 'var(--bad)';
 }
 
 function ltiColor(lti: number, type: ApplicantType): string {
   const limit = type === 'ftb' ? 4 : 3.5;
-  return lti <= limit ? '#2EAF6F' : '#E94F37';
+  return lti <= limit ? 'var(--good)' : 'var(--bad)';
 }
 
 // ── Component ───────────────────────────────────────────────────────────────
@@ -185,7 +185,7 @@ export default function MortgageCalculatorPage() {
         style={{
           border: '1px solid var(--rule)',
           borderRadius: '8px',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           overflow: 'hidden',
           marginTop: '2rem',
         }}
@@ -422,13 +422,13 @@ export default function MortgageCalculatorPage() {
                   </p>
                   <p className="font-sans text-sm" style={{ color: 'var(--ink)' }}>
                     Stress-tested monthly repayment:{' '}
-                    <span className="font-semibold tabular-nums" style={{ color: stressAffordable ? 'var(--ink)' : '#E94F37' }}>
+                    <span className="font-semibold tabular-nums" style={{ color: stressAffordable ? 'var(--ink)' : 'var(--accent)' }}>
                       {formatEuro(result.monthlyStress)}
                     </span>
                     {' '}at {(ratePct + 2).toFixed(2)}%
                   </p>
                   {!stressAffordable && (
-                    <p className="font-sans text-xs mt-2" style={{ color: '#E94F37', lineHeight: 1.5 }}>
+                    <p className="font-sans text-xs mt-2" style={{ color: 'var(--accent)', lineHeight: 1.5 }}>
                       This would likely fail the standard affordability check — the stress-tested payment exceeds 35% of your monthly gross income.
                     </p>
                   )}

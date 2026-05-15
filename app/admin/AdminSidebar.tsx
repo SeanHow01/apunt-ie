@@ -35,7 +35,7 @@ export function AdminSidebar() {
               href={href}
               className="flex items-center gap-3 px-3 py-2.5 focus-visible:outline-none transition-colors"
               style={{
-                backgroundColor: active ? 'var(--surface)' : 'transparent',
+                backgroundColor: active ? 'var(--paper)' : 'transparent',
                 color: active ? 'var(--ink)' : 'var(--ink-2)',
                 borderRadius: '2px',
                 textDecoration: 'none',

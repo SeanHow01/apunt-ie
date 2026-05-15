@@ -80,7 +80,7 @@ export default function SideHustlePage() {
         style={{
           border: '1px solid var(--rule)',
           borderRadius: '8px',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           overflow: 'hidden',
           marginTop: '2rem',
         }}

@@ -140,7 +140,7 @@ export default function MethodologyPage() {
                 fontSize: '1.5rem',
                 letterSpacing: '-0.01em',
                 lineHeight: 1.2,
-                color: '#1A1A1A',
+                color: 'var(--ink)',
                 marginBottom: '0.5rem',
               }}
             >
@@ -151,7 +151,7 @@ export default function MethodologyPage() {
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.9375rem',
                 lineHeight: 1.65,
-                color: '#555',
+                color: 'var(--ink-2)',
                 marginBottom: '1.25rem',
               }}
             >
@@ -164,7 +164,7 @@ export default function MethodologyPage() {
                   key={i}
                   style={{
                     paddingLeft: '1rem',
-                    borderLeft: '2px solid #E8E8E8',
+                    borderLeft: '2px solid var(--rule)',
                   }}
                 >
                   <p
@@ -172,7 +172,7 @@ export default function MethodologyPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.8125rem',
                       fontWeight: 600,
-                      color: '#1A1A1A',
+                      color: 'var(--ink)',
                       marginBottom: '0.25rem',
                     }}
                   >
@@ -183,7 +183,7 @@ export default function MethodologyPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.9375rem',
                       lineHeight: 1.65,
-                      color: '#444',
+                      color: 'var(--ink-2)',
                       margin: 0,
                     }}
                   >
@@ -198,7 +198,7 @@ export default function MethodologyPage() {
                 style={{
                   marginTop: '1.25rem',
                   padding: '0.875rem 1rem',
-                  backgroundColor: '#F8F8F8',
+                  backgroundColor: 'var(--bg)',
                   borderRadius: '4px',
                 }}
               >
@@ -209,7 +209,7 @@ export default function MethodologyPage() {
                     fontWeight: 600,
                     textTransform: 'uppercase',
                     letterSpacing: '0.08em',
-                    color: '#666',
+                    color: 'var(--ink-3)',
                     marginBottom: '0.5rem',
                   }}
                 >
@@ -220,7 +220,7 @@ export default function MethodologyPage() {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.875rem',
                     lineHeight: 1.6,
-                    color: '#555',
+                    color: 'var(--ink-2)',
                     paddingLeft: '1.125rem',
                     margin: 0,
                   }}
@@ -241,7 +241,7 @@ export default function MethodologyPage() {
         style={{
           marginTop: '3rem',
           paddingTop: '1.5rem',
-          borderTop: '1px solid #E8E8E8',
+          borderTop: '1px solid var(--rule)',
         }}
       >
         <p
@@ -249,7 +249,7 @@ export default function MethodologyPage() {
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.9375rem',
             lineHeight: 1.65,
-            color: '#666',
+            color: 'var(--ink-3)',
             fontStyle: 'italic',
             marginBottom: '0.75rem',
           }}
@@ -260,7 +260,7 @@ export default function MethodologyPage() {
             href="https://www.mabs.ie"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#E94F37' }}
+            style={{ color: 'var(--accent)' }}
           >
             MABS
           </a>{' '}
@@ -271,7 +271,7 @@ export default function MethodologyPage() {
           style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.9375rem',
-            color: '#E94F37',
+            color: 'var(--accent)',
             textDecoration: 'none',
           }}
         >

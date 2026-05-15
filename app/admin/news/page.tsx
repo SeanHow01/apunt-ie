@@ -118,7 +118,7 @@ export default async function AdminNewsPage({ searchParams }: { searchParams: Se
                   fontSize: '0.8125rem',
                   fontWeight: active ? 600 : 400,
                   textDecoration: 'none',
-                  backgroundColor: active ? 'var(--ink)' : 'var(--surface)',
+                  backgroundColor: active ? 'var(--ink)' : 'var(--paper)',
                   color: active ? 'var(--bg)' : 'var(--ink-2)',
                   border: '1px solid var(--rule)',
                 }}
@@ -148,7 +148,7 @@ export default async function AdminNewsPage({ searchParams }: { searchParams: Se
             <thead>
               <tr
                 style={{
-                  backgroundColor: 'var(--surface)',
+                  backgroundColor: 'var(--paper)',
                   borderBottom: '1px solid var(--rule)',
                 }}
               >

@@ -31,7 +31,7 @@ export function ModuleQuestion({ userId, moduleId, moduleName }: Props) {
           marginBottom: '1.5rem',
         }}
       >
-        <p className="font-sans text-sm" style={{ color: '#2E7D52', fontWeight: 500 }}>
+        <p className="font-sans text-sm" style={{ color: 'var(--good)', fontWeight: 500 }}>
           Question received — thank you.
         </p>
         <p className="font-sans text-xs mt-0.5" style={{ color: 'var(--ink-2)', lineHeight: 1.5 }}>

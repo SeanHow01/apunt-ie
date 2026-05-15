@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
 const cardStyle: React.CSSProperties = {
-  backgroundColor: 'var(--surface)',
+  backgroundColor: 'var(--paper)',
   border: '1px solid var(--rule)',
   padding: '32px',
   borderRadius: '2px',

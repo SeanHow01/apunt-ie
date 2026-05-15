@@ -261,7 +261,7 @@ export default function CalculatorPage() {
           style={{
             border: '1px solid var(--rule)',
             borderRadius: '8px',
-            backgroundColor: 'var(--surface)',
+            backgroundColor: 'var(--paper)',
             overflow: 'hidden',
           }}
         >
@@ -365,7 +365,7 @@ export default function CalculatorPage() {
                         width: '160px',
                         border: '1px solid var(--rule)',
                         padding: '8px 12px 8px 28px',
-                        background: 'var(--surface)',
+                        background: 'var(--paper)',
                         color: 'var(--ink)',
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '0.9375rem',
@@ -412,7 +412,7 @@ export default function CalculatorPage() {
                           width: '160px',
                           border: '1px solid var(--rule)',
                           padding: '8px 12px 8px 28px',
-                          background: 'var(--surface)',
+                          background: 'var(--paper)',
                           color: 'var(--ink)',
                           fontFamily: 'var(--font-mono, monospace)',
                           fontSize: '0.9375rem',
@@ -456,7 +456,7 @@ export default function CalculatorPage() {
                           width: '120px',
                           border: '1px solid var(--rule)',
                           padding: '8px 12px',
-                          background: 'var(--surface)',
+                          background: 'var(--paper)',
                           color: 'var(--ink)',
                           fontFamily: 'var(--font-mono, monospace)',
                           fontSize: '0.9375rem',
@@ -526,7 +526,7 @@ export default function CalculatorPage() {
                             style={{
                               border: '1px solid var(--rule)',
                               padding: '6px 8px',
-                              background: 'var(--surface)',
+                              background: 'var(--paper)',
                               color: 'var(--ink)',
                               borderRadius: '2px',
                               outline: 'none',
@@ -574,7 +574,7 @@ export default function CalculatorPage() {
                                   width: '120px',
                                   border: '1px solid var(--rule)',
                                   padding: '8px 28px 8px 12px',
-                                  background: 'var(--surface)',
+                                  background: 'var(--paper)',
                                   color: 'var(--ink)',
                                   fontFamily: 'var(--font-mono, monospace)',
                                   fontSize: '0.9375rem',
@@ -726,7 +726,7 @@ export default function CalculatorPage() {
                           style={{
                             border: '1px solid var(--rule)',
                             padding: '6px 8px',
-                            background: 'var(--surface)',
+                            background: 'var(--paper)',
                             color: 'var(--ink)',
                             borderRadius: '2px',
                             outline: 'none',
@@ -779,7 +779,7 @@ export default function CalculatorPage() {
                             style={{
                               border: '1px solid var(--rule)',
                               padding: '6px 8px',
-                              background: 'var(--surface)',
+                              background: 'var(--paper)',
                               color: 'var(--ink)',
                               borderRadius: '2px',
                               outline: 'none',

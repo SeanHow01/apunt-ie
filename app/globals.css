@@ -18,7 +18,6 @@
   /* Surfaces */
   --bg:           oklch(0.977 0.008 75);    /* warm off-white, page background */
   --paper:        oklch(1 0 0);             /* white — cards, panels */
-  --surface:      var(--paper);             /* backward-compat alias */
 
   /* Ink (type + UI) */
   --ink:          oklch(0.20 0 0);          /* near-black — primary text */
@@ -27,11 +26,23 @@
 
   /* Rules and dividers */
   --rule:         oklch(0.20 0 0 / 0.12);   /* subtle borders */
+  --rule-2:       oklch(0.20 0 0 / 0.06);   /* even softer dividers */
 
   /* Accents — same L=0.60 C=0.19, hue only varies */
   --accent:       oklch(0.60 0.19 27);      /* red-orange — primary action */
   --accent-2:     oklch(0.60 0.19 207);     /* teal — secondary (reserved) */
   --accent-ink:   oklch(0.977 0.008 75);    /* text on accent background */
+
+  /* Semantic feedback */
+  --good:         oklch(0.55 0.15 145);     /* green — affirmative, healthy */
+  --warn:         oklch(0.65 0.16 60);      /* amber — caution */
+  --bad:          oklch(0.55 0.20 27);      /* red — error, blocked */
+  --info:         oklch(0.50 0.15 245);     /* blue — informational */
+  --note:         oklch(0.45 0.15 300);     /* purple — note, marker */
+
+  /* Highlight (text marker, "mark" element) */
+  --highlight-bg:  oklch(0.95 0.13 100);    /* pale yellow */
+  --highlight-ink: oklch(0.30 0.10 75);     /* dark amber */
 
   /* Shell */
   --shell-bg:     linear-gradient(180deg, oklch(0.20 0 0) 0%, oklch(0.12 0 0) 100%);
@@ -94,7 +105,6 @@
     /* Surfaces */
     --bg:           oklch(0.14 0.008 75);    /* deep warm dark — page background */
     --paper:        oklch(0.20 0.008 75);    /* lifted dark — cards, panels */
-    --surface:      var(--paper);
 
     /* Ink */
     --ink:          oklch(0.94 0.006 75);    /* warm near-white — primary text */
@@ -103,10 +113,21 @@
 
     /* Rules */
     --rule:         oklch(0.94 0.006 75 / 0.10);
+    --rule-2:       oklch(0.94 0.006 75 / 0.06);
 
     /* Accent — lift L slightly so it reads against the dark bg */
     --accent:       oklch(0.65 0.19 27);
     --accent-ink:   oklch(0.977 0.008 75);   /* unchanged — light on accent */
+
+    /* Semantic feedback — slightly lifted for dark bg */
+    --good:         oklch(0.60 0.16 145);
+    --warn:         oklch(0.72 0.17 60);
+    --bad:          oklch(0.62 0.20 27);
+    --info:         oklch(0.62 0.15 245);
+    --note:         oklch(0.58 0.15 300);
+
+    --highlight-bg:  oklch(0.55 0.12 100);
+    --highlight-ink: oklch(0.95 0.04 75);
   }
 }
 
@@ -254,12 +275,15 @@ em.font-display {
   :root {
     --bg:      #ffffff;
     --paper:   #ffffff;
-    --surface: #ffffff;
     --ink:     #1a1a1a;
     --ink-2:   #555555;
     --ink-3:   #888888;
     --accent:  oklch(0.60 0.19 27);
     --rule:    rgba(0, 0, 0, 0.15);
+    --rule-2:  rgba(0, 0, 0, 0.08);
+    --good:    #2E7D52;
+    --warn:    #B36A00;
+    --bad:     #B71C1C;
   }
 
   body {

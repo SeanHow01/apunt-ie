@@ -50,7 +50,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             style={{
               fontFamily: 'system-ui, sans-serif',
               fontSize: 14,
-              color: '#fff',
+              color: 'var(--paper)',
               textDecoration: 'none',
               padding: '6px 14px',
               borderRadius: 6,

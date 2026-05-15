@@ -8,7 +8,7 @@ import type { YearData, YearCallout } from '@/lib/years';
 const CALLOUT_STYLES: Record<YearCallout['kind'], { borderColor: string; label: string }> = {
   info:    { borderColor: 'var(--rule)',   label: 'Note' },
   tip:     { borderColor: 'var(--accent)', label: 'Tip' },
-  warning: { borderColor: '#C17F24',       label: 'Heads up' },
+  warning: { borderColor: 'var(--warn)',       label: 'Heads up' },
 };
 
 type Props = {

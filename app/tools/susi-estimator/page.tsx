@@ -98,7 +98,7 @@ export default function SUSIEstimatorPage() {
         style={{
           border: '1px solid var(--rule)',
           borderRadius: '8px',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           overflow: 'hidden',
           marginTop: '2rem',
         }}
@@ -276,7 +276,7 @@ export default function SUSIEstimatorPage() {
                 borderRadius: '4px',
                 padding: '1.25rem',
                 marginBottom: '1.5rem',
-                backgroundColor: eligible ? 'var(--surface)' : 'var(--bg)',
+                backgroundColor: eligible ? 'var(--paper)' : 'var(--bg)',
               }}
             >
               {eligible ? (

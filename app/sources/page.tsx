@@ -20,7 +20,7 @@ export default function SourcesPage() {
           <div
             key={idx}
             style={{
-              borderTop: '1px solid #E8E8E8',
+              borderTop: '1px solid var(--rule)',
               paddingTop: '1.5rem',
             }}
           >
@@ -37,7 +37,7 @@ export default function SourcesPage() {
                 style={{
                   fontSize: '1.25rem',
                   lineHeight: 1.2,
-                  color: '#1A1A1A',
+                  color: 'var(--ink)',
                   margin: 0,
                 }}
               >
@@ -50,7 +50,7 @@ export default function SourcesPage() {
                 style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.8125rem',
-                  color: '#E94F37',
+                  color: 'var(--accent)',
                   textDecoration: 'none',
                 }}
               >
@@ -63,7 +63,7 @@ export default function SourcesPage() {
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.9375rem',
                 lineHeight: 1.65,
-                color: '#444',
+                color: 'var(--ink-2)',
                 marginBottom: '0.875rem',
               }}
             >
@@ -74,7 +74,7 @@ export default function SourcesPage() {
               style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.8125rem',
-                color: '#666',
+                color: 'var(--ink-3)',
                 marginBottom: '0.375rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
@@ -88,7 +88,7 @@ export default function SourcesPage() {
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.9375rem',
                 lineHeight: 1.65,
-                color: '#444',
+                color: 'var(--ink-2)',
                 paddingLeft: '1.25rem',
                 margin: 0,
               }}
@@ -107,7 +107,7 @@ export default function SourcesPage() {
         style={{
           marginTop: '3rem',
           paddingTop: '1.5rem',
-          borderTop: '1px solid #E8E8E8',
+          borderTop: '1px solid var(--rule)',
         }}
       >
         <p
@@ -115,12 +115,12 @@ export default function SourcesPage() {
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.9375rem',
             lineHeight: 1.65,
-            color: '#666',
+            color: 'var(--ink-3)',
             fontStyle: 'italic',
           }}
         >
           All rates are reviewed periodically. If you spot something out of date,{' '}
-          <Link href="/contact" style={{ color: '#E94F37' }}>
+          <Link href="/contact" style={{ color: 'var(--accent)' }}>
             let us know
           </Link>
           .
@@ -131,7 +131,7 @@ export default function SourcesPage() {
             style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '0.9375rem',
-              color: '#E94F37',
+              color: 'var(--accent)',
               textDecoration: 'none',
             }}
           >

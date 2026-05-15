@@ -21,7 +21,7 @@ export default async function ConfirmEmailPage({ searchParams }: PageProps) {
       <div
         className="w-full max-w-sm"
         style={{
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           border: '1px solid var(--rule)',
           padding: '32px',
           borderRadius: '2px',

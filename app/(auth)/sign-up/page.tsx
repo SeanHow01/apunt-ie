@@ -55,7 +55,7 @@ const STRENGTH_COLORS = {
 } as const;
 
 const cardStyle: React.CSSProperties = {
-  backgroundColor: 'var(--surface)',
+  backgroundColor: 'var(--paper)',
   border: '1px solid var(--rule)',
   padding: '32px',
   borderRadius: '2px',
@@ -373,7 +373,7 @@ function SignUpForm() {
                 width: '100%',
                 border: `1px solid ${fieldErrors.institution ? 'var(--accent)' : 'var(--rule)'}`,
                 padding: '10px 12px',
-                background: 'var(--surface)',
+                background: 'var(--paper)',
                 color: 'var(--ink)',
                 fontSize: '1rem',
                 outline: 'none',

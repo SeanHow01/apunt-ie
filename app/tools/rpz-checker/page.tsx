@@ -103,7 +103,7 @@ export default function RPZCheckerPage() {
         style={{
           border: '1px solid var(--rule)',
           borderRadius: '8px',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           padding: '1.75rem',
           marginTop: '2rem',
         }}

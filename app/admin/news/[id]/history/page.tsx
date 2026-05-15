@@ -99,7 +99,7 @@ export default async function ArticleHistoryPage({ params }: PageProps) {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '0.875rem 1rem',
-                    backgroundColor: 'var(--surface)',
+                    backgroundColor: 'var(--paper)',
                     borderBottom: '1px solid var(--rule)',
                     flexWrap: 'wrap',
                     gap: '0.5rem',

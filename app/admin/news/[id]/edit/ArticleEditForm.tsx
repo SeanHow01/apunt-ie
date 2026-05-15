@@ -16,7 +16,7 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   border: '1px solid var(--rule)',
   padding: '10px 12px',
-  background: 'var(--surface)',
+  background: 'var(--paper)',
   color: 'var(--ink)',
   fontFamily: 'Inter, system-ui, sans-serif',
   fontSize: '0.9375rem',
@@ -539,7 +539,7 @@ export function ArticleEditForm({ article }: { article: Article }) {
                     borderRadius: '2px',
                     cursor: 'pointer',
                     backgroundColor: relatedModules.includes(mod.id)
-                      ? 'var(--surface)'
+                      ? 'var(--paper)'
                       : 'transparent',
                     fontFamily: 'Inter, system-ui, sans-serif',
                     fontSize: '0.875rem',
@@ -569,7 +569,7 @@ export function ArticleEditForm({ article }: { article: Article }) {
                     padding: '1rem',
                     border: '1px solid var(--rule)',
                     borderRadius: '2px',
-                    backgroundColor: 'var(--surface)',
+                    backgroundColor: 'var(--paper)',
                   }}
                 >
                   <div
@@ -730,7 +730,7 @@ export function ArticleEditForm({ article }: { article: Article }) {
                   padding: '10px 12px',
                   border: '1px solid var(--rule)',
                   borderRadius: '2px',
-                  backgroundColor: 'var(--surface)',
+                  backgroundColor: 'var(--paper)',
                   fontFamily: 'Inter, system-ui, sans-serif',
                   fontSize: '0.9375rem',
                   color: 'var(--ink)',

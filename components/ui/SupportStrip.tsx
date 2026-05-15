@@ -26,7 +26,7 @@ export function SupportStrip({ variant = 'subtle' }: Props) {
         padding: '1rem 1.25rem',
         backgroundColor: isProminent
           ? 'color-mix(in srgb, var(--accent) 4%, transparent)'
-          : 'var(--surface)',
+          : 'var(--paper)',
       }}
     >
       <p

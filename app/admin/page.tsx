@@ -103,7 +103,7 @@ export default async function AdminDashboardPage() {
             style={{
               flex: '1 1 10rem',
               padding: '1.25rem 1.5rem',
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--paper)',
               border: '1px solid var(--rule)',
               borderRadius: '2px',
             }}
@@ -145,7 +145,7 @@ export default async function AdminDashboardPage() {
               <thead>
                 <tr
                   style={{
-                    backgroundColor: 'var(--surface)',
+                    backgroundColor: 'var(--paper)',
                     borderBottom: '1px solid var(--rule)',
                   }}
                 >
@@ -222,7 +222,7 @@ export default async function AdminDashboardPage() {
       <div
         style={{
           padding: '1rem 1.25rem',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           border: '1px solid var(--rule)',
           borderRadius: '2px',
         }}

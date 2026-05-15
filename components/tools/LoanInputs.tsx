@@ -36,7 +36,7 @@ function formatTerm(months: number): string {
 const inputStyle: React.CSSProperties = {
   border: '1px solid var(--rule)',
   padding: '10px 12px',
-  background: 'var(--surface)',
+  background: 'var(--paper)',
   color: 'var(--ink)',
   fontFamily: 'Inter, system-ui, sans-serif',
   borderRadius: '2px',

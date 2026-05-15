@@ -36,7 +36,7 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   border: '1px solid var(--rule)',
   padding: '10px 12px',
-  background: 'var(--surface)',
+  background: 'var(--paper)',
   color: 'var(--ink)',
   fontFamily: 'Inter, sans-serif',
   fontSize: '1rem',

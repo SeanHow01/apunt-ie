@@ -136,7 +136,7 @@ export default function FireUpPage() {
             style={{
               border: '1px solid var(--rule)',
               borderRadius: '2px',
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--paper)',
             }}
           >
             <p
@@ -209,7 +209,7 @@ export default function FireUpPage() {
           <div
             className="w-full max-w-sm p-8"
             style={{
-              backgroundColor: 'var(--surface)',
+              backgroundColor: 'var(--paper)',
               border: '1px solid var(--rule)',
               borderRadius: '2px',
             }}
@@ -248,7 +248,7 @@ export default function FireUpPage() {
           className="fixed inset-0 flex items-center justify-center z-50"
           style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}
         >
-          <p className="font-sans text-base" style={{ color: 'var(--surface)' }}>
+          <p className="font-sans text-base" style={{ color: 'var(--paper)' }}>
             Saving...
           </p>
         </div>

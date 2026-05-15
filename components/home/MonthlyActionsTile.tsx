@@ -7,11 +7,11 @@ export function getMonthlyActionsCount(): number {
 
 const TAG_COLOURS: Record<ActionTag, string> = {
   tax: 'var(--accent)',
-  savings: '#2E7D52',
-  planning: '#1565C0',
-  deadline: '#B71C1C',
-  admin: '#555',
-  benefits: '#6A1B9A',
+  savings: 'var(--good)',
+  planning: 'var(--info)',
+  deadline: 'var(--bad)',
+  admin: 'var(--ink-2)',
+  benefits: 'var(--note)',
 };
 
 export function MonthlyActionsTile() {

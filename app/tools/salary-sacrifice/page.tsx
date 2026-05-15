@@ -147,7 +147,7 @@ export default function SalarySacrificePage() {
         style={{
           border: '1px solid var(--rule)',
           borderRadius: '8px',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           padding: '1.75rem',
           marginTop: '2rem',
           marginBottom: '1.5rem',
@@ -193,7 +193,7 @@ export default function SalarySacrificePage() {
           style={{
             border: '1px solid var(--rule)',
             borderRadius: '8px',
-            backgroundColor: 'var(--surface)',
+            backgroundColor: 'var(--paper)',
             padding: '1.5rem',
           }}
         >
@@ -295,7 +295,7 @@ export default function SalarySacrificePage() {
           style={{
             border: '1px solid var(--rule)',
             borderRadius: '8px',
-            backgroundColor: 'var(--surface)',
+            backgroundColor: 'var(--paper)',
             padding: '1.5rem',
           }}
         >

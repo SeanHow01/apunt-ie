@@ -150,7 +150,7 @@ export default function AccessibilityPage() {
                   .a11y-prose ul { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.375rem; }
                   .a11y-prose li { line-height: 1.65; }
                   .a11y-prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
-                  .a11y-prose code { font-family: monospace; font-size: 0.85em; background: var(--surface); padding: 0.1em 0.3em; border-radius: 3px; }
+                  .a11y-prose code { font-family: monospace; font-size: 0.85em; background: var(--paper); padding: 0.1em 0.3em; border-radius: 3px; }
                   .a11y-prose strong { color: var(--ink); font-weight: 600; }
                 `}</style>
                 <div className="a11y-prose">{content}</div>

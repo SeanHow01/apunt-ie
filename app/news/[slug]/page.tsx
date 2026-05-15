@@ -217,8 +217,8 @@ export default async function ArticlePage({ params, searchParams }: Props) {
         {isPreview && (
           <div
             style={{
-              backgroundColor: '#fef08a',
-              color: '#713f12',
+              backgroundColor: 'var(--highlight-bg)',
+              color: 'var(--highlight-ink)',
               padding: '0.5rem 1rem',
               borderRadius: '4px',
               marginBottom: '1.5rem',
@@ -374,7 +374,7 @@ export default async function ArticlePage({ params, searchParams }: Props) {
           .article-body code {
             font-family: monospace;
             font-size: 0.875em;
-            background: var(--surface);
+            background: var(--paper);
             padding: 0.125rem 0.375rem;
             border-radius: 3px;
           }

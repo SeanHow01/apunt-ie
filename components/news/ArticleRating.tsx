@@ -126,7 +126,7 @@ export function ArticleRating({ articleId }: Props) {
             padding: '0.375rem 0.875rem',
             border: '1px solid var(--rule)',
             borderRadius: '2px',
-            backgroundColor: 'var(--surface)',
+            backgroundColor: 'var(--paper)',
             color: 'var(--ink)',
             cursor: status === 'submitting' ? 'wait' : 'pointer',
           }}
@@ -142,7 +142,7 @@ export function ArticleRating({ articleId }: Props) {
             padding: '0.375rem 0.875rem',
             border: '1px solid var(--rule)',
             borderRadius: '2px',
-            backgroundColor: 'var(--surface)',
+            backgroundColor: 'var(--paper)',
             color: 'var(--ink)',
             cursor: status === 'submitting' ? 'wait' : 'pointer',
           }}

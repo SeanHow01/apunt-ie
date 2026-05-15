@@ -43,7 +43,7 @@ export function ModuleProgressBar({ segments }: Props) {
         </p>
         <p
           className="font-sans text-xs tabular-nums"
-          style={{ color: allDone ? '#2E7D52' : 'var(--ink-2)' }}
+          style={{ color: allDone ? 'var(--good)' : 'var(--ink-2)' }}
         >
           {allDone ? 'All complete ✓' : `${completedCount} of ${total} complete`}
         </p>

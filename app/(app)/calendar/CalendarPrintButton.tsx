@@ -10,7 +10,7 @@ export default function CalendarPrintButton() {
         padding: '0.5rem 0.875rem',
         border: '1px solid var(--rule)',
         borderRadius: '2px',
-        backgroundColor: 'var(--surface)',
+        backgroundColor: 'var(--paper)',
         color: 'var(--ink-2)',
         cursor: 'pointer',
         flexShrink: 0,

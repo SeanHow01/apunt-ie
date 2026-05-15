@@ -111,8 +111,8 @@ const OUTCOMES: Record<string, Outcome> = {
 
 const SEVERITY_COLOUR: Record<'high' | 'medium' | 'low', string> = {
   high: 'var(--accent)',
-  medium: '#E65100',
-  low: '#2E7D52',
+  medium: 'var(--warn)',
+  low: 'var(--good)',
 };
 
 export default function EmergencyTaxPage() {
@@ -193,7 +193,7 @@ export default function EmergencyTaxPage() {
         style={{
           border: '1px solid var(--rule)',
           borderRadius: '8px',
-          backgroundColor: 'var(--surface)',
+          backgroundColor: 'var(--paper)',
           padding: '1.75rem',
           marginTop: '2rem',
         }}
