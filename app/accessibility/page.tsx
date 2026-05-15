@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { BackLink } from '@/components/ui/BackLink';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Rule } from '@/components/ui/Rule';
 
@@ -122,13 +123,7 @@ export default function AccessibilityPage() {
       >
         {/* Back */}
         <div style={{ marginBottom: '1.5rem' }}>
-          <Link
-            href="/home"
-            className="font-sans"
-            style={{ fontSize: '0.8125rem', color: 'var(--ink-2)', textDecoration: 'none' }}
-          >
-            &larr; Back to Punt
-          </Link>
+          <BackLink href="/home" />
         </div>
 
         <div style={{ marginBottom: '0.5rem' }}>

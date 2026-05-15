@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { BackLink } from '@/components/ui/BackLink';
 import { createClient } from '@/lib/supabase/server';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Rule } from '@/components/ui/Rule';
@@ -33,13 +34,7 @@ export default async function NewsPage() {
 
         {/* Back link */}
         <div style={{ marginBottom: '1.25rem' }}>
-          <Link
-            href="/home"
-            className="font-sans"
-            style={{ fontSize: '0.8125rem', color: 'var(--ink-3)', textDecoration: 'none' }}
-          >
-            &larr; Home
-          </Link>
+          <BackLink href="/home" label="Home" />
         </div>
 
         {/* Masthead */}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { BackLink } from '@/components/ui/BackLink';
 import { glossaryTerms, getGlossaryLetters, groupByLetter } from '@/lib/glossary';
 import { GlossaryCard } from '@/components/ui/GlossaryCard';
 
@@ -26,13 +27,7 @@ export default function GlossaryPage() {
     <main style={{ maxWidth: '48rem', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
 
       <nav style={{ marginBottom: '2rem' }}>
-        <Link
-          href="/home"
-          className="font-sans"
-          style={{ fontSize: '0.8125rem', color: 'var(--ink-3)', textDecoration: 'none' }}
-        >
-          &larr; Punt
-        </Link>
+        <BackLink href="/home" />
       </nav>
 
       <h1

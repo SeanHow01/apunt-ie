@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { BackLink } from '@/components/ui/BackLink';
 
 export const metadata = { title: 'Terms — Punt' };
 
@@ -6,9 +6,7 @@ export default function TermsPage() {
   return (
     <main style={{ maxWidth: '42rem', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
       <nav style={{ marginBottom: '2rem' }}>
-        <Link href="/home" style={{ fontSize: '0.8125rem', color: '#666', textDecoration: 'none' }}>
-          ← Punt
-        </Link>
+        <BackLink href="/home" />
       </nav>
 
       <h1
