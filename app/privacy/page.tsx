@@ -1,29 +1,10 @@
-import { BackLink } from '@/components/ui/BackLink';
+import { EditorialPage } from '@/components/layout/EditorialPage';
 
 export const metadata = { title: 'Privacy Policy — Punt' };
 
 export default function PrivacyPage() {
   return (
-    <main style={{ maxWidth: '42rem', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
-      <nav style={{ marginBottom: '2rem' }}>
-        <BackLink href="/home" />
-      </nav>
-
-      <h1
-        style={{
-          fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-          letterSpacing: '-0.02em',
-          lineHeight: 1.1,
-          marginBottom: '0.5rem',
-          color: 'var(--ink)',
-        }}
-      >
-        Privacy Policy
-      </h1>
-      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.875rem', color: 'var(--ink-2)', marginBottom: '2rem' }}>
-        Last updated: April 2026
-      </p>
-
+    <EditorialPage title="Privacy Policy" lastUpdated="April 2026">
       <div
         style={{
           fontFamily: 'Inter, sans-serif',
@@ -220,6 +201,6 @@ export default function PrivacyPage() {
         </div>
 
       </div>
-    </main>
+    </EditorialPage>
   );
 }

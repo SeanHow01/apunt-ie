@@ -1,26 +1,10 @@
-import { BackLink } from '@/components/ui/BackLink';
+import { EditorialPage } from '@/components/layout/EditorialPage';
 
 export const metadata = { title: 'Contact — Punt' };
 
 export default function ContactPage() {
   return (
-    <main style={{ maxWidth: '42rem', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
-      <nav style={{ marginBottom: '2rem' }}>
-        <BackLink href="/home" />
-      </nav>
-
-      <h1
-        style={{
-          fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-          letterSpacing: '-0.02em',
-          lineHeight: 1.1,
-          marginBottom: '2rem',
-          color: 'var(--ink)',
-        }}
-      >
-        Get in touch
-      </h1>
-
+    <EditorialPage title="Get in touch">
       <div
         style={{
           fontFamily: 'Inter, sans-serif',
@@ -121,6 +105,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    </main>
+    </EditorialPage>
   );
 }

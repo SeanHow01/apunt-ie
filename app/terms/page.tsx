@@ -1,38 +1,22 @@
-import { BackLink } from '@/components/ui/BackLink';
+import { EditorialPage } from '@/components/layout/EditorialPage';
 
 export const metadata = { title: 'Terms — Punt' };
 
 export default function TermsPage() {
   return (
-    <main style={{ maxWidth: '42rem', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
-      <nav style={{ marginBottom: '2rem' }}>
-        <BackLink href="/home" />
-      </nav>
-
-      <h1
-        style={{
-          fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-          letterSpacing: '-0.02em',
-          lineHeight: 1.1,
-          marginBottom: '1.5rem',
-          color: '#1A1A1A',
-        }}
-      >
-        Terms of use
-      </h1>
-
-      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', lineHeight: 1.7, color: '#1A1A1A', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+    <EditorialPage title="Terms of use" lastUpdated="April 2026">
+      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', lineHeight: 1.7, color: 'var(--ink)', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
         <p
           style={{
-            border: '1px solid #E94F37',
+            border: '1px solid var(--accent)',
             borderRadius: '4px',
             padding: '0.875rem 1rem',
-            backgroundColor: 'rgba(233, 79, 55, 0.05)',
+            backgroundColor: 'oklch(0.60 0.19 27 / 0.06)',
             fontSize: '0.9375rem',
           }}
         >
           <strong>Note:</strong> These are placeholder terms. Full terms of service are required before Punt launches at scale. Contact{' '}
-          <a href="mailto:admin@apunt.ie" style={{ color: '#E94F37' }}>admin@apunt.ie</a>{' '}
+          <a href="mailto:admin@apunt.ie" style={{ color: 'var(--accent)' }}>admin@apunt.ie</a>{' '}
           for the current institutional agreement.
         </p>
 
@@ -47,11 +31,7 @@ export default function TermsPage() {
         <p>
           Punt reserves the right to suspend or terminate accounts that violate these terms.
         </p>
-
-        <p style={{ color: '#666', fontSize: '0.875rem' }}>
-          Last updated: April 2026.
-        </p>
       </div>
-    </main>
+    </EditorialPage>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { BackLink } from '@/components/ui/BackLink';
+import { EditorialPage } from '@/components/layout/EditorialPage';
 import { primarySources } from '@/lib/sources';
 
 export const metadata: Metadata = {
@@ -11,38 +11,10 @@ export const metadata: Metadata = {
 
 export default function SourcesPage() {
   return (
-    <main style={{ maxWidth: '42rem', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
-
-      <nav style={{ marginBottom: '2rem' }}>
-        <BackLink href="/home" />
-      </nav>
-
-      <h1
-        style={{
-          fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-          letterSpacing: '-0.02em',
-          lineHeight: 1.1,
-          marginBottom: '0.75rem',
-          color: '#1A1A1A',
-        }}
-      >
-        Sources
-      </h1>
-
-      <p
-        style={{
-          fontFamily: 'Inter, sans-serif',
-          fontSize: '1rem',
-          lineHeight: 1.7,
-          color: '#555',
-          marginBottom: '2.5rem',
-        }}
-      >
-        Punt's content, calculators, and explanations are built on authoritative Irish
-        government and regulatory sources. Where we state a number, rate, or rule, it
-        comes from one of the following.
-      </p>
-
+    <EditorialPage
+      title="Sources"
+      deck="Punt’s content, calculators, and explanations are built on authoritative Irish government and regulatory sources. Where we state a number, rate, or rule, it comes from one of the following."
+    >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
         {primarySources.map((source, idx) => (
           <div
@@ -168,6 +140,6 @@ export default function SourcesPage() {
         </p>
       </div>
 
-    </main>
+    </EditorialPage>
   );
 }

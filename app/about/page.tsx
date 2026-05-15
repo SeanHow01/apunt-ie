@@ -1,27 +1,11 @@
 import Link from 'next/link';
-import { BackLink } from '@/components/ui/BackLink';
+import { EditorialPage } from '@/components/layout/EditorialPage';
 
 export const metadata = { title: 'About — Punt' };
 
 export default function AboutPage() {
   return (
-    <main style={{ maxWidth: '42rem', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
-      <nav style={{ marginBottom: '2rem' }}>
-        <BackLink href="/home" />
-      </nav>
-
-      <h1
-        style={{
-          fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-          letterSpacing: '-0.02em',
-          lineHeight: 1.1,
-          marginBottom: '2rem',
-          color: 'var(--ink)',
-        }}
-      >
-        About Punt
-      </h1>
-
+    <EditorialPage title="About Punt">
       <div
         style={{
           fontFamily: 'Inter, sans-serif',
@@ -156,6 +140,6 @@ export default function AboutPage() {
           Last updated: April 2026
         </p>
       </div>
-    </main>
+    </EditorialPage>
   );
 }

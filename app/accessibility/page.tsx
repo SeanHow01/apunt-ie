@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { BackLink } from '@/components/ui/BackLink';
-import { Eyebrow } from '@/components/ui/Eyebrow';
+import { EditorialPage } from '@/components/layout/EditorialPage';
 import { Rule } from '@/components/ui/Rule';
 
 export const metadata: Metadata = {
@@ -108,56 +107,16 @@ const sections: Section[] = [
 
 export default function AccessibilityPage() {
   return (
-    <main
-      style={{
-        minHeight: '100vh',
-        backgroundColor: 'var(--bg)',
-      }}
+    <EditorialPage
+      eyebrow="Punt"
+      title="Accessibility statement"
+      deck="Financial education should work for everyone."
+      lastUpdated="April 2026"
     >
+      <Rule className="mb-8" />
+
+      {/* Sections */}
       <div
-        style={{
-          maxWidth: '42rem',
-          margin: '0 auto',
-          padding: '3rem 1.5rem',
-        }}
-      >
-        {/* Back */}
-        <div style={{ marginBottom: '1.5rem' }}>
-          <BackLink href="/home" />
-        </div>
-
-        <div style={{ marginBottom: '0.5rem' }}>
-          <Eyebrow>Punt</Eyebrow>
-        </div>
-
-        <h1
-          className="font-display"
-          style={{
-            fontSize: 'clamp(1.75rem, 5vw, 2.5rem)',
-            letterSpacing: '-0.02em',
-            lineHeight: 1.1,
-            color: 'var(--ink)',
-            margin: '0.25rem 0 0.5rem',
-          }}
-        >
-          Accessibility statement
-        </h1>
-
-        <p
-          className="font-display italic"
-          style={{
-            fontSize: '1.125rem',
-            color: 'var(--ink-2)',
-            margin: '0 0 1.5rem',
-          }}
-        >
-          Financial education should work for everyone.
-        </p>
-
-        <Rule className="mb-8" />
-
-        {/* Sections */}
-        <div
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -200,18 +159,16 @@ export default function AccessibilityPage() {
           ))}
         </div>
 
-        <Rule className="my-8" />
+      <Rule className="my-8" />
 
-        <p
-          className="font-sans text-xs italic"
-          style={{ color: 'var(--ink-2)', lineHeight: 1.6 }}
-        >
-          This statement was prepared in accordance with the European Union (Accessibility of
-          Websites and Mobile Applications of Public Sector Bodies) Regulations 2020, to the
-          extent applicable to private-sector educational services. It was last reviewed{' '}
-          <strong style={{ color: 'var(--ink)' }}>April 2026</strong>.
-        </p>
-      </div>
-    </main>
+      <p
+        className="font-sans text-xs italic"
+        style={{ color: 'var(--ink-2)', lineHeight: 1.6 }}
+      >
+        This statement was prepared in accordance with the European Union (Accessibility of
+        Websites and Mobile Applications of Public Sector Bodies) Regulations 2020, to the
+        extent applicable to private-sector educational services.
+      </p>
+    </EditorialPage>
   );
 }

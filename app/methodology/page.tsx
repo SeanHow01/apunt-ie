@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { BackLink } from '@/components/ui/BackLink';
+import { EditorialPage } from '@/components/layout/EditorialPage';
 
 export const metadata: Metadata = {
   title: 'Methodology — Punt',
@@ -128,37 +128,10 @@ const sections: Section[] = [
 
 export default function MethodologyPage() {
   return (
-    <main style={{ maxWidth: '42rem', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
-
-      <nav style={{ marginBottom: '2rem' }}>
-        <BackLink href="/home" />
-      </nav>
-
-      <h1
-        style={{
-          fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-          letterSpacing: '-0.02em',
-          lineHeight: 1.1,
-          marginBottom: '0.75rem',
-          color: '#1A1A1A',
-        }}
-      >
-        Methodology
-      </h1>
-
-      <p
-        style={{
-          fontFamily: 'Inter, sans-serif',
-          fontSize: '1rem',
-          lineHeight: 1.7,
-          color: '#555',
-          marginBottom: '2.5rem',
-        }}
-      >
-        How Punt&rsquo;s calculators and content work — assumptions, formulas, and
-        what we don&rsquo;t model.
-      </p>
-
+    <EditorialPage
+      title="Methodology"
+      deck="How Punt’s calculators and content work — assumptions, formulas, and what we don’t model."
+    >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
         {sections.map((section, idx) => (
           <section key={idx}>
@@ -306,6 +279,6 @@ export default function MethodologyPage() {
         </Link>
       </div>
 
-    </main>
+    </EditorialPage>
   );
 }
