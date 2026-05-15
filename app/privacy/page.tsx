@@ -179,8 +179,8 @@ export default function PrivacyPage() {
           <p>
             Under GDPR, you have the right to access, correct, or delete your personal data at
             any time. To exercise these rights, email{' '}
-            <a href="mailto:hello@apunt.ie" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
-              hello@apunt.ie
+            <a href="mailto:admin@apunt.ie" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+              admin@apunt.ie
             </a>
             . We will respond within 30 days.
           </p>
@@ -211,8 +211,8 @@ export default function PrivacyPage() {
             Contact
           </h2>
           <p>
-            <a href="mailto:hello@apunt.ie" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
-              hello@apunt.ie
+            <a href="mailto:admin@apunt.ie" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+              admin@apunt.ie
             </a>
           </p>
           <p style={{ marginTop: '0.5rem' }}>

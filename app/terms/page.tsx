@@ -34,7 +34,7 @@ export default function TermsPage() {
           }}
         >
           <strong>Note:</strong> These are placeholder terms. Full terms of service are required before Punt launches at scale. Contact{' '}
-          <a href="mailto:hello@apunt.ie" style={{ color: '#E94F37' }}>hello@apunt.ie</a>{' '}
+          <a href="mailto:admin@apunt.ie" style={{ color: '#E94F37' }}>admin@apunt.ie</a>{' '}
           for the current institutional agreement.
         </p>
 

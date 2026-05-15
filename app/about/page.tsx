@@ -141,10 +141,10 @@ export default function AboutPage() {
           </h2>
           <p>
             <a
-              href="mailto:hello@apunt.ie"
+              href="mailto:admin@apunt.ie"
               style={{ color: 'var(--accent)', textDecoration: 'none' }}
             >
-              hello@apunt.ie
+              admin@apunt.ie
             </a>
           </p>
           <p style={{ marginTop: '0.875rem' }}>

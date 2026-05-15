@@ -36,8 +36,8 @@ export default function ContactPage() {
       >
         <p>
           For questions about Punt:{' '}
-          <a href="mailto:hello@apunt.ie" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
-            hello@apunt.ie
+          <a href="mailto:admin@apunt.ie" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+            admin@apunt.ie
           </a>
         </p>
       </div>
